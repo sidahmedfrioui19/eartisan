@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/home.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets.dart/main_navigation_bar.dart';
+import 'package:profinder/widgets/main_navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
