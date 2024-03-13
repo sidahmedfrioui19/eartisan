@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/home.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/main_navigation_bar.dart';
 
@@ -12,11 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Job Finder',
-        debugShowCheckedModeBanner: false,
-        theme: appThemeData,
-        home: Scaffold(
-          bottomNavigationBar: MainNavBar(),
-        ));
+      title: 'Job Finder',
+      debugShowCheckedModeBanner: false,
+      theme: appThemeData,
+      home: MainNavBar(),
+    );
   }
 }
