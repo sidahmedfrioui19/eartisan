@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: deprecated_member_use
 class AppTheme {
   // Colors
-  static const Color primaryColor = Color(0xFF1F1F1F);
+  static const Color primaryColor = Color(0xFF3D3D3D);
   static const Color secondaryColor = Color(0xFF95A5A6);
   static const Color backgroundColor = Color(0xFFF7F7F7);
   static const Color textColor = Color(0xFF1F1F1F);
@@ -19,6 +19,8 @@ class AppTheme {
     fontSize: 16,
     color: textColor,
   );
+  static const TextStyle elementTitle =
+      TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w600);
 }
 
 final ThemeData appThemeData = ThemeData(
@@ -26,7 +28,5 @@ final ThemeData appThemeData = ThemeData(
   hintColor: AppTheme.secondaryColor,
   scaffoldBackgroundColor: AppTheme.backgroundColor,
   textTheme: const TextTheme(
-    headline1: AppTheme.headingTextStyle,
-    bodyText1: AppTheme.bodyTextStyle,
-  ),
+      headline1: AppTheme.headingTextStyle, bodyText1: AppTheme.bodyTextStyle),
 );

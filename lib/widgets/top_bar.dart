@@ -1,16 +1,12 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/overlays/notifications.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final VoidCallback? onNotificationsPressed;
 
-  const TopBar({
-    Key? key,
-    required this.title,
-    this.onNotificationsPressed,
-  }) : super(key: key);
+  const TopBar({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +31,16 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              FluentIcons.alert_12_regular,
-              color: appThemeData.primaryColor,
-            ),
-            onPressed: onNotificationsPressed,
-          ),
+              icon: Icon(
+                FluentIcons.alert_12_regular,
+                color: appThemeData.primaryColor,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Notifications()),
+                );
+              }),
         ],
       ),
     );
