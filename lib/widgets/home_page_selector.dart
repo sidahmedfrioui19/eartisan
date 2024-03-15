@@ -15,6 +15,7 @@ class _HomePageSelectorState extends State<HomePageSelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
