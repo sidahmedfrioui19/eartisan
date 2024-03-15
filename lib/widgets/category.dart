@@ -31,7 +31,10 @@ class Category extends StatelessWidget {
               ),
             )),
             SizedBox(height: 5),
-            Text(title)
+            Text(
+              title,
+              style: AppTheme.categoryText,
+            )
           ],
         ));
   }

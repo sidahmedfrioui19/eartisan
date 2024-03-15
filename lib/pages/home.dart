@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/category.dart';
 import 'package:profinder/widgets/home_page_selector.dart';
+import 'package:profinder/widgets/post_service.dart';
 import 'package:profinder/widgets/top_bar.dart';
 
 import '../widgets/burger_menu.dart';
@@ -51,7 +52,8 @@ class _HomePageState extends State<HomePage> {
                 Category(
                     title: "Construction", icon: FluentIcons.building_16_filled)
               ],
-            )
+            ),
+            PostService()
           ],
         ),
       ),
