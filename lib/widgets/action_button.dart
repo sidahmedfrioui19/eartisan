@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/overlays/new_action.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class ActionButton extends StatelessWidget {
@@ -7,7 +8,12 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => {},
+      onPressed: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewAction()),
+        )
+      },
       child: Icon(Icons.add),
       shape: CircleBorder(),
       backgroundColor: appThemeData.primaryColor,

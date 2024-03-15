@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/pages/home.dart';
 import 'package:profinder/pages/messages.dart';
@@ -25,7 +26,6 @@ class _MainNavBarState extends State<MainNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: BurgerMenu(),
         body: _pages[_selectedIndex],
         bottomNavigationBar: BottomAppBar(
           color: Colors.white,
@@ -35,28 +35,34 @@ class _MainNavBarState extends State<MainNavBar> {
               IconButton(
                 onPressed: () => _onItemTapped(0),
                 icon: _selectedIndex == 0
-                    ? Icon(Icons.home_filled, color: AppTheme.primaryColor)
-                    : Icon(Icons.home_outlined, color: AppTheme.secondaryColor),
+                    ? Icon(FluentIcons.home_12_filled,
+                        color: AppTheme.primaryColor)
+                    : Icon(FluentIcons.home_12_regular,
+                        color: AppTheme.secondaryColor),
               ),
               IconButton(
                 onPressed: () => _onItemTapped(1),
                 icon: _selectedIndex == 1
-                    ? Icon(Icons.search, color: AppTheme.primaryColor)
-                    : Icon(Icons.search, color: AppTheme.secondaryColor),
+                    ? Icon(FluentIcons.search_12_filled,
+                        color: AppTheme.primaryColor)
+                    : Icon(FluentIcons.search_12_regular,
+                        color: AppTheme.secondaryColor),
               ),
               ActionButton(),
               IconButton(
                 onPressed: () => _onItemTapped(2),
                 icon: _selectedIndex == 2
-                    ? Icon(Icons.message, color: AppTheme.primaryColor)
-                    : Icon(Icons.message_outlined,
+                    ? Icon(FluentIcons.chat_12_filled,
+                        color: AppTheme.primaryColor)
+                    : Icon(FluentIcons.chat_12_regular,
                         color: AppTheme.secondaryColor),
               ),
               IconButton(
                 onPressed: () => _onItemTapped(3),
                 icon: _selectedIndex == 3
-                    ? Icon(Icons.person_2, color: AppTheme.primaryColor)
-                    : Icon(Icons.person_2_outlined,
+                    ? Icon(FluentIcons.person_12_filled,
+                        color: AppTheme.primaryColor)
+                    : Icon(FluentIcons.person_12_regular,
                         color: AppTheme.secondaryColor),
               ),
             ],

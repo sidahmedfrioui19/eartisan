@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/utils/theme_data.dart';
+
+import '../widgets/burger_menu.dart';
+import '../widgets/top_bar.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({super.key});
@@ -10,6 +14,11 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPageState extends State<MessagesPage> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Messages");
+    return Scaffold(
+        backgroundColor: AppTheme.backgroundColor,
+        drawer: BurgerMenu(),
+        appBar: TopBar(
+          title: "Messages",
+        ));
   }
 }

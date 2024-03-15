@@ -1,15 +1,14 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final VoidCallback? onMenuPressed;
   final VoidCallback? onNotificationsPressed;
 
   const TopBar({
     Key? key,
     required this.title,
-    this.onMenuPressed,
     this.onNotificationsPressed,
   }) : super(key: key);
 
@@ -18,11 +17,12 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8),
       child: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: Icon(FluentIcons.line_horizontal_3_20_filled),
               onPressed: () {
                 Scaffold.of(context).openDrawer(); // Open navigation drawer
               },
@@ -36,7 +36,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.notifications_outlined,
+              FluentIcons.alert_12_regular,
               color: appThemeData.primaryColor,
             ),
             onPressed: onNotificationsPressed,

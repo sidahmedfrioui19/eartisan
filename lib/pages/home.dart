@@ -3,6 +3,8 @@ import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/home_page_selector.dart';
 import 'package:profinder/widgets/top_bar.dart';
 
+import '../widgets/burger_menu.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
+      drawer: BurgerMenu(),
       appBar: TopBar(
         title: "Explorer",
       ),
