@@ -6,7 +6,6 @@ import 'package:profinder/pages/search.dart';
 import 'package:profinder/pages/user.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/action_button.dart';
-import 'package:profinder/widgets/burger_menu.dart';
 
 class MainNavBar extends StatefulWidget {
   @override
