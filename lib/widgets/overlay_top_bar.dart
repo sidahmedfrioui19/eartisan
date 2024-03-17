@@ -18,7 +18,7 @@ class OverlayTopBar extends StatelessWidget implements PreferredSizeWidget {
           centerTitle: true,
           leading: IconButton(
             icon: Icon(
-              dismissIcon as IconData?,
+              dismissIcon,
               color: appThemeData.primaryColor,
             ),
             onPressed: () {

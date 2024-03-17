@@ -53,7 +53,13 @@ class _HomePageState extends State<HomePage> {
                     title: "Construction", icon: FluentIcons.building_16_filled)
               ],
             ),
-            PostService()
+            PostService(
+              title: "Titre",
+              description: "Description",
+              username: "John Doe",
+              job: "Plombier",
+              pictureUrl: "https://via.placeholder.com/150",
+            )
           ],
         ),
       ),

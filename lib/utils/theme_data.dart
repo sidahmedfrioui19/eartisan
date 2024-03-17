@@ -23,6 +23,8 @@ class AppTheme {
       TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w600);
   static const TextStyle categoryText =
       TextStyle(fontSize: 10, color: textColor, fontWeight: FontWeight.w500);
+  static const TextStyle smallText =
+      TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
 }
 
 final ThemeData appThemeData = ThemeData(
