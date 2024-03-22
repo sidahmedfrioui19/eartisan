@@ -20,7 +20,7 @@ class _HomePageSelectorState extends State<HomePageSelector> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
             child: TextButton(
               onPressed: () {
                 setState(() {
@@ -31,11 +31,10 @@ class _HomePageSelectorState extends State<HomePageSelector> {
               child: Text(
                 "Services",
                 style: TextStyle(
-                  color:
-                      servicesSelected ? AppTheme.primaryColor : Colors.black,
-                  decoration: servicesSelected
-                      ? TextDecoration.underline
-                      : TextDecoration.none,
+                  fontWeight: FontWeight.w900,
+                  color: servicesSelected
+                      ? AppTheme.primaryColor
+                      : AppTheme.secondaryColor,
                 ),
               ),
             ),
@@ -52,11 +51,10 @@ class _HomePageSelectorState extends State<HomePageSelector> {
               child: Text(
                 "Demandes",
                 style: TextStyle(
-                  color:
-                      demandesSelected ? AppTheme.primaryColor : Colors.black,
-                  decoration: demandesSelected
-                      ? TextDecoration.underline
-                      : TextDecoration.none,
+                  fontWeight: FontWeight.w900,
+                  color: demandesSelected
+                      ? AppTheme.primaryColor
+                      : AppTheme.secondaryColor,
                 ),
               ),
             ),

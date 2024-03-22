@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/category.dart';
+import 'package:profinder/widgets/layout/home_page_selector.dart';
 //import 'package:profinder/widgets/home_page_selector.dart';
 import 'package:profinder/widgets/post/post_service.dart';
 import 'package:profinder/widgets/layout/top_bar.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         child: Column(
           children: [
+            HomePageSelector(),
             Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Row(
@@ -41,8 +43,9 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         "Voir tout",
                         style: TextStyle(
-                            color: AppTheme.textColor,
-                            decoration: TextDecoration.underline),
+                          color: AppTheme.textColor,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     )
                   ],
@@ -50,7 +53,9 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 Category(
-                    title: "Construction", icon: FluentIcons.building_16_filled)
+                  title: "Construction",
+                  icon: FluentIcons.building_16_filled,
+                ),
               ],
             ),
             PostService(
