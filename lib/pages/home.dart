@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/posts.dart';
-import 'package:profinder/pages/services.dart';
+import 'package:profinder/pages/partials/posts.dart';
+import 'package:profinder/pages/partials/services.dart';
 import 'package:profinder/widgets/layout/home_page_selector.dart';
 import 'package:profinder/utils/theme_data.dart';
 import '../widgets/layout/burger_menu.dart';

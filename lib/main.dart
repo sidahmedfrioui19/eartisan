@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/layout/main_navigation_bar.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
