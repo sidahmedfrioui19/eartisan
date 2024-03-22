@@ -2,11 +2,11 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/category.dart';
-import 'package:profinder/widgets/home_page_selector.dart';
-import 'package:profinder/widgets/post_service.dart';
-import 'package:profinder/widgets/top_bar.dart';
+//import 'package:profinder/widgets/home_page_selector.dart';
+import 'package:profinder/widgets/post/post_service.dart';
+import 'package:profinder/widgets/layout/top_bar.dart';
 
-import '../widgets/burger_menu.dart';
+import '../widgets/layout/burger_menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -5,7 +5,7 @@ import 'package:profinder/pages/messages.dart';
 import 'package:profinder/pages/search.dart';
 import 'package:profinder/pages/user.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/action_button.dart';
+import 'package:profinder/widgets/layout/action_button.dart';
 
 class MainNavBar extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/widgets/overlay_top_bar.dart';
+import 'package:profinder/widgets/layout/overlay_top_bar.dart';
 
 import '../../utils/theme_data.dart';
 

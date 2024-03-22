@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
-import '../widgets/burger_menu.dart';
-import '../widgets/top_bar.dart';
+import '../widgets/layout/burger_menu.dart';
+import '../widgets/layout/top_bar.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({super.key});

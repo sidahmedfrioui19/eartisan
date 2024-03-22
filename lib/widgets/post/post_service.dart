@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:profinder/widgets/post_toolbar.dart';
+import 'package:profinder/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/user_card.dart';
 
 class PostService extends StatelessWidget {

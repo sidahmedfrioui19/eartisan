@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/theme_data.dart';
-import '../widgets/search_bar.dart';
+import '../widgets/layout/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
