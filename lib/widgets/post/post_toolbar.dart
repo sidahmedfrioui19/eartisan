@@ -1,10 +1,15 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/theme_data.dart';
 
 class PostToolBar extends StatelessWidget {
-  const PostToolBar({super.key});
+  final IconData icon1;
+  final IconData icon2;
+  const PostToolBar({
+    super.key,
+    required this.icon1,
+    required this.icon2,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +17,13 @@ class PostToolBar extends StatelessWidget {
       children: [
         IconButton(
             icon: Icon(
-              FluentIcons.send_16_regular,
+              icon1,
               color: AppTheme.primaryColor,
             ),
             onPressed: () {}),
         IconButton(
             icon: Icon(
-              FluentIcons.bookmark_16_regular,
+              icon2,
               color: AppTheme.primaryColor,
             ),
             onPressed: () {})

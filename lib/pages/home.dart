@@ -1,22 +1,21 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/category.dart';
+import 'package:profinder/pages/posts.dart';
+import 'package:profinder/pages/services.dart';
 import 'package:profinder/widgets/layout/home_page_selector.dart';
-//import 'package:profinder/widgets/home_page_selector.dart';
-import 'package:profinder/widgets/post/post_service.dart';
-import 'package:profinder/widgets/layout/top_bar.dart';
-
+import 'package:profinder/utils/theme_data.dart';
 import '../widgets/layout/burger_menu.dart';
+import '../widgets/layout/top_bar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,48 +24,32 @@ class _HomePageState extends State<HomePage> {
       appBar: TopBar(
         title: "Explorer",
       ),
-      body: Container(
-        child: Column(
-          children: [
-            HomePageSelector(),
-            Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Catégories",
-                      style: AppTheme.elementTitle,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Voir tout",
-                        style: TextStyle(
-                          color: AppTheme.textColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-            Row(
+      body: Column(
+        children: [
+          HomePageSelector(
+            servicesSelected: _selectedIndex == 0,
+            demandesSelected: _selectedIndex == 1,
+            onService: () {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            },
+            onPost: () {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            },
+          ),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
               children: [
-                Category(
-                  title: "Construction",
-                  icon: FluentIcons.building_16_filled,
-                ),
+                ServicesPage(),
+                PostsPage(),
               ],
             ),
-            PostService(
-              title: "Titre",
-              description: "Description",
-              username: "John Doe",
-              job: "Plombier",
-              pictureUrl: "https://via.placeholder.com/150",
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

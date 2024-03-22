@@ -1,16 +1,16 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:profinder/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/user_card.dart';
 
-class PostService extends StatelessWidget {
+class Post extends StatelessWidget {
   final String title;
   final String description;
   final String username;
   final String job;
   final String pictureUrl;
 
-  const PostService({
+  const Post({
     Key? key,
     required this.title,
     required this.description,
@@ -28,7 +28,7 @@ class PostService extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius:
-              BorderRadius.circular(15), // Adjust the radius as needed
+              BorderRadius.circular(10), // Adjust the radius as needed
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -50,7 +50,7 @@ class PostService extends StatelessWidget {
                   content: job,
                 ),
                 PostToolBar(
-                  icon1: FluentIcons.send_16_regular,
+                  icon1: FluentIcons.hand_wave_16_regular,
                   icon2: FluentIcons.bookmark_16_regular,
                 )
               ],
@@ -58,9 +58,7 @@ class PostService extends StatelessWidget {
             SizedBox(height: 12),
             Text(title),
             SizedBox(height: 10),
-            Text(description),
-            SizedBox(height: 10),
-            Text("Realisations")
+            Text(description)
           ],
         ),
       ),
