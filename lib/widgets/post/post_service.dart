@@ -34,7 +34,7 @@ class PostService extends StatelessWidget {
                   UserCard(
                     pictureUrl: pictureUrl,
                     username: username,
-                    job: job,
+                    content: job,
                   ),
                   PostToolBar()
                 ],

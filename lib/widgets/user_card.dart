@@ -6,13 +6,13 @@ import 'stated_avatar.dart';
 class UserCard extends StatelessWidget {
   final String pictureUrl;
   final String username;
-  final String job;
+  final String content;
 
   const UserCard({
     super.key,
     required this.pictureUrl,
     required this.username,
-    required this.job,
+    required this.content,
   });
 
   @override
@@ -33,7 +33,7 @@ class UserCard extends StatelessWidget {
               style: AppTheme.elementTitle,
             ),
             Text(
-              job,
+              content,
               style: AppTheme.smallText,
             )
           ],
