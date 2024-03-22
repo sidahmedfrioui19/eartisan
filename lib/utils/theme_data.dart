@@ -26,6 +26,12 @@ class AppTheme {
       TextStyle(fontSize: 10, color: textColor, fontWeight: FontWeight.w500);
   static const TextStyle smallText =
       TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
+  static BoxShadow globalShadow = BoxShadow(
+    color: Colors.grey.withOpacity(0.2),
+    spreadRadius: 0.5,
+    blurRadius: 1,
+    offset: Offset(0, 0.5), // changes position of shadow
+  );
 }
 
 final ThemeData appThemeData = ThemeData(

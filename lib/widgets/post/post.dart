@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/user_card.dart';
 
@@ -29,14 +30,7 @@ class Post extends StatelessWidget {
           color: Colors.white,
           borderRadius:
               BorderRadius.circular(10), // Adjust the radius as needed
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 0.5,
-              blurRadius: 1,
-              offset: Offset(0, 0.5), // changes position of shadow
-            ),
-          ],
+          boxShadow: [AppTheme.globalShadow],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

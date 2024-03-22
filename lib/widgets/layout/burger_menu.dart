@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/overlays/conditions.dart';
 import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -40,15 +41,17 @@ class BurgerMenu extends StatelessWidget {
             icon: Icons.file_copy_outlined,
             text: "Conditions d'utilisation",
             onPressed: () {
-              // Handle onPressed for "Conditions d'utilisation"
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ConditionsOverlay()),
+              );
             },
           ),
           MenuItem(
             icon: Icons.logout_outlined,
             text: "Se déconnecter",
-            onPressed: () {
-              // Handle onPressed for "Se déconnecter"
-            },
+            onPressed: () {},
           ),
         ],
       ),
