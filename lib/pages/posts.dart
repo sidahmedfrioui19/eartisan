@@ -21,6 +21,8 @@ class _PostsPageState extends State<PostsPage> {
             username: "John Doe",
             job: "Plombier",
             pictureUrl: "https://via.placeholder.com/150",
+            location: "Tlemcen, Tlemcen",
+            phoneNumber: "0660684077",
           )
         ],
       ),

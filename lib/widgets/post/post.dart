@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/post/post_statusbar.dart';
 import 'package:profinder/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/user_card.dart';
 
@@ -10,6 +11,8 @@ class Post extends StatelessWidget {
   final String username;
   final String job;
   final String pictureUrl;
+  final String location;
+  final String phoneNumber;
 
   const Post({
     Key? key,
@@ -18,6 +21,8 @@ class Post extends StatelessWidget {
     required this.username,
     required this.job,
     required this.pictureUrl,
+    required this.location,
+    required this.phoneNumber,
   }) : super(key: key);
 
   @override
@@ -52,7 +57,11 @@ class Post extends StatelessWidget {
             SizedBox(height: 12),
             Text(title),
             SizedBox(height: 10),
-            Text(description)
+            Text(description),
+            PostStatusBar(
+              location: location,
+              phoneNumber: phoneNumber,
+            )
           ],
         ),
       ),
