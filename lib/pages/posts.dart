@@ -1,4 +1,6 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/widgets/filled_button.dart';
 import 'package:profinder/widgets/post/post.dart';
 
 class PostsPage extends StatefulWidget {
@@ -14,6 +16,21 @@ class _PostsPageState extends State<PostsPage> {
     return Container(
       child: Column(
         children: [
+          Padding(
+              padding: EdgeInsets.only(left: 20, right: 18, top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FilledAppButton(
+                      icon: FluentIcons.location_12_filled,
+                      text: "Mon localisation",
+                      onPressed: () => {}),
+                  FilledAppButton(
+                      icon: FluentIcons.clock_12_filled,
+                      text: "Plus récent",
+                      onPressed: () => {}),
+                ],
+              )),
           Post(
             title: "Installation spots et vérification électrique",
             description:
