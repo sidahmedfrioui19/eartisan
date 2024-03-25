@@ -71,12 +71,9 @@ class _ServicesPageState extends State<ServicesPage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Category(
-                          icon: FluentIcons.access_time_20_filled,
-                          title: snapshot.data![index].name,
-                        ),
+                      return Category(
+                        iconUrl: snapshot.data![index].icon,
+                        title: snapshot.data![index].name,
                       );
                     },
                   ),

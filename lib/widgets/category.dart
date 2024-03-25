@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class Category extends StatelessWidget {
-  final IconData icon;
+  final String iconUrl;
   final String title;
 
-  const Category({super.key, required this.title, required this.icon});
+  const Category({super.key, required this.title, required this.iconUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,6 @@ class Category extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppTheme.secondaryColor,
-                ),
-                child: Icon(
-                  icon,
-                  color: AppTheme.textColor,
-                  size: 30,
                 ),
               ),
             )),
