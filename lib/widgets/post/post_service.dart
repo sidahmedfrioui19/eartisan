@@ -9,7 +9,8 @@ class PostService extends StatelessWidget {
   final String description;
   final String username;
   final String job;
-  final String pictureUrl;
+  final String? pictureUrl;
+  final bool available;
 
   const PostService({
     Key? key,
@@ -18,6 +19,7 @@ class PostService extends StatelessWidget {
     required this.username,
     required this.job,
     required this.pictureUrl,
+    required this.available,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class PostService extends StatelessWidget {
                   pictureUrl: pictureUrl,
                   username: username,
                   content: job,
+                  available: available,
                 ),
                 PostToolBar(
                   icon1: FluentIcons.send_16_regular,

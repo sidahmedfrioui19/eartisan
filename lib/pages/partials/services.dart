@@ -1,10 +1,15 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/category.dart';
 import 'package:profinder/services/category.dart';
+import 'package:profinder/services/professional.dart';
+import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/category.dart';
+import 'package:profinder/widgets/layout/generic_horizontal_list.dart';
+import 'package:profinder/widgets/layout/generic_vertical_list.dart';
 import 'package:profinder/widgets/post/post_service.dart';
+
+import '../../models/service.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({Key? key}) : super(key: key);
@@ -15,17 +20,24 @@ class ServicesPage extends StatefulWidget {
 
 class _ServicesPageState extends State<ServicesPage> {
   late Future<List<CategoryEntity>> _categoriesFuture;
+  late Future<List<ServiceEntity>> _servicesFuture;
 
   final CategoryService category = CategoryService();
+  final ProfessionalService service = ProfessionalService();
 
   @override
   void initState() {
     super.initState();
     _loadCategories();
+    _loadServices();
   }
 
   Future<void> _loadCategories() async {
     _categoriesFuture = category.fetchCategories();
+  }
+
+  Future<void> _loadServices() async {
+    _servicesFuture = service.fetchServices();
   }
 
   @override
@@ -57,39 +69,29 @@ class _ServicesPageState extends State<ServicesPage> {
             ),
           ),
           SizedBox(height: 10),
-          FutureBuilder<List<CategoryEntity>>(
+          HorizontalList<CategoryEntity>(
             future: _categoriesFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                return SizedBox(
-                  height: 100, // Adjust the height as needed
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Category(
-                        iconUrl: snapshot.data![index].icon,
-                        title: snapshot.data![index].name,
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return Center(child: Text('No data available'));
-              }
+            errorMessage: "Aucune catégorie",
+            itemBuilder: (category) {
+              return Category(
+                iconUrl: category.icon,
+                title: category.name,
+              );
             },
           ),
-          PostService(
-            title: 'Installation spots et vérification électrique',
-            description:
-                'J\'ai besoin d\'un électricien quelques vérification et réparation et installation spots (sanitaires et balcon)',
-            username: 'John Doe',
-            job: 'Plombier',
-            pictureUrl: 'https://via.placeholder.com/150',
+          VerticalList<ServiceEntity>(
+            future: _servicesFuture,
+            errorMessage: "Aucun service",
+            itemBuilder: (service) {
+              return PostService(
+                title: service.title,
+                description: service.description,
+                username: '${service.user.firstname} ${service.user.lastname}',
+                job: service.title,
+                pictureUrl: service.user.profilePic,
+                available: Helpers.boolVal(service.user.available),
+              );
+            },
           ),
         ],
       ),

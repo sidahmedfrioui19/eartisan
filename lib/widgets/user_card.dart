@@ -4,15 +4,17 @@ import 'package:profinder/utils/theme_data.dart';
 import 'stated_avatar.dart';
 
 class UserCard extends StatelessWidget {
-  final String pictureUrl;
+  final String? pictureUrl;
   final String username;
   final String content;
+  final bool available;
 
   const UserCard({
     super.key,
     required this.pictureUrl,
     required this.username,
     required this.content,
+    required this.available,
   });
 
   @override
@@ -22,7 +24,8 @@ class UserCard extends StatelessWidget {
         Center(
             child: StatedAvatar(
           imageUrl: pictureUrl, // Replace with your image URL
-          online: true, // Change status to true for online, false for offline
+          online:
+              available, // Change status to true for online, false for offline
         )),
         SizedBox(width: 13),
         Column(

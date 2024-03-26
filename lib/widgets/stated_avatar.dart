@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StatedAvatar extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final bool online;
 
   const StatedAvatar({super.key, required this.imageUrl, required this.online});
@@ -12,7 +12,10 @@ class StatedAvatar extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundImage: NetworkImage(imageUrl),
+          backgroundImage: imageUrl != null && imageUrl!.isNotEmpty
+              ? NetworkImage(imageUrl!)
+              : NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'),
         ),
         Positioned(
           top: 0,

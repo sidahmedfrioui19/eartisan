@@ -13,6 +13,7 @@ class Post extends StatelessWidget {
   final String pictureUrl;
   final String location;
   final String phoneNumber;
+  final bool available;
 
   const Post({
     Key? key,
@@ -23,6 +24,7 @@ class Post extends StatelessWidget {
     required this.pictureUrl,
     required this.location,
     required this.phoneNumber,
+    required this.available,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class Post extends StatelessWidget {
                   pictureUrl: pictureUrl,
                   username: username,
                   content: job,
+                  available: available,
                 ),
                 PostToolBar(
                   icon1: FluentIcons.hand_wave_16_regular,

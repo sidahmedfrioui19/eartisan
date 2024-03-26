@@ -1,9 +1,11 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/pages/home.dart';
+import 'package:profinder/pages/login.dart';
 import 'package:profinder/pages/messages.dart';
 import 'package:profinder/pages/search.dart';
 import 'package:profinder/pages/user.dart';
+import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/layout/action_button.dart';
 
@@ -13,6 +15,8 @@ class MainNavBar extends StatefulWidget {
 }
 
 class _MainNavBarState extends State<MainNavBar> {
+  final AuthenticationService auth = AuthenticationService();
+
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
@@ -57,7 +61,12 @@ class _MainNavBarState extends State<MainNavBar> {
                         color: AppTheme.secondaryColor),
               ),
               IconButton(
-                onPressed: () => _onItemTapped(3),
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  ),
+                },
                 icon: _selectedIndex == 3
                     ? Icon(FluentIcons.person_12_filled,
                         color: AppTheme.primaryColor)
