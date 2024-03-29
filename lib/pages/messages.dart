@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/messages/conversation-tile.dart';
@@ -26,6 +27,7 @@ class _MessagesPageState extends State<MessagesPage> {
         RoundedTextField(
           controller: TextEditingController(),
           hintText: "Rechercher",
+          icon: FluentIcons.search_12_filled,
         ),
         ConversationTile(
           pictureUrl: "https://via.placeholder.com/150",

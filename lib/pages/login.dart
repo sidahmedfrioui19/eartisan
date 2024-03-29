@@ -1,7 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:profinder/pages/signup.dart';
+import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/filled_button.dart';
 import 'package:profinder/widgets/layout/overlay_top_bar.dart';
+import 'package:profinder/widgets/rounded_text_field.dart';
+import 'package:profinder/widgets/text_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,75 +17,107 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.blue, // Change this to match your app bar color
+      statusBarIconBrightness:
+          Brightness.light, // Adjust the icon color (light or dark)
+    ));
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
-      appBar: OverlayTopBar(
-        title: "",
-        dismissIcon: FluentIcons.chevron_left_12_filled,
-      ),
-      body: InvertedMountainShape(),
-    );
+        backgroundColor: AppTheme.backgroundColor,
+        appBar: OverlayTopBar(
+          title: "",
+          dismissIcon: FluentIcons.chevron_left_12_filled,
+          color: AppTheme.primaryColor,
+          buttonsColor: Colors.white,
+        ),
+        body: Container(
+          child: Column(children: [
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Se connecter",
+              style: AppTheme.headingTextStyle,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            RoundedTextField(
+              controller: _emailController,
+              hintText: "Adresse email",
+              icon: FluentIcons.mail_12_filled,
+            ),
+            RoundedTextField(
+              controller: _passwordController,
+              hintText: "Mot de passe",
+              obscured: true,
+              icon: FluentIcons.lock_closed_12_filled,
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FilledAppButton(
+                      icon: FluentIcons.arrow_right_12_filled,
+                      text: "Se Connecter",
+                      onPressed: () async {
+                        final String email = _emailController.text;
+                        final String password = _passwordController.text;
+
+                        try {
+                          await AuthenticationService().login(email, password);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Connecté avec succéss!'), // Confirmation message
+                              duration: Duration(
+                                  seconds: 2), // Adjust the duration as needed
+                            ),
+                          );
+                          Navigator.pop(context);
+                        } catch (e) {
+                          setState(() {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Email ou mot de passe incorrect'), // Confirmation message
+                                duration: Duration(
+                                    seconds:
+                                        2), // Adjust the duration as needed
+                              ),
+                            );
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              margin: EdgeInsets.all(15),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Text("Pas encore inscrit?"),
+                  TextAppButton(
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
+                      },
+                      text: "Créer un compte")
+                ],
+              ),
+              margin: EdgeInsets.all(15),
+            )
+          ]),
+          margin: EdgeInsets.all(10),
+        ));
   }
-}
-
-class InvertedMountainShape extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(MediaQuery.of(context).size.width, 200),
-      painter: InvertedMountainPainter(),
-    );
-  }
-}
-
-class InvertedMountainPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double width = size.width;
-    final double height = size.height;
-    final double controlPointHeight =
-        height * 0.3; // Adjust control point height
-    final double peakHeight = height * 0.5; // Adjust peak height
-
-    final Paint paint = Paint()
-      ..color = Colors.blue; // Customize color as needed
-
-    final Path path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, peakHeight)
-      ..quadraticBezierTo(width / 2, controlPointHeight, width, peakHeight)
-      ..lineTo(width, 0)
-      ..close();
-
-    final double bumpWidth = width * 0.2; // Adjust bump width
-    final double bumpHeight = height * 0.2; // Adjust bump height
-    final double bumpStart1 =
-        width * 0.3; // Adjust start position of first bump
-    final double bumpStart2 =
-        width * 0.7; // Adjust start position of second bump
-
-    final Path bump1 = Path()
-      ..moveTo(bumpStart1, peakHeight)
-      ..quadraticBezierTo(bumpStart1 + bumpWidth / 2, peakHeight + bumpHeight,
-          bumpStart1 + bumpWidth, peakHeight)
-      ..close();
-
-    final Path bump2 = Path()
-      ..moveTo(bumpStart2, peakHeight)
-      ..quadraticBezierTo(bumpStart2 + bumpWidth / 2, peakHeight + bumpHeight,
-          bumpStart2 + bumpWidth, peakHeight)
-      ..close();
-
-    canvas.drawPath(path, paint);
-    canvas.drawPath(bump1, paint);
-    canvas.drawPath(bump2, paint);
-  }
-
-  @override
-  bool shouldRepaint(InvertedMountainPainter oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(InvertedMountainPainter oldDelegate) => false;
 }

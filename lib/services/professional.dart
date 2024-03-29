@@ -1,26 +1,20 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:profinder/models/service.dart';
-
-import '../utils/constants.dart';
+import 'package:profinder/services/data.dart';
 
 class ProfessionalService {
-  final String path = 'service/viewall';
+  final GenericDataService<ServiceEntity> _genericService =
+      GenericDataService<ServiceEntity>('service', {
+    'get': 'viewall',
+    'post': 'create',
+  });
 
-  Future<List<ServiceEntity>> fetchServices() async {
-    final url = Constants.apiUrl;
-    final response = await http.get(Uri.parse('$url/$path'));
-    if (response.statusCode == 200) {
-      final parsed = jsonDecode(response.body);
-      print(jsonEncode(parsed));
+  Future<List<ServiceEntity>> fetch() async {
+    return _genericService.fetch((json) => ServiceEntity.fromJson(json));
+  }
 
-      final List<ServiceEntity> services =
-          (parsed['data'] as List<dynamic>).map((serviceJson) {
-        return ServiceEntity.fromJson(serviceJson);
-      }).toList();
-      return services;
-    } else {
-      throw Exception('Failed to load services');
-    }
+  Future<ServiceEntity> post(ServiceEntity entity) async {
+    final String body = jsonEncode(entity.toJson());
+    return _genericService.post(body, (json) => ServiceEntity.fromJson(json));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/home.dart';
 import 'package:profinder/pages/login.dart';
 import 'package:profinder/pages/messages.dart';
@@ -16,6 +17,7 @@ class MainNavBar extends StatefulWidget {
 
 class _MainNavBarState extends State<MainNavBar> {
   final AuthenticationService auth = AuthenticationService();
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   int _selectedIndex = 0;
 
@@ -61,11 +63,17 @@ class _MainNavBarState extends State<MainNavBar> {
                         color: AppTheme.secondaryColor),
               ),
               IconButton(
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  ),
+                onPressed: () async {
+                  final String? jwtToken =
+                      await secureStorage.read(key: 'jwtToken');
+                  if (jwtToken != null) {
+                    _onItemTapped(3);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  }
                 },
                 icon: _selectedIndex == 3
                     ? Icon(FluentIcons.person_12_filled,

@@ -1,3 +1,7 @@
+import 'package:profinder/models/picture.dart';
+import 'package:profinder/models/price.dart';
+import 'package:profinder/models/user.dart';
+
 class ServiceEntity {
   final int serviceId;
   final String title;
@@ -29,78 +33,15 @@ class ServiceEntity {
           .toList(),
     );
   }
-}
 
-class User {
-  final String userId;
-  final String username;
-  final String firstname;
-  final String lastname;
-  final String? address;
-  final String? phoneNumber;
-  final String? profilePic;
-  final int available;
-
-  User({
-    required this.userId,
-    required this.username,
-    required this.firstname,
-    required this.lastname,
-    required this.available,
-    this.address,
-    this.phoneNumber,
-    this.profilePic,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        userId: json['user_id'],
-        username: json['username'],
-        firstname: json['firstname'],
-        lastname: json['lastname'],
-        address: json['address'],
-        phoneNumber: json['phone_number'],
-        profilePic: json['profile_pic'],
-        available: json['available']);
-  }
-}
-
-class Picture {
-  final int pictureId;
-  final String link;
-
-  Picture({
-    required this.pictureId,
-    required this.link,
-  });
-
-  factory Picture.fromJson(Map<String, dynamic> json) {
-    return Picture(
-      pictureId: json['picture_id'],
-      link: json['link'],
-    );
-  }
-}
-
-class Price {
-  final int priceId;
-  final String value;
-  final String description;
-  final String rate;
-
-  Price({
-    required this.priceId,
-    required this.value,
-    required this.description,
-    required this.rate,
-  });
-
-  factory Price.fromJson(Map<String, dynamic> json) {
-    return Price(
-      priceId: json['price_id'],
-      value: json['value'],
-      description: json['description'],
-      rate: json['rate'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'service_id': serviceId,
+      'title': title,
+      'description': description,
+      'user': user.toJson(),
+      'pictures': pictures.map((picture) => picture.toJson()).toList(),
+      'prices': prices.map((price) => price.toJson()).toList(),
+    };
   }
 }

@@ -33,11 +33,11 @@ class _ServicesPageState extends State<ServicesPage> {
   }
 
   Future<void> _loadCategories() async {
-    _categoriesFuture = category.fetchCategories();
+    _categoriesFuture = category.fetch();
   }
 
   Future<void> _loadServices() async {
-    _servicesFuture = service.fetchServices();
+    _servicesFuture = service.fetch();
   }
 
   @override

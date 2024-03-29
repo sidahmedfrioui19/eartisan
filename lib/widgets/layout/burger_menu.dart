@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/overlays/conditions.dart';
 import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
+import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class BurgerMenu extends StatelessWidget {
-  const BurgerMenu({Key? key});
+  final AuthenticationService auth = AuthenticationService();
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
+  BurgerMenu({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +53,28 @@ class BurgerMenu extends StatelessWidget {
               );
             },
           ),
-          MenuItem(
-            icon: Icons.logout_outlined,
-            text: "Se déconnecter",
-            onPressed: () {},
+          FutureBuilder<String?>(
+            future: secureStorage.read(key: 'jwtToken'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                return MenuItem(
+                  icon: Icons.logout_outlined,
+                  text: "Se déconnecter",
+                  onPressed: () async {
+                    await AuthenticationService().logout();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Déconnecté'), // Confirmation message
+                        duration:
+                            Duration(seconds: 2), // Adjust duration as needed
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return SizedBox(); // Return an empty SizedBox if no token
+              }
+            },
           ),
         ],
       ),
