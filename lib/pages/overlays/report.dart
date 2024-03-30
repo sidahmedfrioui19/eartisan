@@ -1,5 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/models/report.dart';
+import 'package:profinder/services/report.dart';
+import 'package:profinder/widgets/filled_button.dart';
+import 'package:profinder/widgets/rounded_text_field.dart';
+import 'package:profinder/widgets/text_area.dart';
 
 import '../../utils/theme_data.dart';
 import '../../widgets/layout/overlay_top_bar.dart';
@@ -12,12 +17,71 @@ class Report extends StatefulWidget {
 }
 
 class _ReportState extends State<Report> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+  final ReportService reportService = ReportService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
-        appBar: OverlayTopBar(
-            title: 'Envoyer un rapport',
-            dismissIcon: FluentIcons.chevron_left_12_filled));
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: OverlayTopBar(
+        title: 'Envoyer un rapport',
+        dismissIcon: FluentIcons.chevron_left_12_filled,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                RoundedTextField(
+                  controller: _titleController,
+                  hintText: "Sujet",
+                  icon: FluentIcons.text_header_1_lines_16_filled,
+                ),
+                RoundedTextArea(
+                  controller: _contentController,
+                  hintText: "Message",
+                  icon: FluentIcons.text_paragraph_16_filled,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: FilledAppButton(
+              icon: FluentIcons.send_16_filled,
+              text: "Envoyer",
+              onPressed: () async {
+                final String reportContent =
+                    'Sujet: ${_titleController.text}, Contenu: ${_contentController.text}';
+                ReportEntity report =
+                    new ReportEntity(description: reportContent);
+
+                try {
+                  await reportService.post(report);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Rapport envoyé'), // Confirmation message
+                      duration:
+                          Duration(seconds: 2), // Adjust the duration as needed
+                    ),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Erreur'), // Confirmation message
+                      duration:
+                          Duration(seconds: 2), // Adjust the duration as needed
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

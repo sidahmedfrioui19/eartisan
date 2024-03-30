@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/home.dart';
 import 'package:profinder/pages/login.dart';
 import 'package:profinder/pages/messages.dart';
+import 'package:profinder/pages/overlays/new_action.dart';
 import 'package:profinder/pages/search.dart';
 import 'package:profinder/pages/user.dart';
 import 'package:profinder/services/authentication.dart';
@@ -18,6 +19,7 @@ class MainNavBar extends StatefulWidget {
 class _MainNavBarState extends State<MainNavBar> {
   final AuthenticationService auth = AuthenticationService();
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  String? jwtToken = null;
 
   int _selectedIndex = 0;
 
@@ -28,8 +30,14 @@ class _MainNavBarState extends State<MainNavBar> {
     UserPage()
   ];
 
+  Future<void> getToken() async {
+    String? tk = await secureStorage.read(key: 'jwtToken');
+    jwtToken = tk;
+  }
+
   @override
   Widget build(BuildContext context) {
+    getToken();
     return Scaffold(
         body: _pages[_selectedIndex],
         bottomNavigationBar: BottomAppBar(
@@ -53,9 +61,30 @@ class _MainNavBarState extends State<MainNavBar> {
                     : Icon(FluentIcons.search_12_regular,
                         color: AppTheme.secondaryColor),
               ),
-              ActionButton(),
+              ActionButton(onPressed: () {
+                if (jwtToken != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewAction()),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                }
+              }),
               IconButton(
-                onPressed: () => _onItemTapped(2),
+                onPressed: () async {
+                  if (jwtToken != null) {
+                    _onItemTapped(2);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  }
+                },
                 icon: _selectedIndex == 2
                     ? Icon(FluentIcons.chat_12_filled,
                         color: AppTheme.primaryColor)
@@ -64,8 +93,6 @@ class _MainNavBarState extends State<MainNavBar> {
               ),
               IconButton(
                 onPressed: () async {
-                  final String? jwtToken =
-                      await secureStorage.read(key: 'jwtToken');
                   if (jwtToken != null) {
                     _onItemTapped(3);
                   } else {

@@ -15,6 +15,6 @@ class ProfessionalService {
 
   Future<ServiceEntity> post(ServiceEntity entity) async {
     final String body = jsonEncode(entity.toJson());
-    return _genericService.post(body, (json) => ServiceEntity.fromJson(json));
+    return _genericService.post(body);
   }
 }

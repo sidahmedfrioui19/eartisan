@@ -12,13 +12,47 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  final String? imageUrl = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
-        drawer: BurgerMenu(),
-        appBar: TopBar(
-          title: "Compte",
-        ));
+      backgroundColor: AppTheme.backgroundColor,
+      drawer: BurgerMenu(),
+      appBar: TopBar(
+        title: "Compte",
+      ),
+      body: Container(
+          margin: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius:
+                            80, // Set radius to 100 to make it 200px in diameter
+                        backgroundImage: imageUrl != null &&
+                                imageUrl!.isNotEmpty
+                            ? NetworkImage(imageUrl!)
+                            : NetworkImage(
+                                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'John doe',
+                        style: AppTheme.headingTextStyle,
+                      ),
+                      Text('@johndoe')
+                    ],
+                  )
+                ],
+              )
+            ],
+          )),
+    );
   }
 }

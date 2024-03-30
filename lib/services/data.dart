@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/constants.dart';
 
 class GenericDataService<T> {
@@ -24,17 +25,22 @@ class GenericDataService<T> {
     }
   }
 
-  Future<T> post(String body, T Function(Map<String, dynamic>) fromJson) async {
+  Future<T> post(String body) async {
+    final String? jwtToken = await AuthenticationService.getJwtToken();
     final response = await http.post(
       Uri.parse(_urlBuilder('post')),
-      body: body,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+        'Content-Type':
+            'application/json', // Example of adding a Content-Type header
+        // Add more headers as needed
       },
+      body: body,
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
-      return fromJson(parsed);
+      return parsed;
     } else {
       throw Exception('Failed to post data');
     }
