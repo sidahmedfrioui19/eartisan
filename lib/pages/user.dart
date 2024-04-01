@@ -166,7 +166,7 @@ class _UserPageState extends State<UserPage>
                   ),
                   SizedBox(height: 10),
                   Text('@${user.username}'),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   TabBar(
                     indicatorColor: AppTheme.primaryColor,
                     labelColor: AppTheme.primaryColor,
@@ -180,6 +180,7 @@ class _UserPageState extends State<UserPage>
                     labelPadding: EdgeInsets.symmetric(
                         horizontal: 16), // Adjust padding as needed
                   ),
+                  SizedBox(height: 20),
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
