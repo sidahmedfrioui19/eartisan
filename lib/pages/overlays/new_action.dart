@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/partials/new_post.dart';
-import 'package:profinder/pages/partials/new_service.dart';
+import 'package:profinder/pages/partials/new_action/new_post.dart';
+import 'package:profinder/pages/partials/new_action/new_service.dart';
 import 'package:profinder/widgets/layout/overlay_top_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 

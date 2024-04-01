@@ -9,7 +9,7 @@ import 'package:profinder/widgets/layout/generic_horizontal_list.dart';
 import 'package:profinder/widgets/layout/generic_vertical_list.dart';
 import 'package:profinder/widgets/post/post_service.dart';
 
-import '../../models/service.dart';
+import '../../../models/service.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({Key? key}) : super(key: key);
