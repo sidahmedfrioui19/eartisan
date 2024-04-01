@@ -116,6 +116,7 @@ class _MainNavBarState extends State<MainNavBar> {
 
   void _onItemTapped(int index) {
     setState(() {
+      getToken();
       _selectedIndex = index;
     });
   }

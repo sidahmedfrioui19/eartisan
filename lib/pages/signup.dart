@@ -81,8 +81,8 @@ class _LoginPageState extends State<SignUpPage> {
                 children: [
                   Expanded(
                     child: FilledAppButton(
-                        icon: FluentIcons.arrow_right_12_filled,
-                        text: "Se Connecter",
+                        icon: FluentIcons.person_add_16_filled,
+                        text: "S'inscrire",
                         onPressed: () => {}),
                   ),
                 ],
