@@ -6,6 +6,7 @@ class RoundedTextField extends StatelessWidget {
   final String hintText;
   final bool? obscured;
   final IconData? icon;
+  final FormFieldValidator<String>? validator; // Added validator
 
   const RoundedTextField({
     Key? key,
@@ -14,6 +15,7 @@ class RoundedTextField extends StatelessWidget {
     this.onChanged,
     this.obscured,
     this.icon,
+    this.validator, // Initialize validator
   }) : super(key: key);
 
   @override
@@ -25,10 +27,12 @@ class RoundedTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         color: Colors.grey[200], // Adjust background color as needed
       ),
-      child: TextField(
+      child: TextFormField(
+        // Changed to TextFormField
         obscureText: obscured ?? false,
         controller: controller,
         onChanged: onChanged,
+        validator: validator, // Assign validator
         decoration: InputDecoration(
           hintText: hintText,
           contentPadding:

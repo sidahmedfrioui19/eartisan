@@ -19,13 +19,16 @@ class RoundedDropdownButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(15),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: Colors.grey),
+        color: Colors.grey[200], // Adjust background color as needed
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: DropdownButton<T>(
+          borderRadius: BorderRadius.circular(20.0),
           isExpanded: true,
           underline: SizedBox(),
           icon: icon != null ? Icon(icon) : null,

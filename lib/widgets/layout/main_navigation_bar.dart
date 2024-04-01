@@ -61,7 +61,8 @@ class _MainNavBarState extends State<MainNavBar> {
                     : Icon(FluentIcons.search_12_regular,
                         color: AppTheme.secondaryColor),
               ),
-              ActionButton(onPressed: () {
+              ActionButton(onPressed: () async {
+                getToken();
                 if (jwtToken != null) {
                   Navigator.push(
                     context,
@@ -76,6 +77,7 @@ class _MainNavBarState extends State<MainNavBar> {
               }),
               IconButton(
                 onPressed: () async {
+                  await getToken();
                   if (jwtToken != null) {
                     _onItemTapped(2);
                   } else {
@@ -93,6 +95,7 @@ class _MainNavBarState extends State<MainNavBar> {
               ),
               IconButton(
                 onPressed: () async {
+                  getToken();
                   if (jwtToken != null) {
                     _onItemTapped(3);
                   } else {
@@ -116,7 +119,6 @@ class _MainNavBarState extends State<MainNavBar> {
 
   void _onItemTapped(int index) {
     setState(() {
-      getToken();
       _selectedIndex = index;
     });
   }

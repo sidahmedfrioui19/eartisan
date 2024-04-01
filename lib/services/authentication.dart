@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:profinder/models/user.dart';
+import 'package:profinder/models/user_creation_request.dart';
 
 import '../utils/constants.dart';
 
@@ -25,19 +27,46 @@ class AuthenticationService {
     }
   }
 
+  Future<void> signup(UserCreationRequest req) async {
+    final String path = 'signup';
+    final response = await http.post(
+      Uri.parse('$url/$path'),
+      body: req.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final String jwtToken = data['token'];
+
+      await secureStorage.write(key: 'jwtToken', value: jwtToken);
+    } else {
+      throw Exception('Failed to signup');
+    }
+  }
+
   Future<void> logout() async {
     await secureStorage.delete(key: 'jwtToken');
   }
 
-  Future<Future<http.StreamedResponse>> addAuthorizationHeader(
-      http.Request request) async {
+  Future<UserEntity> fetchUserData() async {
+    final String path = 'user/getUser';
     final String jwtToken = await getJwtToken();
-
-    if (jwtToken.isNotEmpty) {
-      request.headers['Authorization'] = 'Bearer $jwtToken';
+    final response = await http.get(
+      Uri.parse('$url/$path'),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final parsed = jsonDecode(
+          response.body)['data']; // Get the user data from 'data' field
+      final user = UserEntity.fromJson(parsed);
+      return user;
+    } else {
+      throw Exception('Failed to load user data');
     }
-
-    return http.Client().send(request);
   }
 
   static Future<String> getJwtToken() async {
@@ -48,30 +77,5 @@ class AuthenticationService {
 
   Future<bool> checkAuth() async {
     return getJwtToken() != '' ? true : false;
-  }
-
-  static Future<http.Response> authorizedGet(String url) async {
-    final String token = await AuthenticationService.getJwtToken();
-    return http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-  }
-
-  static Future<http.Response> authorizedPost(String url, dynamic data) async {
-    final String token = await AuthenticationService.getJwtToken();
-    return http.post(
-      Uri.parse(url),
-      body: data,
-      headers: {'Authorization': 'Bearer $token'},
-    );
-  }
-
-  static Future<http.Response> authorizedPatch(String url) async {
-    final String token = await AuthenticationService.getJwtToken();
-    return http.patch(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $token'},
-    );
   }
 }

@@ -6,7 +6,7 @@ class ServiceEntity {
   final int serviceId;
   final String title;
   final String description;
-  final User user;
+  final UserEntity user;
   final List<Picture> pictures;
   final List<Price> prices;
 
@@ -24,7 +24,7 @@ class ServiceEntity {
       serviceId: json['service_id'],
       title: json['title'],
       description: json['description'],
-      user: User.fromJson(json['user']),
+      user: UserEntity.fromJson(json['user']),
       pictures: (json['pictures'] as List<dynamic>)
           .map((pictureJson) => Picture.fromJson(pictureJson))
           .toList(),
