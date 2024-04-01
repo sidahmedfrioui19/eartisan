@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/models/picture.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/user_card.dart';
@@ -11,6 +12,7 @@ class PostService extends StatelessWidget {
   final String job;
   final String? pictureUrl;
   final bool available;
+  final List<Picture>? pictures;
 
   const PostService({
     Key? key,
@@ -20,6 +22,7 @@ class PostService extends StatelessWidget {
     required this.job,
     required this.pictureUrl,
     required this.available,
+    this.pictures,
   }) : super(key: key);
 
   @override
@@ -30,8 +33,7 @@ class PostService extends StatelessWidget {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(15), // Adjust the radius as needed
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [AppTheme.globalShadow],
         ),
         child: Column(
@@ -57,7 +59,25 @@ class PostService extends StatelessWidget {
             SizedBox(height: 10),
             Text(description),
             SizedBox(height: 10),
-            Text("Realisations")
+            Text("Realisations"),
+            SizedBox(height: 10),
+            Wrap(
+              spacing: 10, // Adjust spacing as needed
+              runSpacing: 10, // Adjust run spacing as needed
+              children: pictures != null
+                  ? pictures!.take(3).map((picture) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          picture.link,
+                          width: 100, // Adjust image width as needed
+                          height: 100, // Adjust image height as needed
+                          fit: BoxFit.cover, // Adjust image fit as needed
+                        ),
+                      );
+                    }).toList()
+                  : [],
+            ),
           ],
         ),
       ),

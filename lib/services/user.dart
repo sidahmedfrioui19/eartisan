@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:profinder/models/user.dart';
+import 'package:profinder/models/user_update_request.dart';
 import 'package:profinder/services/data.dart';
 
 class UserService {
@@ -7,6 +8,7 @@ class UserService {
       GenericDataService<UserEntity>('user', {
     'get': 'viewall',
     'post': 'create',
+    'patch': 'update',
   });
 
   Future<List<UserEntity>> fetch() async {
@@ -16,5 +18,10 @@ class UserService {
   Future<UserEntity> post(UserEntity entity) async {
     final String body = jsonEncode(entity.toJson());
     return _genericService.post(body);
+  }
+
+  Future<UserEntity> patch(UserUpdateEntity update) async {
+    final String body = jsonEncode(update.toJson());
+    return _genericService.patch(body);
   }
 }

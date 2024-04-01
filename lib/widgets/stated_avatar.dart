@@ -12,10 +12,11 @@ class StatedAvatar extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundImage: imageUrl != null && imageUrl!.isNotEmpty
-              ? NetworkImage(imageUrl!)
-              : NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'),
+          backgroundImage: Image.network(
+            imageUrl ??
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
+            fit: BoxFit.cover, // Adjust this as needed
+          ).image,
         ),
         Positioned(
           top: 0,

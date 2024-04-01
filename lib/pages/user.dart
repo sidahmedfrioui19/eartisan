@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/user.dart';
+import 'package:profinder/models/user_update_request.dart';
+import 'package:profinder/pages/partials/user/my_appointments.dart';
+import 'package:profinder/pages/partials/user/my_customers.dart';
+import 'package:profinder/pages/partials/user/my_services.dart';
 import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/verification_badge.dart';
 import 'package:profinder/widgets/layout/burger_menu.dart';
 import 'package:profinder/widgets/layout/top_bar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -14,15 +22,24 @@ class UserPage extends StatefulWidget {
   State<UserPage> createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _UserPageState extends State<UserPage>
+    with SingleTickerProviderStateMixin {
   late Future<UserEntity> _userFuture;
+  late TabController _tabController = TabController(length: 2, vsync: this);
 
   final AuthenticationService auth = AuthenticationService();
 
   @override
   void initState() {
     super.initState();
-    _userFuture = _loadUser(); // Initialize _userFuture here
+    _userFuture = _loadUser();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose(); // Dispose the tab controller
+    super.dispose();
   }
 
   Future<UserEntity> _loadUser() async {
@@ -33,6 +50,52 @@ class _UserPageState extends State<UserPage> {
       // Handle the error here
       print('Error loading user data: $error');
       throw error; // Rethrow the error to propagate it to the UI
+    }
+  }
+
+  void _changeProfilePicture() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      File imageFile = File(image.path);
+
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+          'profile_pictures/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+      UploadTask uploadTask = storageReference.putFile(imageFile);
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Changement d'image..."),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ),
+          );
+        },
+      );
+
+      TaskSnapshot snapshot = await uploadTask;
+
+      String downloadURL = await snapshot.ref.getDownloadURL();
+
+      try {
+        UserUpdateEntity updatedData =
+            UserUpdateEntity(profilePicture: downloadURL);
+        await UserService().patch(updatedData);
+
+        print('Profile picture URL updated: $downloadURL');
+      } catch (error) {
+        print('Error updating profile picture: $error');
+      }
+
+      Navigator.of(context).pop();
+
+      print('Uploaded image download URL: $downloadURL');
     }
   }
 
@@ -57,12 +120,35 @@ class _UserPageState extends State<UserPage> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundImage: NetworkImage(user.profilePic ??
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'),
+                  SizedBox(height: 10),
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundImage: Image.network(
+                          user.profilePic ??
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
+                          fit: BoxFit.cover, // Adjust this as needed
+                        ).image,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _changeProfilePicture();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -78,8 +164,32 @@ class _UserPageState extends State<UserPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   Text('@${user.username}'),
+                  SizedBox(height: 10),
+                  TabBar(
+                    indicatorColor: AppTheme.primaryColor,
+                    labelColor: AppTheme.primaryColor,
+                    unselectedLabelColor: Colors.black,
+                    controller: _tabController,
+                    tabs: [
+                      Tab(text: 'Mes Clients'),
+                      Tab(text: 'Mes Services'),
+                      Tab(text: 'Rendez-vous'),
+                    ],
+                    labelPadding: EdgeInsets.symmetric(
+                        horizontal: 16), // Adjust padding as needed
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        MyCustomers(),
+                        MyServices(),
+                        MyAppointments(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );

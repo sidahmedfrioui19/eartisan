@@ -35,12 +35,31 @@ class GenericDataService<T> {
       },
       body: body,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       return parsed;
     } else {
       throw Exception('Failed to post data');
+    }
+  }
+
+  Future<T> patch(String body) async {
+    final String? jwtToken = await AuthenticationService.getJwtToken();
+    final response = await http.patch(
+      Uri.parse(_urlBuilder('patch')),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+        'Content-Type':
+            'application/json', // Example of adding a Content-Type header
+        // Add more headers as needed
+      },
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      final parsed = jsonDecode(response.body);
+      return parsed;
+    } else {
+      throw Exception('Failed to patch data');
     }
   }
 

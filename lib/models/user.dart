@@ -29,7 +29,7 @@ class UserEntity {
       lastname: json['lastname'],
       address: json['address'],
       phoneNumber: json['phone_number'],
-      profilePic: json['profile_pic'],
+      profilePic: json['profile_picture'],
       available: json['available'],
       verified: json['verifier'],
     );

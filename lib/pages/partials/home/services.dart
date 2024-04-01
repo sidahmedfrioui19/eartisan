@@ -90,6 +90,7 @@ class _ServicesPageState extends State<ServicesPage> {
                 job: service.title,
                 pictureUrl: service.user.profilePic,
                 available: Helpers.boolVal(service.user.available),
+                pictures: service.pictures,
               );
             },
           ),
