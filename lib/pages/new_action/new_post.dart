@@ -1,23 +1,22 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/models/post_creation_request.dart';
+import 'package:profinder/services/post.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 
-class NewPost extends StatefulWidget {
-  const NewPost({super.key});
-
-  @override
-  State<NewPost> createState() => _NewPostState();
-}
-
-class _NewPostState extends State<NewPost> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+class NewPost extends StatelessWidget {
+  const NewPost({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _titleController = TextEditingController();
+    final TextEditingController _descriptionController =
+        TextEditingController();
+    final PostService _postService = PostService();
+
     return Container(
       child: Column(
         children: [
@@ -49,7 +48,34 @@ class _NewPostState extends State<NewPost> {
             child: FilledAppButton(
               icon: FluentIcons.add_12_filled,
               text: "Publier",
-              onPressed: () async {},
+              onPressed: () async {
+                PostCreationRequest data = PostCreationRequest(
+                  title: _titleController.text,
+                  description: _descriptionController.text,
+                );
+                try {
+                  await _postService.post(data);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Contenu publié avec succès!',
+                      ),
+                      duration: Duration(seconds: 2),
+                    ),
+                  ); // Assuming postService is an instance of your PostService class
+                  _postService.fetch(); // Refresh data // Trigger data refresh
+                  Navigator.pop(context);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Veuillez vérifier vos coordonnées',
+                      ),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+              },
             ),
           ),
         ],

@@ -3,14 +3,14 @@ class PostEntity {
   final String username;
   final String firstname;
   final String lastname;
-  final String address;
-  final String phoneNumber;
-  final String profilePicture;
-  final String postId;
-  final String title;
-  final String postCreatedAt;
-  final String description;
-  final String status;
+  final String? address;
+  final String? phoneNumber;
+  final String? profilePicture;
+  final int postId;
+  final String? title;
+  final String? postCreatedAt;
+  final String? description;
+  final String? status;
 
   PostEntity({
     required this.userId,

@@ -14,6 +14,7 @@ class GenericDataService<T> {
     final response = await http.get(Uri.parse(_urlBuilder('get')));
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
+      print(parsed);
       final List<T> items = (parsed['data'] as List<dynamic>).map((itemJson) {
         return fromJson(itemJson);
       }).toList();
@@ -35,6 +36,8 @@ class GenericDataService<T> {
       },
       body: body,
     );
+
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       return parsed;

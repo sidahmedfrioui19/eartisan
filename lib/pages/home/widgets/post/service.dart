@@ -51,6 +51,7 @@ class PostService extends StatelessWidget {
                 PostToolBar(
                   icon1: FluentIcons.send_16_regular,
                   icon2: FluentIcons.bookmark_16_regular,
+                  icon3: FluentIcons.calendar_12_regular,
                 )
               ],
             ),

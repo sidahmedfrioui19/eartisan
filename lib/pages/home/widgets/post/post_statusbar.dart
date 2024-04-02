@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class PostStatusBar extends StatelessWidget {
-  final String location;
-  final String phoneNumber;
-  final String status;
+  final String? location;
+  final String? phoneNumber;
+  final String? status;
 
   const PostStatusBar({
     super.key,
@@ -21,12 +21,14 @@ class PostStatusBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InfoIcon(icon: FluentIcons.location_12_filled, text: location),
-          InfoIcon(icon: FluentIcons.phone_12_filled, text: phoneNumber),
+          if (location != null)
+            InfoIcon(icon: FluentIcons.location_12_filled, text: location!),
+          if (phoneNumber != null)
+            InfoIcon(icon: FluentIcons.phone_12_filled, text: phoneNumber!),
           Icon(
             status == 'active'
                 ? Icons.hourglass_empty
-                : FluentIcons.hourglass_16_regular,
+                : FluentIcons.check_20_filled,
             color: AppTheme.secondaryColor,
             size: 18,
           )

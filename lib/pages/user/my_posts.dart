@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
-class MyCustomers extends StatefulWidget {
-  const MyCustomers({super.key});
+class MyPosts extends StatefulWidget {
+  const MyPosts({super.key});
 
   @override
-  State<MyCustomers> createState() => _MyCustomersState();
+  State<MyPosts> createState() => _MyPostsState();
 }
 
-class _MyCustomersState extends State<MyCustomers> {
+class _MyPostsState extends State<MyPosts> {
   @override
   Widget build(BuildContext context) {
     return Container(

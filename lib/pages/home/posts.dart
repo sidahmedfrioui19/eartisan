@@ -31,10 +31,11 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: Column(
         children: [
           Padding(
-              padding: EdgeInsets.only(left: 20, right: 18, top: 5),
+              padding: EdgeInsets.only(left: 20, right: 18, top: 5, bottom: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -55,14 +56,13 @@ class _PostsPageState extends State<PostsPage> {
             itemBuilder: (post) {
               return Post(
                 title: post.title,
-                description:
-                    "J'ai besoin d'un électricien quelques vérification et réparation et installation spots (sanitaires et balcon)",
-                username: "johndoe",
-                firstname: "John",
-                lastname: "Doe",
-                pictureUrl: "https://via.placeholder.com/150",
-                location: "Tlemcen, Tlemcen",
-                phoneNumber: "0660684077",
+                description: post.description,
+                username: post.username,
+                firstname: post.firstname,
+                lastname: post.lastname,
+                pictureUrl: post.profilePicture,
+                location: post.address,
+                phoneNumber: post.phoneNumber,
                 status: post.status,
               );
             },

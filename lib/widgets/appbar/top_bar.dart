@@ -13,6 +13,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8),
       child: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: Builder(

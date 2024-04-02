@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/user.dart';
 import 'package:profinder/models/user_update_request.dart';
 import 'package:profinder/pages/user/my_appointments.dart';
-import 'package:profinder/pages/user/my_customers.dart';
+import 'package:profinder/pages/user/my_posts.dart';
 import 'package:profinder/pages/user/my_services.dart';
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/services/user.dart';
@@ -179,13 +179,15 @@ class _UserPageState extends State<UserPage>
                     ],
                     labelPadding: EdgeInsets.symmetric(
                         horizontal: 16), // Adjust padding as needed
+                    labelStyle: TextStyle(
+                        fontSize: 12), // Adjust the font size as needed
                   ),
                   SizedBox(height: 20),
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        MyCustomers(),
+                        MyPosts(),
                         MyServices(),
                         MyAppointments(),
                       ],

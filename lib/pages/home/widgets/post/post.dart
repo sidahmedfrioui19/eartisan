@@ -6,15 +6,15 @@ import 'package:profinder/pages/home/widgets/post/post_toolbar.dart';
 import 'package:profinder/widgets/cards/user_card.dart';
 
 class Post extends StatelessWidget {
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final String username;
   final String firstname;
   final String lastname;
-  final String pictureUrl;
-  final String location;
-  final String phoneNumber;
-  final String status;
+  final String? pictureUrl;
+  final String? location;
+  final String? phoneNumber;
+  final String? status;
 
   const Post({
     Key? key,
@@ -58,9 +58,9 @@ class Post extends StatelessWidget {
               ],
             ),
             SizedBox(height: 12),
-            Text(title),
+            Text(title!),
             SizedBox(height: 10),
-            Text(description),
+            Text(description!),
             PostStatusBar(
               location: location,
               phoneNumber: phoneNumber,

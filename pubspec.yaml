@@ -45,6 +45,7 @@ dependencies:
   image_picker: ^1.0.7
   freestyle_speed_dial: any
   tuple: any
+  provider: any
 
 dev_dependencies:
   flutter_test:
