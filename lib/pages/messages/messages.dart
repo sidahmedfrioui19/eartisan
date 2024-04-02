@@ -1,11 +1,11 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/messages/conversation-tile.dart';
-import 'package:profinder/widgets/rounded_text_field.dart';
+import 'package:profinder/widgets/cards/conversation-tile.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 
-import '../widgets/layout/burger_menu.dart';
-import '../widgets/layout/top_bar.dart';
+import '../../widgets/navigation/burger_menu.dart';
+import '../../widgets/appbar/top_bar.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({super.key});

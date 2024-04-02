@@ -1,21 +1,18 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/filled_button.dart';
-import 'package:profinder/widgets/rounded_text_field.dart';
-import 'package:profinder/widgets/text_area.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:profinder/widgets/inputs/text_area.dart';
 
-class NewPost extends StatefulWidget {
-  const NewPost({super.key});
+class NewService extends StatefulWidget {
+  const NewService({super.key});
 
   @override
-  State<NewPost> createState() => _NewPostState();
+  State<NewService> createState() => _NewServiceState();
 }
 
-class _NewPostState extends State<NewPost> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-
+class _NewServiceState extends State<NewService> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,19 +24,19 @@ class _NewPostState extends State<NewPost> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Créer une demande",
+                  "Créer un service",
                   style: AppTheme.headingTextStyle,
                 )
               ],
             ),
           ),
           RoundedTextField(
-            controller: _titleController,
-            hintText: "Titre",
+            controller: TextEditingController(),
+            hintText: "Nom",
             icon: FluentIcons.text_header_1_lines_16_filled,
           ),
           RoundedTextArea(
-            controller: _descriptionController,
+            controller: TextEditingController(),
             hintText: "Description",
             icon: FluentIcons.text_paragraph_16_filled,
           ),

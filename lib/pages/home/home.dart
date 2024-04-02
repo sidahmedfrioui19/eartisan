@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/partials/home/posts.dart';
-import 'package:profinder/pages/partials/home/services.dart';
-import 'package:profinder/widgets/layout/home_page_selector.dart';
+import 'package:profinder/pages/home/posts.dart';
+import 'package:profinder/pages/home/services.dart';
+import 'package:profinder/pages/home/widgets/home_page_selector.dart';
 import 'package:profinder/utils/theme_data.dart';
-import '../widgets/layout/burger_menu.dart';
-import '../widgets/layout/top_bar.dart';
+import '../../widgets/navigation/burger_menu.dart';
+import '../../widgets/appbar/top_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

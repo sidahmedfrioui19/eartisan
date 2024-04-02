@@ -1,30 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:profinder/models/picture.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/post/post_statusbar.dart';
-import 'package:profinder/widgets/post/post_toolbar.dart';
-import 'package:profinder/widgets/user_card.dart';
+import 'package:profinder/pages/home/widgets/post/post_toolbar.dart';
+import 'package:profinder/widgets/cards/user_card.dart';
 
-class Post extends StatelessWidget {
+class PostService extends StatelessWidget {
   final String title;
   final String description;
   final String username;
   final String job;
-  final String pictureUrl;
-  final String location;
-  final String phoneNumber;
+  final String? pictureUrl;
   final bool available;
+  final List<Picture>? pictures;
 
-  const Post({
+  const PostService({
     Key? key,
     required this.title,
     required this.description,
     required this.username,
     required this.job,
     required this.pictureUrl,
-    required this.location,
-    required this.phoneNumber,
     required this.available,
+    this.pictures,
   }) : super(key: key);
 
   @override
@@ -35,8 +33,7 @@ class Post extends StatelessWidget {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(10), // Adjust the radius as needed
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [AppTheme.globalShadow],
         ),
         child: Column(
@@ -52,7 +49,7 @@ class Post extends StatelessWidget {
                   available: available,
                 ),
                 PostToolBar(
-                  icon1: FluentIcons.hand_wave_16_regular,
+                  icon1: FluentIcons.send_16_regular,
                   icon2: FluentIcons.bookmark_16_regular,
                 )
               ],
@@ -61,10 +58,26 @@ class Post extends StatelessWidget {
             Text(title),
             SizedBox(height: 10),
             Text(description),
-            PostStatusBar(
-              location: location,
-              phoneNumber: phoneNumber,
-            )
+            SizedBox(height: 10),
+            Text("Realisations"),
+            SizedBox(height: 10),
+            Wrap(
+              spacing: 10, // Adjust spacing as needed
+              runSpacing: 10, // Adjust run spacing as needed
+              children: pictures != null
+                  ? pictures!.take(3).map((picture) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          picture.link,
+                          width: 100, // Adjust image width as needed
+                          height: 100, // Adjust image height as needed
+                          fit: BoxFit.cover, // Adjust image fit as needed
+                        ),
+                      );
+                    }).toList()
+                  : [],
+            ),
           ],
         ),
       ),

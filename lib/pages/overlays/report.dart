@@ -2,12 +2,12 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/report.dart';
 import 'package:profinder/services/report.dart';
-import 'package:profinder/widgets/filled_button.dart';
-import 'package:profinder/widgets/rounded_text_field.dart';
-import 'package:profinder/widgets/text_area.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:profinder/widgets/inputs/text_area.dart';
 
 import '../../utils/theme_data.dart';
-import '../../widgets/layout/overlay_top_bar.dart';
+import '../../widgets/appbar/overlay_top_bar.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});

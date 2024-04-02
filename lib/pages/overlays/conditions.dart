@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/theme_data.dart';
-import '../../widgets/layout/overlay_top_bar.dart';
+import '../../widgets/appbar/overlay_top_bar.dart';
 
 class ConditionsOverlay extends StatefulWidget {
   const ConditionsOverlay({super.key});

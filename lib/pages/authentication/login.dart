@@ -1,13 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:profinder/pages/signup.dart';
+import 'package:profinder/pages/authentication/signup.dart';
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/filled_button.dart';
-import 'package:profinder/widgets/layout/overlay_top_bar.dart';
-import 'package:profinder/widgets/rounded_text_field.dart';
-import 'package:profinder/widgets/text_button.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:profinder/widgets/buttons/text_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

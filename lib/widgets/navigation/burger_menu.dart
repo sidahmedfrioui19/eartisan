@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:profinder/pages/login.dart';
+import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/overlays/conditions.dart';
 import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';

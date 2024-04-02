@@ -4,12 +4,12 @@ import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/category.dart';
-import 'package:profinder/widgets/layout/generic_horizontal_list.dart';
-import 'package:profinder/widgets/layout/generic_vertical_list.dart';
-import 'package:profinder/widgets/post/post_service.dart';
+import 'package:profinder/pages/home/widgets/category.dart';
+import 'package:profinder/widgets/lists/generic_horizontal_list.dart';
+import 'package:profinder/widgets/lists/generic_vertical_list.dart';
+import 'package:profinder/pages/home/widgets/post/service.dart';
 
-import '../../../models/service.dart';
+import '../../models/service.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({Key? key}) : super(key: key);
@@ -82,6 +82,7 @@ class _ServicesPageState extends State<ServicesPage> {
           VerticalList<ServiceEntity>(
             future: _servicesFuture,
             errorMessage: "Aucun service",
+            emptyText: "Aucun service",
             itemBuilder: (service) {
               return PostService(
                 title: service.title,

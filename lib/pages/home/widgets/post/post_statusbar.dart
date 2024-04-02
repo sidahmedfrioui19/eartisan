@@ -5,10 +5,13 @@ import 'package:profinder/utils/theme_data.dart';
 class PostStatusBar extends StatelessWidget {
   final String location;
   final String phoneNumber;
+  final String status;
+
   const PostStatusBar({
     super.key,
     required this.location,
     required this.phoneNumber,
+    required this.status,
   });
 
   @override
@@ -21,7 +24,9 @@ class PostStatusBar extends StatelessWidget {
           InfoIcon(icon: FluentIcons.location_12_filled, text: location),
           InfoIcon(icon: FluentIcons.phone_12_filled, text: phoneNumber),
           Icon(
-            FluentIcons.hourglass_16_regular,
+            status == 'active'
+                ? Icons.hourglass_empty
+                : FluentIcons.hourglass_16_regular,
             color: AppTheme.secondaryColor,
             size: 18,
           )

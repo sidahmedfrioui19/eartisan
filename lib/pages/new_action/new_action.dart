@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/partials/new_action/new_post.dart';
-import 'package:profinder/pages/partials/new_action/new_service.dart';
-import 'package:profinder/widgets/layout/overlay_top_bar.dart';
+import 'package:profinder/pages/new_action/new_post.dart';
+import 'package:profinder/pages/new_action/new_service.dart';
+import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../utils/theme_data.dart';

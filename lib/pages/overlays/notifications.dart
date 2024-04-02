@@ -1,9 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/widgets/messages/conversation-tile.dart';
+import 'package:profinder/widgets/cards/conversation-tile.dart';
 
 import '../../utils/theme_data.dart';
-import '../../widgets/layout/overlay_top_bar.dart';
+import '../../widgets/appbar/overlay_top_bar.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});

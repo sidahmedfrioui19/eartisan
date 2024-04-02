@@ -1,15 +1,15 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:profinder/pages/home.dart';
-import 'package:profinder/pages/login.dart';
-import 'package:profinder/pages/messages.dart';
-import 'package:profinder/pages/overlays/new_action.dart';
-import 'package:profinder/pages/search.dart';
-import 'package:profinder/pages/user.dart';
+import 'package:profinder/pages/home/home.dart';
+import 'package:profinder/pages/authentication/login.dart';
+import 'package:profinder/pages/messages/messages.dart';
+import 'package:profinder/pages/new_action/new_action.dart';
+import 'package:profinder/pages/search/search.dart';
+import 'package:profinder/pages/user/user.dart';
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/layout/action_button.dart';
+import 'package:profinder/widgets/buttons/action_button.dart';
 
 class MainNavBar extends StatefulWidget {
   @override
