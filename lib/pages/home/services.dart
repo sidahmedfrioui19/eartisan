@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/models/category.dart';
+import 'package:profinder/models/category/category.dart';
 import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/helpers.dart';
@@ -9,7 +9,7 @@ import 'package:profinder/widgets/lists/generic_horizontal_list.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 import 'package:profinder/pages/home/widgets/post/service.dart';
 
-import '../../models/service.dart';
+import '../../models/post/service.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({Key? key}) : super(key: key);

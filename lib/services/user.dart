@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:profinder/models/user.dart';
-import 'package:profinder/models/user_update_request.dart';
+import 'package:profinder/models/user/user.dart';
+import 'package:profinder/models/user/user_update_request.dart';
 import 'package:profinder/services/data.dart';
 
 class UserService {

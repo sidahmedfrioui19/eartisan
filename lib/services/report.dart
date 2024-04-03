@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:profinder/models/report.dart';
+import 'package:profinder/models/report/report.dart';
 import 'package:profinder/services/data.dart';
 
 class ReportService {

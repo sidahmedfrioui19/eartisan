@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/models/report.dart';
+import 'package:profinder/models/report/report.dart';
 import 'package:profinder/services/report.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';

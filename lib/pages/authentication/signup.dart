@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:profinder/models/user_creation_request.dart';
+import 'package:profinder/models/user/user_creation_request.dart';
 import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';

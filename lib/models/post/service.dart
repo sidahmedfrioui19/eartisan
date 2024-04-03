@@ -1,6 +1,6 @@
-import 'package:profinder/models/picture.dart';
-import 'package:profinder/models/price.dart';
-import 'package:profinder/models/user.dart';
+import 'package:profinder/models/post/picture.dart';
+import 'package:profinder/models/post/price.dart';
+import 'package:profinder/models/user/user.dart';
 
 class ServiceEntity {
   final int serviceId;

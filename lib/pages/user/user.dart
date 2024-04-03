@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:profinder/models/user.dart';
-import 'package:profinder/models/user_update_request.dart';
+import 'package:profinder/models/user/user.dart';
+import 'package:profinder/models/user/user_update_request.dart';
 import 'package:profinder/pages/user/my_appointments.dart';
 import 'package:profinder/pages/user/my_posts.dart';
 import 'package:profinder/pages/user/my_services.dart';

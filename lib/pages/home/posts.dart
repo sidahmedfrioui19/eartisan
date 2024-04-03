@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/models/post.dart';
+import 'package:profinder/models/post/post.dart';
 import 'package:profinder/services/post.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/pages/home/widgets/post/post.dart';

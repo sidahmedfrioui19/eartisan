@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:profinder/models/service.dart';
+import 'package:profinder/models/post/service.dart';
 import 'package:profinder/services/data.dart';
 
 class ProfessionalService {

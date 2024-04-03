@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:profinder/models/post.dart';
-import 'package:profinder/models/post_creation_request.dart';
+import 'package:profinder/models/post/post.dart';
+import 'package:profinder/models/post/post_creation_request.dart';
 import 'package:profinder/services/data.dart';
 
 class PostService {
