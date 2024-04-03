@@ -1,12 +1,12 @@
 import 'package:profinder/models/post/picture.dart';
 import 'package:profinder/models/post/price.dart';
-import 'package:profinder/models/user/user.dart';
+import 'package:profinder/models/user/user_post.dart';
 
 class ServiceEntity {
   final int serviceId;
   final String title;
   final String description;
-  final UserEntity user;
+  final UserPostEntity user;
   final List<Picture> pictures;
   final List<Price> prices;
 
@@ -24,7 +24,7 @@ class ServiceEntity {
       serviceId: json['service_id'],
       title: json['title'],
       description: json['description'],
-      user: UserEntity.fromJson(json['user']),
+      user: UserPostEntity.fromJson(json['user']),
       pictures: (json['pictures'] as List<dynamic>)
           .map((pictureJson) => Picture.fromJson(pictureJson))
           .toList(),

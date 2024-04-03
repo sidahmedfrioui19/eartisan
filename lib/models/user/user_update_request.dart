@@ -7,7 +7,7 @@ class UserUpdateEntity {
   String? tiktokLink;
   String? facebookLink;
   String? profilePicture;
-  bool? disponible;
+  int? available;
 
   UserUpdateEntity({
     this.firstname,
@@ -18,20 +18,20 @@ class UserUpdateEntity {
     this.tiktokLink,
     this.facebookLink,
     this.profilePicture,
-    this.disponible,
+    this.available,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'firstname': firstname,
       'lastname': lastname,
-      'address': address,
+      'adress': address,
       'phone_number': phoneNumber,
       'instagram_link': instagramLink,
       'tiktok_link': tiktokLink,
       'facebook_link': facebookLink,
       'profile_picture': profilePicture,
-      'disponible': disponible,
+      'disponible': available,
     };
   }
 
@@ -39,13 +39,13 @@ class UserUpdateEntity {
     return UserUpdateEntity(
       firstname: json['firstname'],
       lastname: json['lastname'],
-      address: json['address'],
+      address: json['adress'],
       phoneNumber: json['phone_number'],
       instagramLink: json['instagram_link'],
       tiktokLink: json['tiktok_link'],
       facebookLink: json['facebook_link'],
       profilePicture: json['profile_picture'],
-      disponible: json['disponible'],
+      available: json['disponible'],
     );
   }
 }

@@ -1,36 +1,57 @@
 class UserEntity {
   final String userId;
-  final String username;
   final String firstname;
   final String lastname;
+  final String email;
+  final String username;
+  final String role;
+  final int? categoryId;
   final String? address;
   final String? phoneNumber;
+  final String? instagramLink;
+  final String? tiktokLink;
+  final String? facebookLink;
   final String? profilePic;
+  final String? cv;
   final int? available;
   final int? verified;
 
   UserEntity({
     required this.userId,
-    required this.username,
     required this.firstname,
     required this.lastname,
-    this.address,
-    this.phoneNumber,
-    this.profilePic,
-    this.available,
-    this.verified,
+    required this.username,
+    required this.email,
+    required this.role,
+    required this.categoryId,
+    required this.address,
+    required this.phoneNumber,
+    required this.instagramLink,
+    required this.tiktokLink,
+    required this.facebookLink,
+    required this.profilePic,
+    required this.cv,
+    required this.available,
+    required this.verified,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity(
       userId: json['user_id'],
-      username: json['username'],
       firstname: json['firstname'],
       lastname: json['lastname'],
-      address: json['address'],
+      email: json['email'],
+      username: json['username'],
+      role: json['role'],
+      categoryId: json['category_id'],
+      address: json['adress'],
       phoneNumber: json['phone_number'],
+      instagramLink: json['instagram_link'],
+      tiktokLink: json['tiktok_link'],
+      facebookLink: json['facebook_link'],
       profilePic: json['profile_picture'],
-      available: json['available'],
+      cv: json['cv'],
+      available: json['disponible'],
       verified: json['verifier'],
     );
   }
@@ -38,14 +59,21 @@ class UserEntity {
   Map<String, dynamic> toJson() {
     return {
       'user_id': userId,
-      'username': username,
       'firstname': firstname,
       'lastname': lastname,
-      'address': address,
+      'email': email,
+      'username': username,
+      'role': role,
+      'category_id': categoryId,
+      'adress': address,
       'phone_number': phoneNumber,
-      'profile_pic': profilePic,
-      'available': available,
-      'verified': verified,
+      'instagram_link': instagramLink,
+      'tiktok_link': tiktokLink,
+      'facebook_link': facebookLink,
+      'profile_picture': profilePic,
+      'cv': cv,
+      'disponible': available,
+      'verifier': verified,
     };
   }
 }

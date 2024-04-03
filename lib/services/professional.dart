@@ -13,7 +13,7 @@ class ProfessionalService {
     return _genericService.fetch((json) => ServiceEntity.fromJson(json));
   }
 
-  Future<ServiceEntity> post(ServiceEntity entity) async {
+  Future<Map<String, bool>> post(ServiceEntity entity) async {
     final String body = jsonEncode(entity.toJson());
     return _genericService.post(body);
   }

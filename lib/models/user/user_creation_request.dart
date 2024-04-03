@@ -25,7 +25,7 @@ class UserCreationRequest {
       role: json['role'],
       email: json['email'],
       password: json['password'],
-      address: json['address'],
+      address: json['adress'],
     );
   }
 
@@ -37,7 +37,7 @@ class UserCreationRequest {
       'role': role,
       'email': email,
       'password': password,
-      'address': address,
+      'adress': address,
     };
   }
 }

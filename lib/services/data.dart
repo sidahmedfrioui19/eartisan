@@ -11,7 +11,14 @@ class GenericDataService<T> {
   GenericDataService(this.serviceEntityName, this.endpoints);
 
   Future<List<T>> fetch(T Function(Map<String, dynamic>) fromJson) async {
-    final response = await http.get(Uri.parse(_urlBuilder('get')));
+    final String? jwtToken = await AuthenticationService.getJwtToken();
+    final response = await http.get(
+      Uri.parse(_urlBuilder('get')),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+        'Content-Type': 'application/json',
+      },
+    );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       print(parsed);
@@ -24,7 +31,7 @@ class GenericDataService<T> {
     }
   }
 
-  Future<T> post(String body) async {
+  Future<Map<String, bool>> post(String body) async {
     final String? jwtToken = await AuthenticationService.getJwtToken();
     final response = await http.post(
       Uri.parse(_urlBuilder('post')),
@@ -39,14 +46,13 @@ class GenericDataService<T> {
 
     print(response.statusCode);
     if (response.statusCode == 200) {
-      final parsed = jsonDecode(response.body);
-      return parsed;
+      return {'success': true};
     } else {
       throw Exception('Failed to post data');
     }
   }
 
-  Future<T> patch(String body) async {
+  Future<Map<String, bool>> patch(String body) async {
     final String? jwtToken = await AuthenticationService.getJwtToken();
     final response = await http.patch(
       Uri.parse(_urlBuilder('patch')),
@@ -59,8 +65,7 @@ class GenericDataService<T> {
       body: body,
     );
     if (response.statusCode == 200) {
-      final parsed = jsonDecode(response.body);
-      return parsed;
+      return {'success': true};
     } else {
       throw Exception('Failed to patch data');
     }

@@ -25,7 +25,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
   late Future<UserEntity> _userFuture;
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController = TabController(length: 4, vsync: this);
 
   final AuthenticationService auth = AuthenticationService();
 
@@ -33,12 +33,12 @@ class _UserPageState extends State<UserPage>
   void initState() {
     super.initState();
     _userFuture = _loadUser();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose(); // Dispose the tab controller
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -47,9 +47,8 @@ class _UserPageState extends State<UserPage>
       final UserEntity user = await auth.fetchUserData();
       return user;
     } catch (error) {
-      // Handle the error here
       print('Error loading user data: $error');
-      throw error; // Rethrow the error to propagate it to the UI
+      throw error;
     }
   }
 
@@ -128,7 +127,7 @@ class _UserPageState extends State<UserPage>
                         backgroundImage: Image.network(
                           user.profilePic ??
                               'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
-                          fit: BoxFit.cover, // Adjust this as needed
+                          fit: BoxFit.cover,
                         ).image,
                       ),
                       GestureDetector(
@@ -173,14 +172,13 @@ class _UserPageState extends State<UserPage>
                     unselectedLabelColor: Colors.black,
                     controller: _tabController,
                     tabs: [
-                      Tab(text: 'Mes Clients'),
+                      Tab(text: 'Mes Demandes'),
                       Tab(text: 'Mes Services'),
+                      Tab(text: 'Mes Clients'),
                       Tab(text: 'Rendez-vous'),
                     ],
-                    labelPadding: EdgeInsets.symmetric(
-                        horizontal: 16), // Adjust padding as needed
-                    labelStyle: TextStyle(
-                        fontSize: 12), // Adjust the font size as needed
+                    labelPadding: EdgeInsets.symmetric(horizontal: 0),
+                    labelStyle: TextStyle(fontSize: 12),
                   ),
                   SizedBox(height: 20),
                   Expanded(
@@ -189,6 +187,7 @@ class _UserPageState extends State<UserPage>
                       children: [
                         MyPosts(),
                         MyServices(),
+                        MyAppointments(),
                         MyAppointments(),
                       ],
                     ),

@@ -15,12 +15,7 @@ class UserService {
     return _genericService.fetch((json) => UserEntity.fromJson(json));
   }
 
-  Future<UserEntity> post(UserEntity entity) async {
-    final String body = jsonEncode(entity.toJson());
-    return _genericService.post(body);
-  }
-
-  Future<UserEntity> patch(UserUpdateEntity update) async {
+  Future<Map<String, bool>> patch(UserUpdateEntity update) async {
     final String body = jsonEncode(update.toJson());
     return _genericService.patch(body);
   }

@@ -71,7 +71,7 @@ class _ReportState extends State<Report> {
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Erreur'), // Confirmation message
+                      content: Text('Erreur $e'), // Confirmation message
                       duration:
                           Duration(seconds: 2), // Adjust the duration as needed
                     ),

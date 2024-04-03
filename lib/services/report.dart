@@ -8,7 +8,7 @@ class ReportService {
     'post': 'create',
   });
 
-  Future<ReportEntity> post(ReportEntity entity) async {
+  Future<Map<String, bool>> post(ReportEntity entity) async {
     final String body = jsonEncode(entity.toJson());
     return _genericService.post(body);
   }
