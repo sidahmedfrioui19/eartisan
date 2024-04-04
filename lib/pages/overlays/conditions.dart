@@ -15,9 +15,10 @@ class _ConditionsOverlayState extends State<ConditionsOverlay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
-        appBar: OverlayTopBar(
-            title: "Conditions d'utilisation",
-            dismissIcon: FluentIcons.chevron_left_12_filled));
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: OverlayTopBar(
+          title: "Conditions d'utilisation",
+          dismissIcon: FluentIcons.chevron_left_12_filled),
+    );
   }
 }

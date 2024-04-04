@@ -38,15 +38,6 @@ class _MessagesPageState extends State<MessagesPage> {
           unreadCount: 3,
           onPressed: () => {},
         ),
-        ConversationTile(
-          pictureUrl: "https://via.placeholder.com/150",
-          username: "sidahmed",
-          onlineStatus: true,
-          latestMessage: "message",
-          sentTime: "15 MIN",
-          unreadCount: 3,
-          onPressed: () => {},
-        ),
       ]),
     );
   }

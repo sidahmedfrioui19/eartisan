@@ -78,7 +78,7 @@ class _MyPostsState extends State<MyPosts> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: AppTheme.primaryColor, // Used secondary color
+                      color: AppTheme.primaryColor,
                     ),
                   ),
                   SizedBox(height: 8),
@@ -86,7 +86,7 @@ class _MyPostsState extends State<MyPosts> {
                     post.description,
                     style: TextStyle(
                       fontSize: 16,
-                      color: AppTheme.primaryColor, // Used secondary color
+                      color: AppTheme.primaryColor,
                     ),
                   ),
                 ],
@@ -109,16 +109,12 @@ class _MyPostsState extends State<MyPosts> {
                 IconButton(
                   icon: Icon(Icons.check_circle_outline),
                   color: Colors.green,
-                  onPressed: () {
-                    // Implement checking functionality here
-                  },
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(Icons.edit),
                   color: Colors.blue,
-                  onPressed: () {
-                    // Implement editing functionality here
-                  },
+                  onPressed: () {},
                 ),
               ],
             ),
