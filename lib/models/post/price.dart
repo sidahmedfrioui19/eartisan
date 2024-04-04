@@ -25,7 +25,6 @@ class Price {
       'price_id': priceId,
       'value': value,
       'description': description,
-      'rate': rate,
     };
   }
 }

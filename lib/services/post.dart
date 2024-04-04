@@ -24,6 +24,10 @@ class PostService {
     return _genericServiceUser.fetch((json) => OwnPostEntity.fromJson(json));
   }
 
+  /*Future<Map<String, bool>> edit(PostUpdateRequest entity) async {
+    return _genericServiceUser.patch((json) => PostUpdateRequest.fromJson(json));
+  }*/
+
   Future<Map<String, bool>> post(PostCreationRequest entity) async {
     final String body = jsonEncode(entity.toJson());
     return _genericService.post(body);
