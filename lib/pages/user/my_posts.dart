@@ -77,7 +77,7 @@ class _MyPostsState extends State<MyPosts> {
                     post.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 14,
                       color: AppTheme.primaryColor,
                     ),
                   ),
@@ -85,7 +85,7 @@ class _MyPostsState extends State<MyPosts> {
                   Text(
                     post.description,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 12,
                       color: AppTheme.primaryColor,
                     ),
                   ),

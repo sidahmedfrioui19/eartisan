@@ -199,7 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Veuillez vérifier vos coordonnées',
+                                      '$e Veuillez vérifier vos coordonnées',
                                     ),
                                     duration: Duration(seconds: 2),
                                   ),

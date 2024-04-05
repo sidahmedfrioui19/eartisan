@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    'Email ou mot de passe incorrect'), // Confirmation message
+                                    '$e Email ou mot de passe incorrect'), // Confirmation message
                                 duration: Duration(
                                     seconds:
                                         2), // Adjust the duration as needed

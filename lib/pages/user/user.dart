@@ -65,6 +65,7 @@ class _UserPageState extends State<UserPage>
 
       showDialog(
         context: context,
+        barrierDismissible: false, // Prevent dialog dismissal
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Changement d'image..."),
@@ -72,29 +73,44 @@ class _UserPageState extends State<UserPage>
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(),
+                SizedBox(height: 10),
+                StreamBuilder<TaskSnapshot>(
+                  stream: uploadTask.snapshotEvents,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      double progress = snapshot.data!.bytesTransferred /
+                          snapshot.data!.totalBytes;
+                      return LinearProgressIndicator(value: progress);
+                    } else {
+                      return SizedBox(); // Placeholder
+                    }
+                  },
+                ),
               ],
             ),
           );
         },
       );
 
-      TaskSnapshot snapshot = await uploadTask;
-
-      String downloadURL = await snapshot.ref.getDownloadURL();
-
       try {
+        TaskSnapshot snapshot = await uploadTask;
+        String downloadURL = await snapshot.ref.getDownloadURL();
+
         UserUpdateEntity updatedData =
             UserUpdateEntity(profilePicture: downloadURL);
         await UserService().patch(updatedData);
 
         print('Profile picture URL updated: $downloadURL');
+
+        Navigator.of(context).pop(); // Dismiss dialog
       } catch (error) {
-        print('Error updating profile picture: $error');
+        print('Error uploading image: $error');
+        Navigator.of(context).pop(); // Dismiss dialog
+        // Optionally show an error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error uploading image: $error')),
+        );
       }
-
-      Navigator.of(context).pop();
-
-      print('Uploaded image download URL: $downloadURL');
     }
   }
 
