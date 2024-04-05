@@ -14,7 +14,7 @@ class Price {
   factory Price.fromJson(Map<String, dynamic> json) {
     return Price(
       priceId: json['price_id'],
-      value: json['value'],
+      value: json['value'], // Parse value as an integer
       description: json['description'],
       rate: json['rate'],
     );

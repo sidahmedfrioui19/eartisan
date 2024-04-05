@@ -26,7 +26,7 @@ class Category extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: Image.network(
-                    iconUrl,
+                    'https://cdn-icons-png.flaticon.com/512/2603/2603910.png',
                     fit: BoxFit.cover,
                     width: 60,
                     height: 60,

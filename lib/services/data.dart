@@ -21,7 +21,6 @@ class GenericDataService<T> {
     );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
-      print(parsed);
       final List<T> items = (parsed['data'] as List<dynamic>).map((itemJson) {
         return fromJson(itemJson);
       }).toList();

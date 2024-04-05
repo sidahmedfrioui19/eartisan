@@ -1,5 +1,5 @@
 class SubCategoryEntity {
-  final String subCategoryId;
+  final int subCategoryId;
   final String subCategoryName;
   final String subCategoryPicture;
   final int categoryId;
@@ -18,5 +18,14 @@ class SubCategoryEntity {
       subCategoryPicture: json['subCategory_picture'],
       categoryId: json['category_id'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'subCategory_id': subCategoryId,
+      'subCategory_name': subCategoryName,
+      'subCategory_picture': subCategoryPicture,
+      'category_id': categoryId,
+    };
   }
 }

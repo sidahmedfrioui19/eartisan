@@ -1,9 +1,9 @@
 class Picture {
-  final int pictureId;
+  final int? pictureId;
   final String link;
 
   Picture({
-    required this.pictureId,
+    this.pictureId,
     required this.link,
   });
 
@@ -15,9 +15,14 @@ class Picture {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'picture_id': pictureId,
+    Map<String, dynamic> map = {
       'link': link,
     };
+
+    if (pictureId != null) {
+      map['picture_id'] = pictureId;
+    }
+
+    return map;
   }
 }

@@ -63,7 +63,7 @@ class _NewActionState extends State<NewAction> {
                     children: const <Widget>[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text("Demandes"),
+                        child: Text("Demande"),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),

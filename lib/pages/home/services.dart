@@ -85,16 +85,19 @@ class _ServicesPageState extends State<ServicesPage> {
             emptyText: "Aucun service",
             itemBuilder: (service) {
               return PostService(
-                title: service.title,
-                description: service.description,
+                title: service.title ?? '',
+                description: service.description ?? '',
                 username: '${service.user.firstname} ${service.user.lastname}',
-                job: service.title,
+                job: service.title ?? '',
                 pictureUrl: service.user.profilePic,
                 available: Helpers.boolVal(service.user.available),
                 pictures: service.pictures,
               );
             },
           ),
+          SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

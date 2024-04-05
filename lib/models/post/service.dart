@@ -3,9 +3,9 @@ import 'package:profinder/models/post/price.dart';
 import 'package:profinder/models/user/user_post.dart';
 
 class ServiceEntity {
-  final int serviceId;
-  final String title;
-  final String description;
+  final int? serviceId;
+  final String? title;
+  final String? description;
   final UserPostEntity user;
   final List<Picture> pictures;
   final List<Price> prices;
