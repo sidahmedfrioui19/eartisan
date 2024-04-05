@@ -42,7 +42,11 @@ class _MyPostsState extends State<MyPosts> {
           future: _posts,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppTheme.primaryColor,
+                ),
+              );
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
@@ -92,7 +96,7 @@ class _MyPostsState extends State<MyPosts> {
                 ],
               ),
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 5),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -104,6 +108,7 @@ class _MyPostsState extends State<MyPosts> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+            SizedBox(width: 8),
             Row(
               children: [
                 IconButton(

@@ -15,6 +15,8 @@ import 'package:profinder/widgets/appbar/top_bar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
+import 'package:profinder/widgets/progress/loader.dart';
+
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
 
@@ -65,14 +67,16 @@ class _UserPageState extends State<UserPage>
 
       showDialog(
         context: context,
-        barrierDismissible: false, // Prevent dialog dismissal
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Changement d'image..."),
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            title:
+                Text("Changement d'image...", style: TextStyle(fontSize: 15)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
                 SizedBox(height: 10),
                 StreamBuilder<TaskSnapshot>(
                   stream: uploadTask.snapshotEvents,
@@ -80,7 +84,10 @@ class _UserPageState extends State<UserPage>
                     if (snapshot.hasData) {
                       double progress = snapshot.data!.bytesTransferred /
                           snapshot.data!.totalBytes;
-                      return LinearProgressIndicator(value: progress);
+                      return LinearProgressIndicator(
+                        value: progress,
+                        color: AppTheme.primaryColor,
+                      );
                     } else {
                       return SizedBox(); // Placeholder
                     }
@@ -126,7 +133,7 @@ class _UserPageState extends State<UserPage>
         future: _userFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return AppLoading();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
@@ -153,7 +160,7 @@ class _UserPageState extends State<UserPage>
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: AppTheme.primaryColor,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(

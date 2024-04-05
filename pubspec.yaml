@@ -46,6 +46,7 @@ dependencies:
   freestyle_speed_dial: any
   tuple: any
   provider: any
+  flutter_launcher_icons: any
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
       - .env
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

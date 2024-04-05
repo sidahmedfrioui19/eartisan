@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/widgets/progress/loader.dart';
 
 class VerticalList<T> extends StatelessWidget {
   final Future<List<T>> future;
@@ -21,7 +22,7 @@ class VerticalList<T> extends StatelessWidget {
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return AppLoading();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
