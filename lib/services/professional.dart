@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:profinder/models/post/service.dart';
 import 'package:profinder/models/post/service_creation_request.dart';
 import 'package:http/http.dart' as http;
+import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/services/data.dart';
 import 'package:profinder/utils/constants.dart';
 
@@ -23,15 +24,20 @@ class ProfessionalService {
     return _genericService.post(body);
   }
 
-  Future<ServiceEntity> fetchService(
-      ServiceEntity Function(Map<String, dynamic> json) fromJson,
+  Future<ServiceDetailEntity> fetchService(
+      ServiceDetailEntity Function(
+        Map<String, dynamic> json,
+      ) fromJson,
       int? id) async {
     final response =
         await http.get(Uri.parse('$url/service/getoneservice/$id'));
 
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
-      final serviceEntity = fromJson(parsed['data']);
+      final jsonData = parsed['data']; // Access the 'data' field
+      print(jsonData);
+
+      final serviceEntity = fromJson(jsonData);
       return serviceEntity;
     } else {
       throw Exception('Failed to load service');

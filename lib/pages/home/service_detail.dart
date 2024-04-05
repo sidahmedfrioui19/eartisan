@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/models/post/service.dart';
+import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -18,7 +18,7 @@ class ServiceDetail extends StatefulWidget {
 }
 
 class _ServiceDetailState extends State<ServiceDetail> {
-  late Future<ServiceEntity> _serviceFuture;
+  late Future<ServiceDetailEntity> _serviceFuture;
   ProfessionalService service = ProfessionalService();
 
   @override
@@ -29,7 +29,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
 
   Future<void> _loadService(int? id) async {
     _serviceFuture =
-        service.fetchService((json) => ServiceEntity.fromJson(json), id);
+        service.fetchService((json) => ServiceDetailEntity.fromJson(json), id);
   }
 
   @override
@@ -44,7 +44,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
           onPressed: () {},
         ),
       ),
-      body: FutureBuilder<ServiceEntity>(
+      body: FutureBuilder<ServiceDetailEntity>(
         future: _serviceFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,7 +53,6 @@ class _ServiceDetailState extends State<ServiceDetail> {
             return Text('Error: ${snapshot.error}');
           } else {
             final service = snapshot.data!;
-            print('service $service');
             return SingleChildScrollView(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -61,22 +60,22 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   CircleAvatar(
                     radius: 80,
                     backgroundImage: NetworkImage(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
+                      service.user.profilePicture,
                     ),
                   ),
                   SizedBox(height: 12),
                   Text(
-                    service.user.firstname!,
+                    service.user.firstname,
                     style: AppTheme.headingTextStyle,
                   ),
                   Text(
-                    service.title!,
+                    service.title,
                     style: AppTheme.elementTitle,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     child: Text(
-                      service.description ?? '',
+                      service.description,
                       style: AppTheme.bodyTextStyle,
                     ),
                   ),
@@ -95,9 +94,9 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   // Display prices
                   ...service.prices.map((price) {
                     return PriceCard(
-                      description: price.description!,
+                      description: price.description,
                       value: price.value.toString(),
-                      rate: price.rate!,
+                      rate: price.rate,
                     );
                   }).toList(),
                 ],
