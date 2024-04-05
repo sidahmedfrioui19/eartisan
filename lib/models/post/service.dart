@@ -19,18 +19,25 @@ class ServiceEntity {
     required this.prices,
   });
 
-  factory ServiceEntity.fromJson(Map<String, dynamic> json) {
+  factory ServiceEntity.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      // If the json is null, return a default ServiceEntity object or throw an error
+      throw Exception('Failed to parse ServiceEntity from null JSON');
+    }
+
     return ServiceEntity(
       serviceId: json['service_id'],
       title: json['title'],
       description: json['description'],
-      user: UserPostEntity.fromJson(json['user']),
-      pictures: (json['pictures'] as List<dynamic>)
-          .map((pictureJson) => Picture.fromJson(pictureJson))
-          .toList(),
-      prices: (json['prices'] as List<dynamic>)
-          .map((priceJson) => Price.fromJson(priceJson))
-          .toList(),
+      user: UserPostEntity.fromJson(json['user'] ?? {}),
+      pictures: (json['pictures'] as List<dynamic>?)
+              ?.map((pictureJson) => Picture.fromJson(pictureJson))
+              .toList() ??
+          [],
+      prices: (json['prices'] as List<dynamic>?)
+              ?.map((priceJson) => Price.fromJson(priceJson))
+              .toList() ??
+          [],
     );
   }
 

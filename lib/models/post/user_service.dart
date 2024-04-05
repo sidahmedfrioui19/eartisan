@@ -32,11 +32,11 @@ class ServiceDataEntity {
 }
 
 class User {
-  final String userId;
-  final String firstName;
-  final String lastName;
-  final String address;
-  final String phoneNumber;
+  final String? userId;
+  final String? firstName;
+  final String? lastName;
+  final String? address;
+  final String? phoneNumber;
 
   User({
     required this.userId,
@@ -58,8 +58,8 @@ class User {
 }
 
 class Picture {
-  final int pictureId;
-  final String link;
+  final int? pictureId;
+  final String? link;
 
   Picture({
     required this.pictureId,
@@ -75,9 +75,9 @@ class Picture {
 }
 
 class Price {
-  final int priceId;
-  final double value;
-  final String description;
+  final int? priceId;
+  final double? value;
+  final String? description;
 
   Price({
     required this.priceId,

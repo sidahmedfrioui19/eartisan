@@ -7,6 +7,7 @@ class OverlayTopBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData dismissIcon;
   final Color? color;
   final Color? buttonsColor;
+  final Widget? action;
 
   const OverlayTopBar({
     Key? key,
@@ -14,6 +15,7 @@ class OverlayTopBar extends StatelessWidget implements PreferredSizeWidget {
     required this.dismissIcon,
     this.color,
     this.buttonsColor,
+    this.action,
   }) : super(key: key);
 
   @override
@@ -21,21 +23,23 @@ class OverlayTopBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: EdgeInsets.only(top: 0),
       child: AppBar(
-          backgroundColor: color ?? Colors.white,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              dismissIcon,
-              color: buttonsColor ?? appThemeData.primaryColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        backgroundColor: color ?? Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            dismissIcon,
+            color: buttonsColor ?? appThemeData.primaryColor,
           ),
-          title: Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [action ?? Container()],
+      ),
     );
   }
 

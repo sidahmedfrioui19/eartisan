@@ -1,8 +1,8 @@
 class Price {
-  final int priceId;
-  final String value;
-  final String description;
-  final String rate;
+  final int? priceId;
+  final String? value;
+  final String? description;
+  final String? rate;
 
   Price({
     required this.priceId,

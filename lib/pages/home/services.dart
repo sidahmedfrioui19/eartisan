@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/category/category.dart';
+import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/helpers.dart';
@@ -85,14 +86,23 @@ class _ServicesPageState extends State<ServicesPage> {
             emptyText: "Aucun service",
             itemBuilder: (service) {
               return PostService(
-                title: service.title ?? '',
-                description: service.description ?? '',
-                username: '${service.user.firstname} ${service.user.lastname}',
-                job: service.title ?? '',
-                pictureUrl: service.user.profilePic,
-                available: Helpers.boolVal(service.user.available),
-                pictures: service.pictures,
-              );
+                  title: service.title ?? '',
+                  description: service.description ?? '',
+                  username:
+                      '${service.user.firstname} ${service.user.lastname}',
+                  job: service.title ?? '',
+                  pictureUrl: service.user.profilePic,
+                  available: Helpers.boolVal(service.user.available),
+                  pictures: service.pictures,
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServiceDetail(
+                                serviceId: service.serviceId,
+                              )),
+                    );
+                  });
             },
           ),
           SizedBox(

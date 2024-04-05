@@ -1,8 +1,7 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/post.dart';
 import 'package:profinder/services/post.dart';
-import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/post/post.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
@@ -31,24 +30,21 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
       child: Column(
         children: [
-          Padding(
-              padding: EdgeInsets.only(left: 20, right: 18, top: 5, bottom: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FilledAppButton(
-                      icon: FluentIcons.location_12_filled,
-                      text: "Mon localisation",
-                      onPressed: () => {}),
-                  FilledAppButton(
-                      icon: FluentIcons.clock_12_filled,
-                      text: "Plus récent",
-                      onPressed: () => {}),
-                ],
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 18),
+                child: Text(
+                  'Demandes récentes',
+                  style: AppTheme.elementTitle,
+                ),
+              )
+            ],
+          ),
           VerticalList<PostEntity>(
             future: _posts,
             errorMessage: "Aucun service",

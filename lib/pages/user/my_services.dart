@@ -30,11 +30,9 @@ class _MyServicesState extends State<MyServices> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.all(5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             FutureBuilder<List<ServiceDataEntity>>(
               future: _services,
               builder: (context, snapshot) {
@@ -62,20 +60,40 @@ class _MyServicesState extends State<MyServices> {
   Widget _buildServiceCard(ServiceDataEntity service) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
-      elevation: 2,
+      elevation: 0.8,
       color: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              service.title!,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: AppTheme.primaryColor,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  service.title!,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppTheme.primaryColor,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      color: Colors.blue,
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () {},
+                    ),
+                  ],
+                )
+              ],
             ),
             SizedBox(height: 8),
             Text(
@@ -86,24 +104,6 @@ class _MyServicesState extends State<MyServices> {
               ),
             ),
             SizedBox(height: 8),
-            Row(
-              children: [
-                Text(
-                  '',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryColor,
-                  ),
-                ),
-                SizedBox(width: 8),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  color: Colors.blue,
-                  onPressed: () {},
-                ),
-              ],
-            ),
           ],
         ),
       ),
