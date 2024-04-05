@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:profinder/models/post/user_post.dart';
 import 'package:profinder/services/post.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/progress/loader.dart';
 
 class MyPosts extends StatefulWidget {
   const MyPosts({Key? key});
@@ -42,11 +43,7 @@ class _MyPostsState extends State<MyPosts> {
           future: _posts,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppTheme.primaryColor,
-                ),
-              );
+              return AppLoading();
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
