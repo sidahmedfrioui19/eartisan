@@ -1,5 +1,5 @@
 import 'package:profinder/models/category/category.dart';
-import 'package:profinder/models/subcategory.dart/subcategory.dart';
+import 'package:profinder/models/subcategory/subcategory.dart';
 import 'package:profinder/services/data.dart';
 
 class CategoryService {

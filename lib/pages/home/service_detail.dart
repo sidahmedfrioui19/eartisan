@@ -1,6 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/service_detail.dart';
+import 'package:profinder/pages/home/widgets/heading_title.dart';
+import 'package:profinder/pages/home/widgets/picture_list.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -9,9 +11,9 @@ import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 class ServiceDetail extends StatefulWidget {
   final int? serviceId;
   const ServiceDetail({
-    super.key,
+    Key? key,
     required this.serviceId,
-  });
+  }) : super(key: key);
 
   @override
   State<ServiceDetail> createState() => _ServiceDetailState();
@@ -48,7 +50,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
         future: _serviceFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -60,45 +62,44 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   CircleAvatar(
                     radius: 80,
                     backgroundImage: NetworkImage(
-                      service.user.profilePicture,
+                      service.user.profilePicture!,
                     ),
                   ),
                   SizedBox(height: 12),
                   Text(
-                    service.user.firstname,
+                    service.user.firstname!,
                     style: AppTheme.headingTextStyle,
                   ),
                   Text(
-                    service.title,
+                    service.title!,
                     style: AppTheme.elementTitle,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     child: Text(
-                      service.description,
+                      service.description!,
                       style: AppTheme.bodyTextStyle,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Prix',
-                          style: AppTheme.elementTitle,
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Display prices
+                  HeadingTitle(text: 'Prix'),
                   ...service.prices.map((price) {
                     return PriceCard(
-                      description: price.description,
+                      description: price.description!,
                       value: price.value.toString(),
-                      rate: price.rate,
+                      rate: price.rate!,
                     );
                   }).toList(),
+                  FutureBuilder<ServiceDetailEntity>(
+                    future: _serviceFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return PictureList(pictures: snapshot.data!.pictures);
+                      }
+                    },
+                  ),
+                  HeadingTitle(text: 'Réalistations'),
                 ],
               ),
             );

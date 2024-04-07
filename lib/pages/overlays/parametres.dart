@@ -45,7 +45,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       final UserEntity user = await auth.fetchUserData();
       new_availability = Helpers.boolVal(user.available);
 
-      // Initialize controllers with user data
       _lastNameController = TextEditingController(text: user.lastname);
       _firstNameController = TextEditingController(text: user.firstname);
       _addressController = TextEditingController(text: user.address);
@@ -56,9 +55,8 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
 
       return user;
     } catch (error) {
-      // Handle the error here
       print('Error loading user data: $error');
-      throw error; // Rethrow the error to propagate it to the UI
+      throw error;
     }
   }
 
@@ -80,17 +78,16 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              Text('Nouveaux paramétres enregistrées'), // Confirmation message
-          duration: Duration(seconds: 2), // Adjust the duration as needed
+          content: Text('Nouveaux paramétres enregistrées'),
+          duration: Duration(seconds: 2),
         ),
       );
     } catch (error) {
       print(error);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur $error'), // Confirmation message
-          duration: Duration(seconds: 2), // Adjust the duration as needed
+          content: Text('Erreur $error'),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -117,7 +114,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Display user details based on fetched data
                     Container(
                       margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
                       child: Text("Détails"),
@@ -139,7 +135,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                       hintText: "Localisation",
                       icon: FluentIcons.location_12_filled,
                     ),
-                    // Display user contact details based on fetched data
                     Container(
                       margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
                       child: Text("Contact"),
@@ -164,7 +159,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                       hintText: "Phone",
                       icon: FluentIcons.phone_12_filled,
                     ),
-                    // Display user availability based on fetched data
                     Container(
                       margin: EdgeInsets.only(
                           left: 20, right: 20, bottom: 5, top: 10),
@@ -185,7 +179,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                         ],
                       ),
                     ),
-                    // Button to save changes
                     Container(
                       width: double.infinity,
                       margin:

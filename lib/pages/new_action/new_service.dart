@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/post/picture.dart';
 import 'package:profinder/models/post/price_creation_request.dart';
 import 'package:profinder/models/post/service_creation_request.dart';
-import 'package:profinder/models/subcategory.dart/subcategory.dart';
+import 'package:profinder/models/subcategory/subcategory.dart';
 import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
