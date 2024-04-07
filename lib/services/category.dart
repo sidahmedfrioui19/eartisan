@@ -1,6 +1,7 @@
 import 'package:profinder/models/category/category.dart';
 import 'package:profinder/models/subcategory/subcategory.dart';
 import 'package:profinder/services/data.dart';
+import 'package:profinder/utils/error_handler/exceptions/data_exception.dart';
 
 class CategoryService {
   final GenericDataService<CategoryEntity> _genericService =
@@ -8,23 +9,16 @@ class CategoryService {
     'get': 'view',
   });
 
-  final String path = 'category';
-
   Future<List<CategoryEntity>> fetch() async {
     return _genericService.fetch((json) => CategoryEntity.fromJson(json));
   }
 
   Future<List<SubCategoryEntity>> fetchSubcategories(int categoryId) async {
-    // Fetch all categories
     List<CategoryEntity> categories = await fetch();
-
-    // Find the category with the provided categoryId
     CategoryEntity category = categories.firstWhere(
       (category) => category.id == categoryId,
-      orElse: () => throw Exception('Category not found'),
+      orElse: () => throw DataException('Category not found'),
     );
-
-    // Return subcategories of the found category
     return List<SubCategoryEntity>.from(category.subcategories);
   }
 }

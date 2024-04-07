@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/constants.dart';
+import 'package:profinder/utils/error_handler/business_error_handler.dart';
+import 'package:profinder/utils/error_handler/error_payload.dart';
 
 class GenericDataService<T> {
   final url = Constants.apiUrl;
@@ -26,7 +28,10 @@ class GenericDataService<T> {
       }).toList();
       return items;
     } else {
-      throw Exception('Failed to load data');
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
     }
   }
 
@@ -36,18 +41,17 @@ class GenericDataService<T> {
       Uri.parse(_urlBuilder('post')),
       headers: {
         'Authorization': 'Bearer $jwtToken',
-        'Content-Type':
-            'application/json', // Example of adding a Content-Type header
-        // Add more headers as needed
+        'Content-Type': 'application/json',
       },
       body: body,
     );
-
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return {'success': true};
     } else {
-      throw Exception('Failed to post data');
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
     }
   }
 
@@ -57,16 +61,17 @@ class GenericDataService<T> {
       Uri.parse(_urlBuilder('patch')),
       headers: {
         'Authorization': 'Bearer $jwtToken',
-        'Content-Type':
-            'application/json', // Example of adding a Content-Type header
-        // Add more headers as needed
+        'Content-Type': 'application/json',
       },
       body: body,
     );
     if (response.statusCode == 200) {
       return {'success': true};
     } else {
-      throw Exception('Failed to patch data');
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
     }
   }
 

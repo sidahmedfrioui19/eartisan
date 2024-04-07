@@ -12,24 +12,26 @@ class PictureList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return pictures.isNotEmpty
-        ? ListView.builder(
+        ? SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            itemCount: pictures.length,
-            itemBuilder: (context, index) {
-              final picture = pictures[index];
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                width: 150,
-                height: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    picture.link,
-                    fit: BoxFit.cover,
+            child: Row(
+              children: pictures.map((picture) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: SizedBox(
+                    width: 150,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        picture.link,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              }).toList(),
+            ),
           )
         : Container();
   }

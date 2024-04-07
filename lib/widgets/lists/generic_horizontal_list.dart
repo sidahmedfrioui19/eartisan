@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class HorizontalList<T> extends StatelessWidget {
@@ -21,7 +22,7 @@ class HorizontalList<T> extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return AppLoading();
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return SnapshotErrorWidget(error: snapshot.error);
         } else if (snapshot.hasData) {
           return SizedBox(
             height: 100, // Adjust the height as needed

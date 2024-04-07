@@ -60,8 +60,7 @@ class AuthenticationService {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      final parsed = jsonDecode(
-          response.body)['data']; // Get the user data from 'data' field
+      final parsed = jsonDecode(response.body)['data'];
       final user = UserEntity.fromJson(parsed);
       return user;
     } else {

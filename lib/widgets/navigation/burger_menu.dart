@@ -6,6 +6,7 @@ import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
 import 'package:profinder/services/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/navigation/main_navigation_bar.dart';
 
 class BurgerMenu extends StatelessWidget {
   final AuthenticationService auth = AuthenticationService();
@@ -66,6 +67,10 @@ class BurgerMenu extends StatelessWidget {
                     onPressed: () async {
                       Navigator.pop(context);
                       await AuthenticationService().logout();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainNavBar()));
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Déconnecté'), // Confirmation message
@@ -104,7 +109,7 @@ class BurgerMenu extends StatelessWidget {
                       );
                     },
                   ),
-                ]); // Return an empty SizedBox if no token
+                ]);
           }
         },
       ),

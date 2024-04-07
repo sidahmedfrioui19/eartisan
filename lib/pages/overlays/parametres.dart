@@ -6,6 +6,7 @@ import 'package:profinder/services/authentication.dart';
 import 'package:profinder/services/user.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
@@ -106,9 +107,9 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
           future: _userFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return AppLoading();
+              return Container(margin: EdgeInsets.all(15), child: AppLoading());
             } else if (snapshot.hasError) {
-              return Text('Error loading user data: ${snapshot.error}');
+              return SnapshotErrorWidget(error: snapshot.error);
             } else {
               return Container(
                 child: Column(

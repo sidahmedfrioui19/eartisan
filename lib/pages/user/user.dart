@@ -9,6 +9,7 @@ import 'package:profinder/services/authentication.dart';
 import 'package:profinder/services/user.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/cards/verification_badge.dart';
 import 'package:profinder/widgets/navigation/burger_menu.dart';
 import 'package:profinder/widgets/appbar/top_bar.dart';
@@ -135,14 +136,14 @@ class _UserPageState extends State<UserPage>
           if (snapshot.connectionState == ConnectionState.waiting) {
             return AppLoading();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return SnapshotErrorWidget(error: snapshot.error);
           } else if (snapshot.hasData) {
             final UserEntity user = snapshot.data!;
             return Container(
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   Stack(
                     children: [
                       CircleAvatar(
@@ -171,6 +172,7 @@ class _UserPageState extends State<UserPage>
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -187,7 +189,19 @@ class _UserPageState extends State<UserPage>
                     ],
                   ),
                   SizedBox(height: 10),
-                  Text('@${user.username}'),
+                  Badge(
+                    largeSize: 35,
+                    smallSize: 30,
+                    label: Text(
+                      '@${user.username}',
+                      style: TextStyle(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15 // Adjust text color if needed
+                          ),
+                    ),
+                    backgroundColor: AppTheme.inputColor,
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                  ),
                   SizedBox(height: 20),
                   TabBar(
                     indicatorColor: AppTheme.primaryColor,

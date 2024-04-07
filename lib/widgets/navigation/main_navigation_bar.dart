@@ -8,8 +8,10 @@ import 'package:profinder/pages/new_action/new_action.dart';
 import 'package:profinder/pages/search/search.dart';
 import 'package:profinder/pages/user/user.dart';
 import 'package:profinder/services/authentication.dart';
+import 'package:profinder/utils/error_handler/connectivity_check.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/action_button.dart';
+import 'package:profinder/widgets/cards/no_internet.dart';
 
 class MainNavBar extends StatefulWidget {
   @override
@@ -22,6 +24,24 @@ class _MainNavBarState extends State<MainNavBar> {
   String? jwtToken = null;
 
   int _selectedIndex = 0;
+
+  Future<void> _checkConnectivity() async {
+    if (await ConnectivityCheck.isConnected()) {
+      setState(() {
+        _selectedIndex = 0; // Reset to the home page
+      });
+    } else {
+      setState(() {
+        _selectedIndex = -1; // Show the InternetError widget
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkConnectivity();
+  }
 
   final List<Widget> _pages = [
     HomePage(),
@@ -38,6 +58,9 @@ class _MainNavBarState extends State<MainNavBar> {
   @override
   Widget build(BuildContext context) {
     getToken();
+    if (_selectedIndex == -1) {
+      return InternetError();
+    }
     return Scaffold(
         body: _pages[_selectedIndex],
         bottomNavigationBar: BottomAppBar(

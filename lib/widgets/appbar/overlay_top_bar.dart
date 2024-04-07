@@ -23,6 +23,7 @@ class OverlayTopBar extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.only(top: 0),
       child: AppBar(
         backgroundColor: color ?? Colors.white,
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(

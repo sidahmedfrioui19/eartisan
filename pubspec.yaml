@@ -47,6 +47,8 @@ dependencies:
   tuple: any
   provider: any
   flutter_launcher_icons: any
+  internet_connection_checker:
+  flutter_native_splash:
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,9 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon.png"
+flutter_native_splash:
+  image: assets/icon/icon.png
+  color: "#ffffff"
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -34,8 +34,7 @@ class ProfessionalService {
 
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
-      final jsonData = parsed['data']; // Access the 'data' field
-      print(jsonData);
+      final jsonData = parsed['data'];
 
       final serviceEntity = fromJson(jsonData);
       return serviceEntity;

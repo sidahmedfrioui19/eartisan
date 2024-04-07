@@ -65,6 +65,7 @@ class _MyPostsState extends State<MyPosts> {
       margin: EdgeInsets.symmetric(vertical: 5),
       elevation: 0.8, // Reduced shadow
       color: Colors.white, // Used primary color
+      surfaceTintColor: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Row(
@@ -115,7 +116,7 @@ class _MyPostsState extends State<MyPosts> {
                 ),
                 IconButton(
                   icon: Icon(Icons.edit),
-                  color: Colors.blue,
+                  color: AppTheme.secondaryColor,
                   onPressed: () {},
                 ),
               ],

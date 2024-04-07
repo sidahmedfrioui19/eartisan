@@ -25,13 +25,17 @@ class Category extends StatelessWidget {
                   color: AppTheme.secondaryColor,
                 ),
                 child: ClipOval(
+                    child: SizedBox(
+                  height: 10,
+                  width: 10,
                   child: Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/2603/2603910.png',
-                    fit: BoxFit.cover,
-                    width: 60,
-                    height: 60,
+                    iconUrl,
+                    fit: BoxFit
+                        .contain, // Use BoxFit.contain instead of BoxFit.cover
+                    width: 1, // Adjust the width as desired
+                    height: 1, // Adjust the height as desired
                   ),
-                ),
+                )),
               ),
             ),
           ),

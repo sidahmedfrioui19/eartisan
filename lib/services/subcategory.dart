@@ -7,8 +7,6 @@ class CategoryService {
     'get': 'view',
   });
 
-  final String path = 'subcategory';
-
   Future<List<SubCategoryEntity>> fetch() async {
     return _genericService.fetch((json) => SubCategoryEntity.fromJson(json));
   }

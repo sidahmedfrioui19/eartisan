@@ -61,6 +61,7 @@ class _MyServicesState extends State<MyServices> {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
       elevation: 0.8,
+      surfaceTintColor: Colors.white,
       color: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -83,7 +84,7 @@ class _MyServicesState extends State<MyServices> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.edit),
-                      color: Colors.blue,
+                      color: AppTheme.secondaryColor,
                       onPressed: () {},
                     ),
                     IconButton(
