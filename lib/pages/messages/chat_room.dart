@@ -3,18 +3,35 @@ import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/message_appbar.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 
-class ChatRoom extends StatelessWidget {
-  const ChatRoom({Key? key}) : super(key: key);
+class ChatRoom extends StatefulWidget {
+  final String user_id;
+  final String firstname;
+  final String lastname;
+  final String pictureUrl;
+  final bool available;
 
+  const ChatRoom({
+    super.key,
+    required this.user_id,
+    required this.firstname,
+    required this.lastname,
+    required this.pictureUrl,
+    required this.available,
+  });
+
+  @override
+  State<ChatRoom> createState() => _ChatRoomState();
+}
+
+class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: CustomAppBar(
-        userName: "Sidahmed",
-        profilePicUrl:
-            "https://www.gravatar.com/avatar/b6c4621f5e61cb8fa07c1497b607f334?s=128&d=identicon&r=PG",
-        userStatus: "Online",
+        userName: '${widget.firstname} ${widget.lastname}',
+        profilePicUrl: '${widget.pictureUrl}',
+        userStatus: widget.available,
       ),
       body: Column(
         children: [
@@ -22,32 +39,28 @@ class ChatRoom extends StatelessWidget {
             child: ListView(
               reverse: true,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              children: [
-                // Chat messages go here
-                _buildChatMessage("Hello!", true),
-                _buildChatMessage("Hi there!", false),
-                _buildChatMessage("How are you?", true),
-                _buildChatMessage("I'm good, thanks!", false),
-                _buildChatMessage("What about you?", false),
-              ],
+              children: [],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: RoundedTextField(
-                    controller: TextEditingController(),
-                    hintText: 'Type a message...',
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: RoundedTextField(
+                      controller: TextEditingController(),
+                      hintText: 'Message...',
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.send),
-                  color: AppTheme.primaryColor,
-                ),
-              ],
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.send),
+                    color: AppTheme.primaryColor,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

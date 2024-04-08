@@ -59,7 +59,9 @@ class _PostsPageState extends State<PostsPage> {
                 pictureUrl: post.profilePicture,
                 location: post.address,
                 phoneNumber: post.phoneNumber,
+                available: true,
                 status: post.status,
+                userId: post.userId,
               );
             },
           ),

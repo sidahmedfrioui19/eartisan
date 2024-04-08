@@ -1,9 +1,7 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/messages/widgets/chat_room.dart';
+import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/cards/conversation-tile.dart';
-import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 
 import '../../widgets/navigation/burger_menu.dart';
 import '../../widgets/appbar/top_bar.dart';
@@ -25,14 +23,14 @@ class _MessagesPageState extends State<MessagesPage> {
         title: "Messages",
       ),
       body: Column(children: [
-        RoundedTextField(
+        /*RoundedTextField(
           controller: TextEditingController(),
           hintText: "Rechercher",
           icon: FluentIcons.search_12_filled,
-        ),
+        ),*/
         ConversationTile(
-          pictureUrl: "https://via.placeholder.com/150",
-          username: "sidahmed",
+          pictureUrl: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+          username: "Frioui Sidahmed",
           onlineStatus: true,
           latestMessage: "message",
           sentTime: "15 MIN",
@@ -41,7 +39,14 @@ class _MessagesPageState extends State<MessagesPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatRoom(),
+                builder: (context) => ChatRoom(
+                  available: true,
+                  firstname: "Frioui",
+                  lastname: "Sidahmed",
+                  pictureUrl:
+                      "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                  user_id: "user_id",
+                ),
               ),
             )
           },

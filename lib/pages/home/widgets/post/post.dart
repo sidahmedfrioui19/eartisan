@@ -11,10 +11,12 @@ class Post extends StatelessWidget {
   final String username;
   final String firstname;
   final String lastname;
+  final String? userId;
   final String? pictureUrl;
   final String? location;
   final String? phoneNumber;
   final String? status;
+  final bool? available;
 
   const Post({
     Key? key,
@@ -27,6 +29,8 @@ class Post extends StatelessWidget {
     required this.location,
     required this.phoneNumber,
     required this.status,
+    this.userId,
+    this.available,
   }) : super(key: key);
 
   @override
@@ -47,13 +51,19 @@ class Post extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UserCard(
-                    pictureUrl: pictureUrl,
-                    username: '$firstname $lastname',
-                    content: '@${username}',
-                    available: true),
+                  pictureUrl: pictureUrl,
+                  username: '$firstname $lastname',
+                  content: '@${username}',
+                  available: true,
+                ),
                 PostToolBar(
                   icon1: FluentIcons.hand_wave_16_regular,
                   icon2: FluentIcons.bookmark_16_regular,
+                  pictureUrl: pictureUrl,
+                  firstname: firstname,
+                  lastname: lastname,
+                  user_id: userId,
+                  available: available,
                 )
               ],
             ),

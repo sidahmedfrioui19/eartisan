@@ -5,7 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
   final String userName;
   final String profilePicUrl;
-  final String userStatus;
+  final bool userStatus;
 
   const CustomAppBar({
     Key? key,
@@ -41,12 +41,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               Text(
-                userStatus,
+                userStatus ? 'Disponible' : 'Non disponible',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
-              ),
+              )
             ],
           ),
         ],

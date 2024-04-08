@@ -25,7 +25,7 @@ class ConversationTile extends StatelessWidget {
     return ListTile(
       onTap: onPressed,
       leading: CircleAvatar(
-        backgroundImage: NetworkImage("https://via.placeholder.com/150"),
+        backgroundImage: NetworkImage(pictureUrl),
       ),
       title: Text(username),
       subtitle: Text("some message content..."),

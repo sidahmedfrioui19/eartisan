@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:profinder/pages/messages/widgets/chat_room.dart';
+import 'package:profinder/pages/messages/chat_room.dart';
 
 import '../../../../utils/theme_data.dart';
 
@@ -7,9 +7,23 @@ class PostToolBar extends StatelessWidget {
   final IconData icon1;
   final IconData icon2;
   final IconData? icon3;
+  final String? user_id;
+  final String? firstname;
+  final String? lastname;
+  final String? pictureUrl;
+  final bool? available;
 
-  const PostToolBar(
-      {super.key, required this.icon1, required this.icon2, this.icon3});
+  const PostToolBar({
+    super.key,
+    required this.icon1,
+    required this.icon2,
+    this.icon3,
+    this.user_id,
+    this.firstname,
+    this.lastname,
+    this.pictureUrl,
+    this.available,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,15 @@ class PostToolBar extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ChatRoom()),
+              MaterialPageRoute(
+                builder: (context) => ChatRoom(
+                  available: available!,
+                  firstname: firstname!,
+                  lastname: lastname!,
+                  pictureUrl: pictureUrl!,
+                  user_id: user_id!,
+                ),
+              ),
             );
           },
         ),

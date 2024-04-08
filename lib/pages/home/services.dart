@@ -94,6 +94,9 @@ class _ServicesPageState extends State<ServicesPage> {
                   pictureUrl: service.user.profilePic,
                   available: Helpers.boolVal(service.user.available),
                   pictures: service.pictures,
+                  firstname: service.user.firstname,
+                  lastname: service.user.lastname,
+                  userId: service.user.userId,
                   onPress: () {
                     Navigator.push(
                       context,

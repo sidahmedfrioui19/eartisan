@@ -9,9 +9,12 @@ class PostService extends StatelessWidget {
   final String title;
   final String description;
   final String username;
+  final String? firstname;
+  final String? lastname;
   final String job;
   final String? pictureUrl;
   final bool available;
+  final String? userId;
   final List<Picture>? pictures;
   final VoidCallback? onPress;
 
@@ -23,6 +26,9 @@ class PostService extends StatelessWidget {
     required this.job,
     required this.pictureUrl,
     required this.available,
+    this.userId,
+    this.firstname,
+    this.lastname,
     this.pictures,
     this.onPress,
   }) : super(key: key);
@@ -56,6 +62,11 @@ class PostService extends StatelessWidget {
                     icon1: FluentIcons.send_16_regular,
                     icon2: FluentIcons.bookmark_16_regular,
                     icon3: FluentIcons.calendar_12_regular,
+                    firstname: firstname,
+                    lastname: lastname,
+                    pictureUrl: pictureUrl,
+                    available: available,
+                    user_id: userId,
                   )
                 ],
               ),
