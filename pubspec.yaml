@@ -49,6 +49,8 @@ dependencies:
   flutter_launcher_icons: any
   internet_connection_checker:
   flutter_native_splash:
+  web_socket_channel: any
+  socket_io_client: any
 
 dev_dependencies:
   flutter_test:

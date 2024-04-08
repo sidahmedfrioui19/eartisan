@@ -42,7 +42,7 @@ class PostService extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 10, right: 10, top: 20),
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 2),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -82,7 +82,7 @@ class PostService extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w700)),
               SizedBox(height: 10),
               Wrap(
-                spacing: 10,
+                spacing: 15,
                 runSpacing: 10,
                 children: pictures != null
                     ? pictures!.take(3).map((picture) {

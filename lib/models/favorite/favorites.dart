@@ -1,40 +1,20 @@
-class CustomerAppointment {
-  final int? appointmentId;
-  final String? description;
-  final String? date;
-  final String? time;
+class Favorite {
+  final int favoriteId;
   final Service service;
   final Professional professional;
 
-  CustomerAppointment({
-    this.appointmentId,
-    this.description,
-    this.date,
-    this.time,
+  Favorite({
+    required this.favoriteId,
     required this.service,
     required this.professional,
   });
 
-  factory CustomerAppointment.fromJson(Map<String, dynamic> json) {
-    return CustomerAppointment(
-      appointmentId: json['appointment_id'],
-      description: json['description'],
-      date: json['date'],
-      time: json['time'],
+  factory Favorite.fromJson(Map<String, dynamic> json) {
+    return Favorite(
+      favoriteId: json['favorite_id'],
       service: Service.fromJson(json['service']),
       professional: Professional.fromJson(json['professional']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'appointment_id': appointmentId,
-      'description': description,
-      'date': date,
-      'time': time,
-      'service': service.toJson(),
-      'professional': professional.toJson(),
-    };
   }
 }
 
@@ -58,15 +38,6 @@ class Service {
       description: json['description'],
       status: json['status'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'service_id': serviceId,
-      'title': title,
-      'description': description,
-      'status': status,
-    };
   }
 }
 
@@ -96,16 +67,5 @@ class Professional {
       email: json['email'],
       role: json['role'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'user_id': userId,
-      'username': username,
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'role': role,
-    };
   }
 }

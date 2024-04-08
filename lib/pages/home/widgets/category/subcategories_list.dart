@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/subcategory/subcategory.dart';
+import 'package:profinder/pages/home/services_by_subcategory.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -23,7 +24,7 @@ class _SubcategoryListState extends State<SubcategoryList> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: widget.categoryName,
+        title: "${widget.categoryName} (${widget.subcategories.length})",
         dismissIcon: FluentIcons.dismiss_12_filled,
       ),
       body: ListView.builder(
@@ -31,7 +32,15 @@ class _SubcategoryListState extends State<SubcategoryList> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              // Handle tapping on a subcategory if needed
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ServicesByCategory(
+                      subCategoryName:
+                          widget.subcategories[index].subCategoryName,
+                      subCategoryId: widget.subcategories[index].subCategoryId),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 5),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_update_request.dart';
-import 'package:profinder/pages/user/my_appointments.dart';
+import 'package:profinder/pages/user/customer_appointements.dart';
+import 'package:profinder/pages/user/professional_appointments.dart';
 import 'package:profinder/pages/user/my_posts.dart';
 import 'package:profinder/pages/user/my_services.dart';
 import 'package:profinder/services/authentication.dart';
@@ -224,8 +225,8 @@ class _UserPageState extends State<UserPage>
                       children: [
                         MyPosts(),
                         MyServices(),
-                        MyAppointments(),
-                        MyAppointments(),
+                        ProfessionalAppointments(),
+                        CustomerAppointments(),
                       ],
                     ),
                   ),

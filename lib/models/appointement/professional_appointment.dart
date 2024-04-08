@@ -1,8 +1,8 @@
 class ProfessionalAppointment {
-  final int appointmentId;
-  final String description;
-  final String date;
-  final String time;
+  final int? appointmentId;
+  final String? description;
+  final String? date;
+  final String? time;
   final Service service;
   final Customer customer;
 
@@ -71,7 +71,7 @@ class Service {
 }
 
 class Customer {
-  final int userId;
+  final String userId;
   final String username;
   final String firstname;
   final String lastname;

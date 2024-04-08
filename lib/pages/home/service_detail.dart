@@ -153,11 +153,13 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   icon: FluentIcons.calendar_12_filled,
                   text: "Prendre un rendez-vous",
                   onPressed: () => {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => CreateAppointmentBottomSheet(
-                        serviceId: service_id,
-                        professionalId: professional_id,
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateAppointmentPage(
+                          serviceId: service_id,
+                          professionalId: professional_id,
+                        ),
                       ),
                     )
                   },

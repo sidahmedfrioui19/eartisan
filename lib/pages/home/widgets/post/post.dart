@@ -58,7 +58,6 @@ class Post extends StatelessWidget {
                 ),
                 PostToolBar(
                   icon1: FluentIcons.hand_wave_16_regular,
-                  icon2: FluentIcons.bookmark_16_regular,
                   pictureUrl: pictureUrl,
                   firstname: firstname,
                   lastname: lastname,

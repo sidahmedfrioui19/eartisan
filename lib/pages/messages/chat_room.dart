@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/message_appbar.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatRoom extends StatefulWidget {
   final String user_id;
@@ -11,19 +13,56 @@ class ChatRoom extends StatefulWidget {
   final bool available;
 
   const ChatRoom({
-    super.key,
+    Key? key,
     required this.user_id,
     required this.firstname,
     required this.lastname,
     required this.pictureUrl,
     required this.available,
-  });
+  }) : super(key: key);
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  void connectSocket() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? jwtToken = await secureStorage.read(key: 'jwtToken');
+
+    Socket socket = io(
+        'https://job-adv-backend.onrender.com',
+        OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .disableAutoConnect() // disable auto-connection
+            .build());
+    socket.connect();
+    socket.onConnect((_) {
+      print('connect');
+      socket.emitWithAck('msg', 'init', ack: (data) {
+        print('ack $data');
+        if (data != null) {
+          print('from server $data');
+        } else {
+          print("Null");
+        }
+      });
+    });
+    socket.onConnectError((error) {
+      print('Connection error: $error');
+    });
+    socket.on('event', (data) => print(data));
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connectSocket();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,27 +103,6 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildChatMessage(String message, bool isSentByCurrentUser) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      alignment:
-          isSentByCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSentByCurrentUser ? AppTheme.primaryColor : Colors.grey[200],
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          message,
-          style: TextStyle(
-            color: isSentByCurrentUser ? Colors.white : Colors.black,
-          ),
-        ),
       ),
     );
   }

@@ -1,12 +1,13 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 
 import '../../../../utils/theme_data.dart';
 
-class PostToolBar extends StatelessWidget {
+class PostToolBar extends StatefulWidget {
   final IconData icon1;
-  final IconData icon2;
+  final IconData? icon2;
   final IconData? icon3;
   final String? user_id;
   final String? firstname;
@@ -18,7 +19,7 @@ class PostToolBar extends StatelessWidget {
   const PostToolBar({
     Key? key,
     required this.icon1,
-    required this.icon2,
+    this.icon2,
     this.serviceId,
     this.icon3,
     this.user_id,
@@ -29,12 +30,19 @@ class PostToolBar extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _PostToolBarState createState() => _PostToolBarState();
+}
+
+class _PostToolBarState extends State<PostToolBar> {
+  bool isFavorite = false;
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         IconButton(
           icon: Icon(
-            icon1,
+            widget.icon1,
             color: AppTheme.primaryColor,
           ),
           onPressed: () {
@@ -42,39 +50,67 @@ class PostToolBar extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => ChatRoom(
-                  available: available!,
-                  firstname: firstname!,
-                  lastname: lastname!,
-                  pictureUrl: pictureUrl!,
-                  user_id: user_id!,
+                  available: widget.available!,
+                  firstname: widget.firstname!,
+                  lastname: widget.lastname!,
+                  pictureUrl: widget.pictureUrl!,
+                  user_id: widget.user_id!,
                 ),
               ),
             );
           },
         ),
-        if (icon3 != null)
+        if (widget.icon3 != null)
           IconButton(
             icon: Icon(
-              icon3,
+              widget.icon3,
               color: AppTheme.primaryColor,
             ),
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => CreateAppointmentBottomSheet(
-                  serviceId: serviceId!,
-                  professionalId: user_id!,
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateAppointmentPage(
+                    serviceId: widget.serviceId!,
+                    professionalId: widget.user_id!,
+                  ),
                 ),
               );
             },
           ),
-        IconButton(
-          icon: Icon(
-            icon2,
-            color: AppTheme.primaryColor,
+        if (widget.icon2 != null)
+          IconButton(
+            icon: Icon(
+              isFavorite
+                  ? FluentIcons.bookmark_16_filled
+                  : FluentIcons.bookmark_16_regular,
+              color: AppTheme.primaryColor,
+            ),
+            onPressed: () {
+              setState(() {
+                isFavorite = !isFavorite;
+              });
+              if (isFavorite) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Service ajouté au favoris'),
+                    duration: Duration(
+                      seconds: 2,
+                    ),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Service supprimé des favoris'),
+                    duration: Duration(
+                      seconds: 2,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
-          onPressed: () {},
-        ),
       ],
     );
   }

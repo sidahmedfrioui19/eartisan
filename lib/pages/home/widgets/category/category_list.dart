@@ -16,11 +16,16 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   late Future<List<CategoryEntity>> _categoriesFuture;
+  late int _categoriesLength = 0;
 
   final CategoryService category = CategoryService();
 
   Future<void> _loadCategories() async {
     _categoriesFuture = category.fetch();
+    final categories = await _categoriesFuture;
+    setState(() {
+      _categoriesLength = categories.length;
+    });
   }
 
   @override
@@ -34,7 +39,7 @@ class _CategoryListState extends State<CategoryList> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Tous les catégories',
+        title: 'Tous les catégories (${_categoriesLength})',
         dismissIcon: FluentIcons.dismiss_12_filled,
       ),
       body: Container(

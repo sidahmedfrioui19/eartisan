@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/category/category.dart';
+import 'package:profinder/models/user/user.dart';
 import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/category/category_list.dart';
+import 'package:profinder/services/authentication.dart';
 import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/helpers.dart';
@@ -23,9 +25,12 @@ class ServicesPage extends StatefulWidget {
 class _ServicesPageState extends State<ServicesPage> {
   late Future<List<CategoryEntity>> _categoriesFuture;
   late Future<List<ServiceEntity>> _servicesFuture;
+  late Future<UserEntity> _userFuture;
 
   final CategoryService category = CategoryService();
   final ProfessionalService service = ProfessionalService();
+  final AuthenticationService auth = AuthenticationService();
+  late String userId;
 
   @override
   void initState() {
@@ -40,6 +45,18 @@ class _ServicesPageState extends State<ServicesPage> {
 
   Future<void> _loadServices() async {
     _servicesFuture = service.fetch();
+  }
+
+  Future<UserEntity> _loadUser() async {
+    try {
+      final UserEntity user = await auth.fetchUserData();
+      final userfuture = await _userFuture;
+      userId = userfuture.userId;
+      return user;
+    } catch (error) {
+      print('Error loading user data: $error');
+      throw error;
+    }
   }
 
   @override
