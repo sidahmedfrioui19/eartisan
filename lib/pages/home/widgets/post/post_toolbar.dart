@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/messages/widgets/chat_room.dart';
 
 import '../../../../utils/theme_data.dart';
 
@@ -19,7 +20,12 @@ class PostToolBar extends StatelessWidget {
             icon1,
             color: AppTheme.primaryColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatRoom()),
+            );
+          },
         ),
         if (icon3 != null)
           IconButton(

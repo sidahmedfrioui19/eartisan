@@ -60,26 +60,61 @@ class PostService extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 12),
-              Text(title),
+              Text(title, style: TextStyle(fontWeight: FontWeight.w500)),
               SizedBox(height: 10),
               Text(description),
               SizedBox(height: 10),
-              Text("Realisations"),
+              Text("Realisations",
+                  style: TextStyle(fontWeight: FontWeight.w700)),
               SizedBox(height: 10),
               Wrap(
-                spacing: 10, // Adjust spacing as needed
-                runSpacing: 10, // Adjust run spacing as needed
+                spacing: 10,
+                runSpacing: 10,
                 children: pictures != null
                     ? pictures!.take(3).map((picture) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            picture.link,
-                            width: 100, // Adjust image width as needed
-                            height: 100, // Adjust image height as needed
-                            fit: BoxFit.cover, // Adjust image fit as needed
-                          ),
-                        );
+                        int index = pictures!.indexOf(picture);
+                        return index == 2 // Check if it's the third picture
+                            ? Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      picture.link,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppTheme.primaryColor
+                                          .withOpacity(0.5),
+                                      child: InkWell(
+                                        onTap: onPress,
+                                        child: Center(
+                                          child: Text(
+                                            'Voir plus',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  picture.link,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
                       }).toList()
                     : [],
               ),

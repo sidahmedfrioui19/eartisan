@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/messages/widgets/chat_room.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/cards/conversation-tile.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
@@ -36,7 +37,14 @@ class _MessagesPageState extends State<MessagesPage> {
           latestMessage: "message",
           sentTime: "15 MIN",
           unreadCount: 3,
-          onPressed: () => {},
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatRoom(),
+              ),
+            )
+          },
         ),
       ]),
     );

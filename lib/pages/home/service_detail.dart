@@ -81,15 +81,21 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   Row(
                     children: [
                       Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        alignment:
+                            Alignment.centerLeft, // Align text to the left
                         child: Text(
                           service.description!,
                           style: AppTheme.bodyTextStyle,
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
                         ),
                       ),
                     ],
                   ),
+
                   HeadingTitle(text: 'Contact'),
                   ContactDetail(
                     text: service.user.phoneNumber ?? '',

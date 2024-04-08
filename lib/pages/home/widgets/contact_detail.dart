@@ -23,6 +23,7 @@ class ContactDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Icon(icon),
+          SizedBox(width: 5),
           Text(
             text,
             style: AppTheme.elementTitle,

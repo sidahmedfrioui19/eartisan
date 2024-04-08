@@ -90,7 +90,7 @@ class _ServicesPageState extends State<ServicesPage> {
                   description: service.description ?? '',
                   username:
                       '${service.user.firstname} ${service.user.lastname}',
-                  job: service.title ?? '',
+                  job: '@${service.user.username}',
                   pictureUrl: service.user.profilePic,
                   available: Helpers.boolVal(service.user.available),
                   pictures: service.pictures,
