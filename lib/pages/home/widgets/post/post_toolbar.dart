@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 
 import '../../../../utils/theme_data.dart';
@@ -12,18 +13,20 @@ class PostToolBar extends StatelessWidget {
   final String? lastname;
   final String? pictureUrl;
   final bool? available;
+  final int? serviceId;
 
   const PostToolBar({
-    super.key,
+    Key? key,
     required this.icon1,
     required this.icon2,
+    this.serviceId,
     this.icon3,
     this.user_id,
     this.firstname,
     this.lastname,
     this.pictureUrl,
     this.available,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,15 @@ class PostToolBar extends StatelessWidget {
               icon3,
               color: AppTheme.primaryColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => CreateAppointmentBottomSheet(
+                  serviceId: serviceId!,
+                  professionalId: user_id!,
+                ),
+              );
+            },
           ),
         IconButton(
           icon: Icon(

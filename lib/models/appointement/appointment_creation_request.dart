@@ -1,7 +1,7 @@
 class AppointementCreationRequest {
   final String description;
   final int serviceId;
-  final int professionalId;
+  final String professionalId;
 
   AppointementCreationRequest({
     required this.description,

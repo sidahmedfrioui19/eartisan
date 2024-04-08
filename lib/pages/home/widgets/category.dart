@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/pages/home/widgets/category/subcategories_list.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class Category extends StatelessWidget {
@@ -16,7 +17,14 @@ class Category extends StatelessWidget {
         children: [
           Center(
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SubcategoryList(),
+                  ),
+                );
+              },
               child: Container(
                 width: 70,
                 height: 70,

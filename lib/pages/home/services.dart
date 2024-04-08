@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/category/category.dart';
 import 'package:profinder/pages/home/service_detail.dart';
+import 'package:profinder/pages/home/widgets/category/category_list.dart';
 import 'package:profinder/services/category.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/helpers.dart';
@@ -57,7 +58,14 @@ class _ServicesPageState extends State<ServicesPage> {
                   style: AppTheme.elementTitle,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategoryList(),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Voir tout',
                     style: TextStyle(
@@ -86,26 +94,28 @@ class _ServicesPageState extends State<ServicesPage> {
             emptyText: "Aucun service",
             itemBuilder: (service) {
               return PostService(
-                  title: service.title ?? '',
-                  description: service.description ?? '',
-                  username:
-                      '${service.user.firstname} ${service.user.lastname}',
-                  job: '@${service.user.username}',
-                  pictureUrl: service.user.profilePic,
-                  available: Helpers.boolVal(service.user.available),
-                  pictures: service.pictures,
-                  firstname: service.user.firstname,
-                  lastname: service.user.lastname,
-                  userId: service.user.userId,
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ServiceDetail(
-                                serviceId: service.serviceId,
-                              )),
-                    );
-                  });
+                title: service.title ?? '',
+                description: service.description ?? '',
+                username: '${service.user.firstname} ${service.user.lastname}',
+                job: '@${service.user.username}',
+                pictureUrl: service.user.profilePic,
+                available: Helpers.boolVal(service.user.available),
+                pictures: service.pictures,
+                firstname: service.user.firstname,
+                lastname: service.user.lastname,
+                userId: service.user.userId,
+                serviceId: service.serviceId!,
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ServiceDetail(
+                        serviceId: service.serviceId,
+                      ),
+                    ),
+                  );
+                },
+              );
             },
           ),
           SizedBox(
