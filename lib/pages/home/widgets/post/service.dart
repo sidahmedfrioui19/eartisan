@@ -40,7 +40,7 @@ class PostService extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
         child: Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(

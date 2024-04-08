@@ -85,6 +85,7 @@ class _ServicesPageState extends State<ServicesPage> {
               return Category(
                 iconUrl: category.icon,
                 title: category.name,
+                subcategories: category.subcategories,
               );
             },
           ),

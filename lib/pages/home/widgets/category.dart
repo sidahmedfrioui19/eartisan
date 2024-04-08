@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/subcategory/subcategory.dart';
 import 'package:profinder/pages/home/widgets/category/subcategories_list.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class Category extends StatelessWidget {
   final String iconUrl;
   final String title;
+  final List<SubCategoryEntity> subcategories;
 
-  const Category({Key? key, required this.title, required this.iconUrl})
-      : super(key: key);
+  const Category({
+    Key? key,
+    required this.title,
+    required this.iconUrl,
+    required this.subcategories,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,10 @@ class Category extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SubcategoryList(),
+                    builder: (context) => SubcategoryList(
+                      categoryName: title,
+                      subcategories: subcategories,
+                    ),
                   ),
                 );
               },

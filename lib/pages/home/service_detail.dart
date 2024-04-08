@@ -4,6 +4,7 @@ import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/pages/home/widgets/contact_detail.dart';
 import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/picture_list.dart';
+import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
 import 'package:profinder/services/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -25,6 +26,8 @@ class ServiceDetail extends StatefulWidget {
 class _ServiceDetailState extends State<ServiceDetail> {
   late Future<ServiceDetailEntity> _serviceFuture;
   ProfessionalService service = ProfessionalService();
+  late int service_id;
+  late String professional_id;
 
   @override
   void initState() {
@@ -59,6 +62,8 @@ class _ServiceDetailState extends State<ServiceDetail> {
             return SnapshotErrorWidget(error: snapshot.hasError);
           } else {
             final service = snapshot.data!;
+            service_id = service.serviceId;
+            professional_id = service.userId!;
             return SingleChildScrollView(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -147,7 +152,15 @@ class _ServiceDetailState extends State<ServiceDetail> {
                 child: FilledAppButton(
                   icon: FluentIcons.calendar_12_filled,
                   text: "Prendre un rendez-vous",
-                  onPressed: () => {},
+                  onPressed: () => {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => CreateAppointmentBottomSheet(
+                        serviceId: service_id,
+                        professionalId: professional_id,
+                      ),
+                    )
+                  },
                 ),
               ),
             ],
