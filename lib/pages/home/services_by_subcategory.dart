@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:profinder/models/post/service.dart';
 import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/post/service.dart';
-import 'package:profinder/services/professional.dart';
+import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';

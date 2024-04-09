@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/error_handler/business_error_handler.dart';
 import 'package:profinder/utils/error_handler/error_payload.dart';

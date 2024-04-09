@@ -7,7 +7,7 @@ import 'package:profinder/pages/messages/messages.dart';
 import 'package:profinder/pages/new_action/new_action.dart';
 import 'package:profinder/pages/search/search.dart';
 import 'package:profinder/pages/user/user.dart';
-import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/error_handler/connectivity_check.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/action_button.dart';

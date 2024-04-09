@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:profinder/pages/authentication/signup.dart';
-import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';

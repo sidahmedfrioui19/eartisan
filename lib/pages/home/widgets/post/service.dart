@@ -16,6 +16,7 @@ class PostService extends StatelessWidget {
   final String? pictureUrl;
   final bool available;
   final String? userId;
+  final String? currentUserId;
   final List<Picture>? pictures;
   final VoidCallback? onPress;
 
@@ -29,6 +30,7 @@ class PostService extends StatelessWidget {
     required this.available,
     required this.serviceId,
     this.userId,
+    this.currentUserId,
     this.firstname,
     this.lastname,
     this.pictures,
@@ -60,17 +62,18 @@ class PostService extends StatelessWidget {
                     content: job,
                     available: available,
                   ),
-                  PostToolBar(
-                    icon1: FluentIcons.send_16_regular,
-                    icon2: FluentIcons.bookmark_16_regular,
-                    icon3: FluentIcons.calendar_12_regular,
-                    serviceId: serviceId,
-                    firstname: firstname,
-                    lastname: lastname,
-                    pictureUrl: pictureUrl,
-                    available: available,
-                    user_id: userId,
-                  )
+                  if (this.currentUserId != userId)
+                    PostToolBar(
+                      icon1: FluentIcons.send_16_regular,
+                      icon2: FluentIcons.bookmark_16_regular,
+                      icon3: FluentIcons.calendar_12_regular,
+                      serviceId: serviceId,
+                      firstname: firstname,
+                      lastname: lastname,
+                      pictureUrl: pictureUrl,
+                      available: available,
+                      user_id: userId,
+                    )
                 ],
               ),
               SizedBox(height: 12),

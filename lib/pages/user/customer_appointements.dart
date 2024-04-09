@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/appointement/customer_appointment.dart';
-import 'package:profinder/services/customer_appointement.dart';
+import 'package:profinder/services/appointement/customer_appointement.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class CustomerAppointments extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:profinder/models/user/user_creation_request.dart';
 import 'package:profinder/pages/authentication/login.dart';
-import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/inputs/dropdown.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';

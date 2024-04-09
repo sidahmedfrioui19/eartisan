@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/message/conversation.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
+import 'package:profinder/services/message/conversation.dart';
 import 'package:profinder/utils/theme_data.dart';
-import 'package:profinder/widgets/cards/conversation-tile.dart';
-
-import '../../widgets/navigation/burger_menu.dart';
-import '../../widgets/appbar/top_bar.dart';
+import 'package:profinder/pages/messages/widgets/conversation-tile.dart';
+import 'package:profinder/widgets/navigation/burger_menu.dart';
+import 'package:profinder/widgets/appbar/top_bar.dart'; // Fixed import
 
 class MessagesPage extends StatefulWidget {
-  const MessagesPage({super.key});
+  const MessagesPage({Key? key}) : super(key: key); // Fixed super keyword
 
   @override
   State<MessagesPage> createState() => _MessagesPageState();
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+  late Future<List<Conversation>> _conversationFuture;
+
+  final ConversationService conversationService =
+      ConversationService(); // Renamed variable
+
+  Future<void> _loadConversations() async {
+    _conversationFuture = conversationService.fetch();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConversations();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,36 +38,48 @@ class _MessagesPageState extends State<MessagesPage> {
       appBar: TopBar(
         title: "Messages",
       ),
-      body: Column(children: [
-        /*RoundedTextField(
-          controller: TextEditingController(),
-          hintText: "Rechercher",
-          icon: FluentIcons.search_12_filled,
-        ),*/
-        ConversationTile(
-          pictureUrl: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-          username: "Frioui Sidahmed",
-          onlineStatus: true,
-          latestMessage: "message",
-          sentTime: "15 MIN",
-          unreadCount: 3,
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatRoom(
-                  available: true,
-                  firstname: "Frioui",
-                  lastname: "Sidahmed",
-                  pictureUrl:
-                      "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-                  user_id: "user_id",
-                ),
-              ),
-            )
-          },
-        ),
-      ]),
+      body: FutureBuilder<List<Conversation>>(
+        future: _conversationFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final conversations = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: conversations.length,
+              itemBuilder: (context, index) {
+                final conversation = conversations[index];
+                return ConversationTile(
+                  pictureUrl: conversation.profilePicture,
+                  username:
+                      '${conversation.firstname} ${conversation.lastname}',
+                  onlineStatus: true, // You can modify this based on your logic
+                  latestMessage: conversation.lastMessage,
+                  sentTime: conversation.lastMessageTimestamp,
+                  unreadCount: 0, // You can modify this based on your logic
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatRoom(
+                          available:
+                              true, // You can modify this based on your logic
+                          firstname: conversation.firstname,
+                          lastname: conversation.lastname,
+                          pictureUrl: conversation.profilePicture,
+                          user_id: conversation.userId,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

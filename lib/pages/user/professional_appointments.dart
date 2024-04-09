@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/appointement/professional_appointment.dart';
-import 'package:profinder/services/professional_appointement.dart';
+import 'package:profinder/services/appointement/professional_appointement.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class ProfessionalAppointments extends StatefulWidget {
@@ -45,21 +45,30 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     title: Text(
-                      appointment.description!,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      'Description du client: ${appointment.description!}',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 4),
                         Text(
-                          'Professionel: ${appointment.customer.firstname} ${appointment.customer.lastname}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          'Client: ${appointment.customer.firstname} ${appointment.customer.lastname}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        Text(
+                          'Numéro de téléphone: ${appointment.customer.phoneNumber}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
                         ),
                         SizedBox(height: 4),
-                        Text('Date: ${appointment.date ?? 'N/D'}'),
+                        Text(
+                            'Date: ${appointment.date != null ? appointment.date : 'N/D'}'),
                         SizedBox(height: 4),
-                        Text('Temps: ${appointment.time ?? 'N/D'}'),
+                        Text(
+                            'Temps: ${appointment.time != null ? appointment.time : 'N/D'}'),
                       ],
                     ),
                     trailing: IconButton(

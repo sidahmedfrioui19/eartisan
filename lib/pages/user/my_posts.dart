@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/user_post.dart';
-import 'package:profinder/services/post.dart';
+import 'package:profinder/services/post/post.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 

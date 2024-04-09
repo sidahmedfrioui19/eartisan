@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_creation_request.dart';
 
-import '../utils/constants.dart';
+import '../../utils/constants.dart';
 
 class AuthenticationService {
   final url = Constants.apiUrl;

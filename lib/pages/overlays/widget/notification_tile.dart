@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ConversationTile extends StatelessWidget {
+class NotificationTile extends StatelessWidget {
   final String pictureUrl;
   final String username;
   final bool onlineStatus;
@@ -9,7 +9,7 @@ class ConversationTile extends StatelessWidget {
   final num? unreadCount;
   final VoidCallback? onPressed;
 
-  const ConversationTile({
+  const NotificationTile({
     super.key,
     required this.pictureUrl,
     required this.username,
@@ -28,13 +28,18 @@ class ConversationTile extends StatelessWidget {
         backgroundImage: NetworkImage(pictureUrl),
       ),
       title: Text(username),
-      subtitle: Text("some message content..."),
+      subtitle: Text(latestMessage),
       trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(sentTime),
-          Text(unreadCount.toString()),
+          SizedBox(
+            height: 7,
+          ),
+          Text(""),
+          SizedBox(
+            height: 10,
+          ),
+          Text(""),
         ],
       ),
     );

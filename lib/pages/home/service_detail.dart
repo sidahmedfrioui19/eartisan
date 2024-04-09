@@ -6,7 +6,7 @@ import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/picture_list.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
-import 'package:profinder/services/professional.dart';
+import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';

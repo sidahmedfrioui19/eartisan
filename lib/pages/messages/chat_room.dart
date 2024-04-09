@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/message/message.dart';
-import 'package:profinder/services/message.dart';
+import 'package:profinder/services/message/message.dart';
+import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/message_appbar.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
@@ -33,9 +34,9 @@ class _ChatRoomState extends State<ChatRoom> {
   final MessageService _messageService = MessageService();
 
   final TextEditingController _messageController = TextEditingController();
-  String currentUserId = ''; // Initialize it directly here
+  String currentUserId = '';
 
-  late Socket socket; // Declare it as late
+  late Socket socket;
 
   @override
   void initState() {
@@ -62,8 +63,9 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void initializeSocket() {
+    final String url = Constants.apiUrl;
     socket = io(
-      'https://job-adv-backend.onrender.com',
+      url,
       OptionBuilder()
           .setQuery({'user_id': "$currentUserId"})
           .setTransports(['websocket'])

@@ -77,6 +77,7 @@ class Customer {
   final String lastname;
   final String email;
   final String role;
+  final String? phoneNumber;
 
   Customer({
     required this.userId,
@@ -85,6 +86,7 @@ class Customer {
     required this.lastname,
     required this.email,
     required this.role,
+    this.phoneNumber,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
@@ -95,6 +97,7 @@ class Customer {
       lastname: json['lastname'],
       email: json['email'],
       role: json['role'],
+      phoneNumber: json['phone_number'],
     );
   }
 

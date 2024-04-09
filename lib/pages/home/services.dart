@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/category/category.dart';
-import 'package:profinder/models/user/user.dart';
 import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/category/category_list.dart';
-import 'package:profinder/services/authentication.dart';
-import 'package:profinder/services/category.dart';
-import 'package:profinder/services/professional.dart';
+import 'package:profinder/services/user/authentication.dart';
+import 'package:profinder/services/category/category.dart';
+import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/category.dart';
@@ -29,18 +29,18 @@ class ServicesPage extends StatefulWidget {
 class _ServicesPageState extends State<ServicesPage> {
   late Future<List<CategoryEntity>> _categoriesFuture;
   late Future<List<ServiceEntity>> _servicesFuture;
-  late Future<UserEntity> _userFuture;
 
   final CategoryService category = CategoryService();
   final ProfessionalService service = ProfessionalService();
   final AuthenticationService auth = AuthenticationService();
-  late String userId;
+  late String? currentUserId;
 
   @override
   void initState() {
     super.initState();
     _loadCategories();
     _loadServices();
+    loadUserId();
   }
 
   Future<void> _loadCategories() async {
@@ -51,16 +51,13 @@ class _ServicesPageState extends State<ServicesPage> {
     _servicesFuture = service.fetch();
   }
 
-  Future<UserEntity> _loadUser() async {
-    try {
-      final UserEntity user = await auth.fetchUserData();
-      final userfuture = await _userFuture;
-      userId = userfuture.userId;
-      return user;
-    } catch (error) {
-      print('Error loading user data: $error');
-      throw error;
-    }
+  Future<void> loadUserId() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? jwtToken = await secureStorage.read(key: 'userId');
+
+    setState(() {
+      currentUserId = jwtToken ?? '';
+    });
   }
 
   @override
@@ -127,6 +124,7 @@ class _ServicesPageState extends State<ServicesPage> {
                 lastname: service.user.lastname,
                 userId: service.user.userId,
                 serviceId: service.serviceId!,
+                currentUserId: currentUserId,
                 onPress: () {
                   Navigator.push(
                     context,

@@ -4,7 +4,7 @@ import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/overlays/conditions.dart';
 import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
-import 'package:profinder/services/authentication.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/navigation/main_navigation_bar.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/post/post.dart';
-import 'package:profinder/services/post.dart';
+import 'package:profinder/services/post/post.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/post/post.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
@@ -21,14 +22,26 @@ class _PostsPageState extends State<PostsPage> {
 
   final PostService post = PostService();
 
+  late String? currentUserId;
+
   @override
   void initState() {
     super.initState();
     _loadPosts();
+    loadUserId();
   }
 
   Future<void> _loadPosts() async {
     _posts = post.fetch();
+  }
+
+  Future<void> loadUserId() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? jwtToken = await secureStorage.read(key: 'userId');
+
+    setState(() {
+      currentUserId = jwtToken ?? '';
+    });
   }
 
   @override
@@ -66,6 +79,7 @@ class _PostsPageState extends State<PostsPage> {
                 available: true,
                 status: post.status,
                 userId: post.userId,
+                currentUserId: currentUserId,
               );
             },
           ),

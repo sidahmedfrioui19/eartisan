@@ -17,6 +17,7 @@ class Post extends StatelessWidget {
   final String? phoneNumber;
   final String? status;
   final bool? available;
+  final String? currentUserId;
 
   const Post({
     Key? key,
@@ -30,6 +31,7 @@ class Post extends StatelessWidget {
     required this.phoneNumber,
     required this.status,
     this.userId,
+    this.currentUserId,
     this.available,
   }) : super(key: key);
 
@@ -56,14 +58,15 @@ class Post extends StatelessWidget {
                   content: '@${username}',
                   available: true,
                 ),
-                PostToolBar(
-                  icon1: FluentIcons.hand_wave_16_regular,
-                  pictureUrl: pictureUrl,
-                  firstname: firstname,
-                  lastname: lastname,
-                  user_id: userId,
-                  available: available,
-                )
+                if (this.currentUserId != userId)
+                  PostToolBar(
+                    icon1: FluentIcons.hand_wave_16_regular,
+                    pictureUrl: pictureUrl,
+                    firstname: firstname,
+                    lastname: lastname,
+                    user_id: userId,
+                    available: available,
+                  )
               ],
             ),
             SizedBox(height: 12),

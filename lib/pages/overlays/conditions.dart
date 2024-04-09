@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/usage_condition/usage_condition.dart';
-import 'package:profinder/services/usage_conditions.dart';
+import 'package:profinder/services/usage_conditions/usage_conditions.dart';
 
 import '../../utils/theme_data.dart';
 import '../../widgets/appbar/overlay_top_bar.dart';

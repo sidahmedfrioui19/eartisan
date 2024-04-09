@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/category/category.dart';
 import 'package:profinder/pages/home/widgets/category/subcategories_list.dart';
-import 'package:profinder/services/category.dart';
+import 'package:profinder/services/category/category.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';

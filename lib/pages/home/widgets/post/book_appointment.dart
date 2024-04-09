@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/appointement/appointment_creation_request.dart';
-import 'package:profinder/services/appointement.dart';
+import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 
