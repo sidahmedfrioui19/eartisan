@@ -6,12 +6,14 @@ class HorizontalList<T> extends StatelessWidget {
   final Future<List<T>> future;
   final Widget Function(T item) itemBuilder;
   final String errorMessage;
+  final String emptyText;
 
   const HorizontalList({
     Key? key,
     required this.future,
     required this.itemBuilder,
     required this.errorMessage,
+    required this.emptyText,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,16 @@ class HorizontalList<T> extends StatelessWidget {
             ),
           );
         } else {
-          return Center(child: Text(errorMessage));
+          return Column(
+            children: [
+              Icon(
+                Icons.format_list_bulleted,
+                size: 40,
+                color: Colors.grey,
+              ),
+              Text(emptyText),
+            ],
+          );
         }
       },
     );

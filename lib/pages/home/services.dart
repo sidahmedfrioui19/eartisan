@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/category/category.dart';
+import 'package:profinder/models/favorite/favorite.dart';
 import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/category/category_list.dart';
-import 'package:profinder/services/user/authentication.dart';
+import 'package:profinder/pages/home/widgets/favorite.dart';
 import 'package:profinder/services/category/category.dart';
+import 'package:profinder/services/favorite/favorite.dart';
+import 'package:profinder/services/favorite/favorite_list.dart';
 import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -12,6 +15,7 @@ import 'package:profinder/pages/home/widgets/category.dart';
 import 'package:profinder/widgets/lists/generic_horizontal_list.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 import 'package:profinder/pages/home/widgets/post/service.dart';
+import 'package:profinder/widgets/progress/loader.dart';
 
 import '../../models/post/service.dart';
 
@@ -29,10 +33,13 @@ class ServicesPage extends StatefulWidget {
 class _ServicesPageState extends State<ServicesPage> {
   late Future<List<CategoryEntity>> _categoriesFuture;
   late Future<List<ServiceEntity>> _servicesFuture;
+  late Future<List<Favorite>> _favoritesFuture;
 
   final CategoryService category = CategoryService();
   final ProfessionalService service = ProfessionalService();
-  final AuthenticationService auth = AuthenticationService();
+  final FavoriteListService favoriteList = FavoriteListService();
+  final FavoriteService favoriteService = FavoriteService();
+
   late String? currentUserId;
 
   @override
@@ -40,6 +47,7 @@ class _ServicesPageState extends State<ServicesPage> {
     super.initState();
     _loadCategories();
     _loadServices();
+    _loadFavorites();
     loadUserId();
   }
 
@@ -51,6 +59,10 @@ class _ServicesPageState extends State<ServicesPage> {
     _servicesFuture = service.fetch();
   }
 
+  Future<void> _loadFavorites() async {
+    _favoritesFuture = favoriteList.fetch();
+  }
+
   Future<void> loadUserId() async {
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final String? jwtToken = await secureStorage.read(key: 'userId');
@@ -58,6 +70,18 @@ class _ServicesPageState extends State<ServicesPage> {
     setState(() {
       currentUserId = jwtToken ?? '';
     });
+  }
+
+  Future<bool> _isServiceInFavorites(int serviceId) async {
+    final List<Favorite> favorites = await _favoritesFuture;
+
+    if (favorites.isNotEmpty) {
+      final List<int> favoriteServiceIds =
+          favorites.map((favorite) => favorite.service.serviceId).toList();
+      return favoriteServiceIds.contains(serviceId);
+    }
+
+    return false;
   }
 
   @override
@@ -99,6 +123,7 @@ class _ServicesPageState extends State<ServicesPage> {
           HorizontalList<CategoryEntity>(
             future: _categoriesFuture,
             errorMessage: "Aucune catégorie",
+            emptyText: "Aucune catégorie",
             itemBuilder: (category) {
               return Category(
                 iconUrl: category.icon,
@@ -107,33 +132,126 @@ class _ServicesPageState extends State<ServicesPage> {
               );
             },
           ),
+          SizedBox(height: 5),
+          FutureBuilder<List<Favorite>>(
+            future: _favoritesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final List<Favorite>? favorites = snapshot.data;
+                if (favorites != null && favorites.isNotEmpty) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 18),
+                            child: Text(
+                              'Services Favoris',
+                              style: AppTheme.elementTitle,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      HorizontalList<Favorite>(
+                        future: _favoritesFuture,
+                        errorMessage: "Liste des favoris vide",
+                        emptyText: "Liste des favoris vide",
+                        itemBuilder: (favorite) {
+                          return FavoriteWidget(
+                            favorite: favorite,
+                            onPress: () async {
+                              try {
+                                await favoriteService
+                                    .deleteById(favorite.favoriteId);
+                                setState(() {
+                                  _loadFavorites();
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Supprimé des favoris'), // Confirmation message
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erreur $e'), // Error message
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  return SizedBox(); // Return an empty widget if there are no favorites
+                }
+              }
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 18),
+                child: Text(
+                  'Services',
+                  style: AppTheme.elementTitle,
+                ),
+              )
+            ],
+          ),
           VerticalList<ServiceEntity>(
             future: _servicesFuture,
             errorMessage: "Aucun service",
             emptyText: "Aucun service",
             itemBuilder: (service) {
-              return PostService(
-                title: service.title ?? '',
-                description: service.description ?? '',
-                username: '${service.user.firstname} ${service.user.lastname}',
-                job: '@${service.user.username}',
-                pictureUrl: service.user.profilePic,
-                available: Helpers.boolVal(service.user.available),
-                pictures: service.pictures,
-                firstname: service.user.firstname,
-                lastname: service.user.lastname,
-                userId: service.user.userId,
-                serviceId: service.serviceId!,
-                currentUserId: currentUserId,
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ServiceDetail(
-                        serviceId: service.serviceId,
-                      ),
-                    ),
-                  );
+              return FutureBuilder<bool>(
+                future: _isServiceInFavorites(service.serviceId!),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return AppLoading();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    bool isFavorite = snapshot.data ?? false;
+                    return PostService(
+                      title: service.title ?? '',
+                      description: service.description ?? '',
+                      username:
+                          '${service.user.firstname} ${service.user.lastname}',
+                      job: '@${service.user.username}',
+                      pictureUrl: service.user.profilePic,
+                      available: Helpers.boolVal(service.user.available),
+                      pictures: service.pictures,
+                      firstname: service.user.firstname,
+                      lastname: service.user.lastname,
+                      userId: service.user.userId,
+                      serviceId: service.serviceId!,
+                      currentUserId: currentUserId,
+                      isFavorite: isFavorite,
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServiceDetail(
+                              serviceId: service.serviceId,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
               );
             },

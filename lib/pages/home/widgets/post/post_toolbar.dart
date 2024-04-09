@@ -1,7 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/models/favorite/favorite_creation_request.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
+import 'package:profinder/services/favorite/favorite.dart';
 
 import '../../../../utils/theme_data.dart';
 
@@ -15,6 +17,7 @@ class PostToolBar extends StatefulWidget {
   final String? pictureUrl;
   final bool? available;
   final int? serviceId;
+  final bool? isFavorite;
 
   const PostToolBar({
     Key? key,
@@ -27,6 +30,7 @@ class PostToolBar extends StatefulWidget {
     this.lastname,
     this.pictureUrl,
     this.available,
+    this.isFavorite,
   }) : super(key: key);
 
   @override
@@ -34,7 +38,14 @@ class PostToolBar extends StatefulWidget {
 }
 
 class _PostToolBarState extends State<PostToolBar> {
-  bool isFavorite = false;
+  FavoriteService favorite = FavoriteService();
+  bool _isButtonDisabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isButtonDisabled = widget.isFavorite ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,35 +92,47 @@ class _PostToolBarState extends State<PostToolBar> {
         if (widget.icon2 != null)
           IconButton(
             icon: Icon(
-              isFavorite
+              widget.isFavorite!
                   ? FluentIcons.bookmark_16_filled
                   : FluentIcons.bookmark_16_regular,
               color: AppTheme.primaryColor,
             ),
-            onPressed: () {
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-              if (isFavorite) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Service ajouté au favoris'),
-                    duration: Duration(
-                      seconds: 2,
-                    ),
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Service supprimé des favoris'),
-                    duration: Duration(
-                      seconds: 2,
-                    ),
-                  ),
-                );
-              }
-            },
+            onPressed: _isButtonDisabled
+                ? () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'Le Service est déja dans la liste des favoris'), // Confirmation message
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                : () async {
+                    FavoriteCreationRequest fav = FavoriteCreationRequest(
+                      serviceId: widget.serviceId!,
+                    );
+
+                    try {
+                      await favorite.post(fav);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Ajouté au favoris'), // Confirmation message
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      setState(() {
+                        _isButtonDisabled = true;
+                      });
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Erreur $e'), // Confirmation message
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
           ),
       ],
     );

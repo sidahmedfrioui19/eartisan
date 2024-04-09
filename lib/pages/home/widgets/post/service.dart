@@ -19,6 +19,7 @@ class PostService extends StatelessWidget {
   final String? currentUserId;
   final List<Picture>? pictures;
   final VoidCallback? onPress;
+  final bool? isFavorite;
 
   const PostService({
     Key? key,
@@ -29,6 +30,7 @@ class PostService extends StatelessWidget {
     required this.pictureUrl,
     required this.available,
     required this.serviceId,
+    this.isFavorite,
     this.userId,
     this.currentUserId,
     this.firstname,
@@ -73,6 +75,7 @@ class PostService extends StatelessWidget {
                       pictureUrl: pictureUrl,
                       available: available,
                       user_id: userId,
+                      isFavorite: isFavorite!,
                     )
                 ],
               ),
