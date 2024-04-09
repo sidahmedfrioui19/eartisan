@@ -6,7 +6,11 @@ import 'package:profinder/pages/home/widgets/post/post.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class PostsPage extends StatefulWidget {
-  const PostsPage({super.key});
+  final String? userId;
+  const PostsPage({
+    super.key,
+    required this.userId,
+  });
 
   @override
   State<PostsPage> createState() => _PostsPageState();

@@ -16,7 +16,11 @@ import 'package:profinder/pages/home/widgets/post/service.dart';
 import '../../models/post/service.dart';
 
 class ServicesPage extends StatefulWidget {
-  const ServicesPage({Key? key}) : super(key: key);
+  final String? userId;
+  const ServicesPage({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
   State<ServicesPage> createState() => _ServicesPageState();

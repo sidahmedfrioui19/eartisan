@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/home/posts.dart';
 import 'package:profinder/pages/home/services.dart';
 import 'package:profinder/pages/home/widgets/home_page_selector.dart';
@@ -15,6 +16,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String? currentUserId = '';
+
+  void getCurrentUserId() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? jwtToken = await secureStorage.read(key: 'userId');
+
+    currentUserId = jwtToken;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserId();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +59,8 @@ class _HomePageState extends State<HomePage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                ServicesPage(),
-                PostsPage(),
+                ServicesPage(userId: currentUserId),
+                PostsPage(userId: currentUserId),
               ],
             ),
           ),

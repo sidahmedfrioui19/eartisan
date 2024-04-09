@@ -1,18 +1,18 @@
 class Message {
-  final int messageId;
+  final int? messageId;
   final String content;
-  final int senderId;
-  final int receiverId;
-  final int conversationId;
-  final DateTime createdAt;
+  final String senderId;
+  final String receiverId;
+  final int? conversationId;
+  final DateTime? createdAt;
 
   Message({
-    required this.messageId,
+    this.messageId,
     required this.content,
     required this.senderId,
     required this.receiverId,
-    required this.conversationId,
-    required this.createdAt,
+    this.conversationId,
+    this.createdAt,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) {
@@ -33,7 +33,7 @@ class Message {
       'sender_id': senderId,
       'receiver_id': receiverId,
       'conversation_id': conversationId,
-      'created_at': createdAt.toIso8601String(),
+      'created_at': createdAt!.toIso8601String(),
     };
   }
 }

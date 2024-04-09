@@ -20,8 +20,10 @@ class AuthenticationService {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       final String jwtToken = data['token'];
+      final String userId = data['user']['user_id'];
 
       await secureStorage.write(key: 'jwtToken', value: jwtToken);
+      await secureStorage.write(key: 'userId', value: userId);
     } else {
       throw Exception('Failed to login');
     }
