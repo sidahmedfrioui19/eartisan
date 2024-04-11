@@ -118,6 +118,7 @@ class _ServicesByCategoryState extends State<ServicesByCategory> {
                               MaterialPageRoute(
                                 builder: (context) => ServiceDetail(
                                   serviceId: service.serviceId,
+                                  isFavorite: isFavorite,
                                 ),
                               ),
                             );

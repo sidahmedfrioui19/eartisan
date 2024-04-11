@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/generic_search/generic_search_request.dart';
 import 'package:profinder/models/generic_search/generic_search_response.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
@@ -15,8 +16,38 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  GenericSearch search = GenericSearch();
+  final GenericSearch search = GenericSearch();
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   GenericSearchResponse? response;
+  List<String>? recentSearches;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecentSearches();
+  }
+
+  void _saveRecentSearch(String keyword) async {
+    recentSearches!.insert(0, keyword);
+    await _secureStorage.write(
+        key: 'recentSearches', value: recentSearches!.join(','));
+    setState(() {});
+  }
+
+  void _loadRecentSearches() async {
+    String? storedSearches = await _secureStorage.read(key: 'recentSearches');
+    setState(() {
+      recentSearches = storedSearches != null && storedSearches != ''
+          ? storedSearches.split(',')
+          : [];
+    });
+  }
+
+  void _removeRecentSearch(int index) async {
+    //recentSearches!.removeAt(index);
+    await _secureStorage.write(key: 'recentSearches', value: '');
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +61,13 @@ class _SearchPageState extends State<SearchPage> {
           try {
             response = await search.post(req);
             setState(() {});
+            _saveRecentSearch(keyword);
           } catch (e) {
             setState(() {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('$e'), // Confirmation message
+                  content: Text(
+                      'Une erreur est survenue veuillez réessayer'), // Confirmation message
                   duration:
                       Duration(seconds: 2), // Adjust the duration as needed
                 ),
@@ -73,9 +106,64 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             )
-          : Center(
-              child: Text('No data available'),
-            ),
+          : recentSearches != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Text(
+                          'Recherches récentes (${recentSearches!.length})',
+                        )),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: recentSearches!.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            trailing: IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                if (recentSearches != null &&
+                                    recentSearches!.isNotEmpty) {
+                                  setState(() {
+                                    recentSearches!.removeAt(index);
+                                    _removeRecentSearch(index);
+                                  });
+                                }
+                              },
+                            ),
+                            title: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(recentSearches![index])),
+                            onTap: () async {
+                              GenericSearchRequest req = GenericSearchRequest(
+                                keyword: recentSearches![index],
+                              );
+                              try {
+                                response = await search.post(req);
+                                setState(() {});
+                              } catch (e) {
+                                setState(() {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Une erreur est survenue veuillez réessayer'),
+                                      duration: Duration(
+                                        seconds: 2,
+                                      ),
+                                    ),
+                                  );
+                                });
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                )
+              : Center(child: Icon(Icons.format_list_bulleted)),
     );
   }
 

@@ -1,11 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:profinder/models/favorite/favorite_creation_request.dart';
 import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/pages/home/widgets/contact_detail.dart';
 import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/picture_list.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
+import 'package:profinder/services/favorite/favorite.dart';
 import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
@@ -13,10 +15,12 @@ import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
 
 class ServiceDetail extends StatefulWidget {
+  final bool? isFavorite;
   final int? serviceId;
   const ServiceDetail({
     Key? key,
     required this.serviceId,
+    this.isFavorite,
   }) : super(key: key);
 
   @override
@@ -26,6 +30,8 @@ class ServiceDetail extends StatefulWidget {
 class _ServiceDetailState extends State<ServiceDetail> {
   late Future<ServiceDetailEntity> _serviceFuture;
   ProfessionalService service = ProfessionalService();
+  FavoriteService favorite = FavoriteService();
+  bool _isButtonDisabled = false;
   late int service_id;
   late String professional_id;
 
@@ -47,11 +53,49 @@ class _ServiceDetailState extends State<ServiceDetail> {
       appBar: OverlayTopBar(
         title: "",
         dismissIcon: FluentIcons.chevron_left_12_filled,
-        action: IconButton(
-          icon: Icon(FluentIcons.bookmark_16_regular),
-          onPressed: () {},
-        ),
+        action: widget.isFavorite != null || widget.isFavorite == false
+            ? IconButton(
+                icon: Icon(FluentIcons.bookmark_16_regular),
+                onPressed: _isButtonDisabled
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Le Service est déjà dans la liste des favoris',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    : () async {
+                        FavoriteCreationRequest fav = FavoriteCreationRequest(
+                          serviceId: widget.serviceId!,
+                        );
+
+                        try {
+                          await favorite.post(fav);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Ajouté au favoris'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          setState(() {
+                            _isButtonDisabled = true;
+                          });
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Erreur $e'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+              )
+            : null,
       ),
+
       // Inside the build method of ServiceDetail widget
       body: FutureBuilder<ServiceDetailEntity>(
         future: _serviceFuture,
