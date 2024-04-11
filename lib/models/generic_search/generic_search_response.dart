@@ -179,8 +179,7 @@ class Service {
   String title;
   String description;
   String status;
-  String createdAt;
-  String subcategoryId;
+  int subcategoryId;
   User user;
   List<Picture> pictures;
   List<Price> prices;
@@ -190,7 +189,6 @@ class Service {
     required this.title,
     required this.description,
     required this.status,
-    required this.createdAt,
     required this.subcategoryId,
     required this.user,
     required this.pictures,
@@ -203,8 +201,7 @@ class Service {
       title: json['title'] ?? '',
       description: json['description'] ?? '',
       status: json['status'] ?? '',
-      createdAt: json['created_at'] ?? '',
-      subcategoryId: json['subcategory_id'] ?? '',
+      subcategoryId: json['subcategory_id'] ?? 0,
       user: User.fromJson(json['user'] ?? {}),
       pictures: (json['pictures'] as List<dynamic>?)
               ?.map((e) => Picture.fromJson(e as Map<String, dynamic>))
@@ -223,7 +220,6 @@ class Service {
       'title': title,
       'description': description,
       'status': status,
-      'created_at': createdAt,
       'subcategory_id': subcategoryId,
       'user': user.toJson(),
       'pictures': pictures.map((e) => e.toJson()).toList(),
@@ -238,7 +234,21 @@ class Post {
   String createdAt;
   String description;
   String status;
-  User user;
+  String userId;
+  String username;
+  String firstname;
+  String lastname;
+  String address;
+  String? phoneNumber;
+  String? instagramLink;
+  String? facebookLink;
+  String? tiktokLink;
+  String? profilePicture;
+  int? post_id;
+  String? post_title;
+  String? post_created_at;
+  String? post_description;
+  String? post_status;
 
   Post({
     required this.postId,
@@ -246,7 +256,21 @@ class Post {
     required this.createdAt,
     required this.description,
     required this.status,
-    required this.user,
+    required this.userId,
+    required this.username,
+    required this.firstname,
+    required this.lastname,
+    required this.address,
+    this.phoneNumber,
+    this.instagramLink,
+    this.facebookLink,
+    this.tiktokLink,
+    this.profilePicture,
+    this.post_id,
+    this.post_title,
+    this.post_created_at,
+    this.post_description,
+    this.post_status,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -256,7 +280,21 @@ class Post {
       createdAt: json['created_at'] ?? '',
       description: json['description'] ?? '',
       status: json['status'] ?? '',
-      user: User.fromJson(json['user'] ?? {}),
+      userId: json['user_id'] ?? '',
+      username: json['username'] ?? '',
+      firstname: json['firstname'] ?? '',
+      lastname: json['lastname'] ?? '',
+      address: json['address'] ?? '',
+      phoneNumber: json['phone_number'] ?? '',
+      instagramLink: json['instagram_link'] ?? '',
+      facebookLink: json['facebook_link'] ?? '',
+      tiktokLink: json['tiktok_link'] ?? '',
+      profilePicture: json['profile_picture'] ?? '',
+      post_id: json['post_id'],
+      post_title: json['title'],
+      post_created_at: json['post_created_at'],
+      post_description: json['description'],
+      post_status: json['status'],
     );
   }
 
@@ -267,7 +305,20 @@ class Post {
       'created_at': createdAt,
       'description': description,
       'status': status,
-      'user': user.toJson(),
+      'user_id': userId,
+      'username': username,
+      'firstname': firstname,
+      'lastname': lastname,
+      'address': address,
+      'phone_number': phoneNumber,
+      'instagram_link': instagramLink,
+      'facebook_link': facebookLink,
+      'tiktok_link': tiktokLink,
+      'profile_picture': profilePicture,
+      'post_title': post_title,
+      'post_created_at': post_created_at,
+      'post_description': post_description,
+      'post_status': post_status,
     };
   }
 }
@@ -283,7 +334,7 @@ class User {
   String facebookLink;
   String tiktokLink;
   String profilePicture;
-  String? post_id;
+  int? post_id;
   String? post_title;
   String? post_created_at;
   String? post_description;
@@ -374,7 +425,7 @@ class Picture {
 
 class Price {
   int priceId;
-  int value;
+  String value;
   String description;
   String rate;
 

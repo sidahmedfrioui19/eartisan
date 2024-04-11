@@ -27,17 +27,17 @@ class GenericSearch {
 
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
-        final GenericSearchResponse items = parsed['data'].map((itemJson) {
-          return GenericSearchResponse.fromJson(itemJson);
-        }).toList();
+        print(response.body);
+        final GenericSearchResponse items =
+            GenericSearchResponse.fromJson(parsed['data']);
 
         return items;
       } else {
-        throw Exception('Failed to send message: ${response.statusCode}');
+        throw Exception('${response.statusCode}');
       }
     } catch (error) {
-      print('Error sending message: $error');
-      throw Exception('Failed to send message: $error');
+      print('$error');
+      throw Exception('$error');
     }
   }
 }

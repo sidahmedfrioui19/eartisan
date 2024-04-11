@@ -47,10 +47,7 @@ class Category extends StatelessWidget {
                   width: 10,
                   child: Image.network(
                     iconUrl,
-                    fit: BoxFit
-                        .contain, // Use BoxFit.contain instead of BoxFit.cover
-                    width: 1, // Adjust the width as desired
-                    height: 1, // Adjust the height as desired
+                    scale: 10,
                   ),
                 )),
               ),
