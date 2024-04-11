@@ -5,7 +5,8 @@ import 'package:profinder/services/message/conversation.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/conversation-tile.dart';
 import 'package:profinder/widgets/navigation/burger_menu.dart';
-import 'package:profinder/widgets/appbar/top_bar.dart'; // Fixed import
+import 'package:profinder/widgets/appbar/top_bar.dart';
+import 'package:profinder/widgets/progress/loader.dart'; // Fixed import
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key); // Fixed super keyword
@@ -42,7 +43,7 @@ class _MessagesPageState extends State<MessagesPage> {
         future: _conversationFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return AppLoading();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {

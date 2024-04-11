@@ -1,8 +1,8 @@
 class Conversation {
-  int conversationId;
+  int? conversationId;
   String user1Id;
   String user2Id;
-  int seen;
+  int? seen;
   String userId;
   String role;
   String username;
@@ -14,13 +14,13 @@ class Conversation {
   String? cv;
   String? address;
   String createdAt;
-  int verifier;
+  int? verifier;
   String phoneNumber;
   String profilePicture;
   String? facebookLink;
   String? instagramLink;
   String? tiktokLink;
-  int disponible;
+  int? disponible;
   String lastMessage;
   String lastMessageTimestamp;
 
@@ -53,10 +53,10 @@ class Conversation {
 
   factory Conversation.fromJson(Map<String, dynamic> json) {
     return Conversation(
-      conversationId: json['conversation_id'] as int,
+      conversationId: json['conversation_id'] as int?,
       user1Id: json['user1_id'] as String,
       user2Id: json['user2_id'] as String,
-      seen: json['seen'] as int,
+      seen: json['seen'] as int?,
       userId: json['user_id'] as String,
       role: json['role'] as String,
       username: json['username'] as String,
@@ -68,13 +68,13 @@ class Conversation {
       cv: json['cv'] as String?,
       address: json['adress'] as String?,
       createdAt: json['created_at'] as String,
-      verifier: json['verifier'] as int,
+      verifier: json['verifier'] as int?,
       phoneNumber: json['phone_number'] as String,
       profilePicture: json['profile_picture'] as String,
       facebookLink: json['facebook_link'] as String?,
       instagramLink: json['instagram_link'] as String?,
       tiktokLink: json['tiktok_link'] as String?,
-      disponible: json['disponible'] as int,
+      disponible: json['disponible'] as int?,
       lastMessage: json['last_message'] as String,
       lastMessageTimestamp: json['last_message_timestamp'] as String,
     );

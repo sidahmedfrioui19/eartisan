@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:profinder/utils/theme_data.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const SearchAppBar({Key? key}) : super(key: key);
+  final Function(String) onSubmitted;
+  const SearchAppBar({
+    Key? key,
+    required this.onSubmitted,
+  }) : super(key: key);
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();
@@ -13,10 +17,14 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: TextField(
+        controller: _searchController,
+        cursorColor: Colors.white, // Set the cursor color
         decoration: InputDecoration(
           icon: Icon(
             FluentIcons.search_12_filled,
@@ -25,12 +33,18 @@ class _SearchAppBarState extends State<SearchAppBar> {
           hintText: 'Rechercher',
           border: InputBorder.none,
         ),
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: AppTheme.textColor, // Set the text color explicitly
+        ),
+        onSubmitted: (__) => widget
+            .onSubmitted(_searchController.text), // Use _searchController.text
       ),
       actions: [
         IconButton(
           icon: Icon(Icons.close),
-          onPressed: () {},
+          onPressed: () {
+            _searchController.clear();
+          },
         ),
       ],
     );
