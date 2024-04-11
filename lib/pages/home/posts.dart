@@ -8,9 +8,11 @@ import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class PostsPage extends StatefulWidget {
   final String? userId;
+  final String? jwtToken;
   const PostsPage({
     super.key,
     required this.userId,
+    required this.jwtToken,
   });
 
   @override
@@ -80,6 +82,7 @@ class _PostsPageState extends State<PostsPage> {
                 status: post.status,
                 userId: post.userId,
                 currentUserId: currentUserId,
+                jwtToken: widget.jwtToken,
               );
             },
           ),

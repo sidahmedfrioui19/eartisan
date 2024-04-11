@@ -17,12 +17,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String? currentUserId = '';
+  String? jwtToken = null;
 
   void getCurrentUserId() async {
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-    final String? jwtToken = await secureStorage.read(key: 'userId');
+    final String? id = await secureStorage.read(key: 'userId');
+    final String? token = await secureStorage.read(key: 'jwtToken');
+    print(jwtToken);
 
-    currentUserId = jwtToken;
+    currentUserId = id;
+    jwtToken = token;
   }
 
   @override
@@ -59,8 +63,8 @@ class _HomePageState extends State<HomePage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                ServicesPage(userId: currentUserId),
-                PostsPage(userId: currentUserId),
+                ServicesPage(userId: currentUserId, jwtToken: jwtToken),
+                PostsPage(userId: currentUserId, jwtToken: jwtToken),
               ],
             ),
           ),

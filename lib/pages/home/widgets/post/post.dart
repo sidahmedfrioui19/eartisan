@@ -18,6 +18,7 @@ class Post extends StatelessWidget {
   final String? status;
   final bool? available;
   final String? currentUserId;
+  final String? jwtToken;
 
   const Post({
     Key? key,
@@ -33,6 +34,7 @@ class Post extends StatelessWidget {
     this.userId,
     this.currentUserId,
     this.available,
+    this.jwtToken,
   }) : super(key: key);
 
   @override
@@ -58,7 +60,7 @@ class Post extends StatelessWidget {
                   content: '@${username}',
                   available: true,
                 ),
-                if (this.currentUserId != userId)
+                if (this.currentUserId != userId && jwtToken != null)
                   PostToolBar(
                     icon1: FluentIcons.hand_wave_16_regular,
                     pictureUrl: pictureUrl,
