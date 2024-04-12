@@ -44,9 +44,9 @@ class PostService extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Padding(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+        padding: EdgeInsets.only(left: 5, right: 5, top: 20),
         child: Container(
-          padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 2),
+          padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -64,7 +64,8 @@ class PostService extends StatelessWidget {
                     content: job,
                     available: available,
                   ),
-                  if (this.userId != null && this.currentUserId != userId)
+                  if (this.currentUserId != null &&
+                      this.currentUserId != userId)
                     PostToolBar(
                       icon1: FluentIcons.send_16_regular,
                       icon2: FluentIcons.bookmark_16_regular,

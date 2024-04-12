@@ -19,7 +19,9 @@ class AuthenticationService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
+
       final String jwtToken = data['token'];
+      print(response.body);
       final String userId = data['user']['user_id'];
 
       await secureStorage.write(key: 'jwtToken', value: jwtToken);

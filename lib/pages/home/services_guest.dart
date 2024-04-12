@@ -14,9 +14,11 @@ import '../../models/post/service.dart';
 
 class ServicesGuestPage extends StatefulWidget {
   final String? userId;
+  final String? jwtToken;
   const ServicesGuestPage({
     Key? key,
     required this.userId,
+    this.jwtToken,
   }) : super(key: key);
 
   @override
@@ -65,7 +67,8 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CategoryList(),
+                        builder: (context) =>
+                            CategoryList(jwtToken: widget.jwtToken),
                       ),
                     );
                   },
@@ -87,10 +90,10 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
             emptyText: "Aucune catégorie",
             itemBuilder: (category) {
               return Category(
-                iconUrl: category.icon,
-                title: category.name,
-                subcategories: category.subcategories,
-              );
+                  iconUrl: category.icon,
+                  title: category.name,
+                  subcategories: category.subcategories,
+                  jwtToken: widget.jwtToken);
             },
           ),
           Row(

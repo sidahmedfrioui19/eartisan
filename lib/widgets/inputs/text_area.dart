@@ -6,6 +6,7 @@ class RoundedTextArea extends StatelessWidget {
   final String hintText;
   final bool? obscured;
   final IconData? icon;
+  final String? Function(String?)? validator; // Validator function
 
   const RoundedTextArea({
     Key? key,
@@ -14,6 +15,7 @@ class RoundedTextArea extends StatelessWidget {
     this.onChanged,
     this.obscured,
     this.icon,
+    this.validator, // Include validator parameter
   }) : super(key: key);
 
   @override
@@ -27,12 +29,14 @@ class RoundedTextArea extends StatelessWidget {
       ),
       child: Container(
         height: 200, // Set the height of the text area
-        child: TextField(
+        child: TextFormField(
+          // Changed to TextFormField to enable validation
           maxLines: null, // Allow unlimited lines of text
           keyboardType: TextInputType.multiline, // Enable multiline input
           obscureText: obscured ?? false,
           controller: controller,
           onChanged: onChanged,
+          validator: validator, // Validator function
           decoration: InputDecoration(
             hintText: hintText,
             contentPadding:

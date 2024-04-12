@@ -7,12 +7,14 @@ class Category extends StatelessWidget {
   final String iconUrl;
   final String title;
   final List<SubCategoryEntity> subcategories;
+  final String? jwtToken;
 
   const Category({
     Key? key,
     required this.title,
     required this.iconUrl,
     required this.subcategories,
+    this.jwtToken,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class Category extends StatelessWidget {
                     builder: (context) => SubcategoryList(
                       categoryName: title,
                       subcategories: subcategories,
+                      jwtToken: jwtToken,
                     ),
                   ),
                 );

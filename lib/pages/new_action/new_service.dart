@@ -173,11 +173,23 @@ class _NewServiceState extends State<NewService> {
             RoundedTextField(
               controller: _nameController,
               hintText: "Nom",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Veuillez entrer un nom";
+                }
+                return null;
+              },
             ),
             SizedBox(height: 10),
             RoundedTextArea(
               controller: _descriptionController,
               hintText: "Description",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Veuillez entrer une description";
+                }
+                return null;
+              },
             ),
             SizedBox(height: 10),
             FutureBuilder<List<SubCategoryEntity>>(
@@ -221,12 +233,24 @@ class _NewServiceState extends State<NewService> {
                   child: RoundedTextField(
                     controller: _priceDescriptionController,
                     hintText: "Tache",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Veuillez entrer une tâche";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Flexible(
                   child: RoundedTextField(
                     controller: _valueController,
                     hintText: "Prix",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Veuillez entrer un prix";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Text('/'),
@@ -234,6 +258,12 @@ class _NewServiceState extends State<NewService> {
                   child: RoundedTextField(
                     controller: _rateController,
                     hintText: "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Veuillez entrer une valeur de taux";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 IconButton(
@@ -309,17 +339,44 @@ class _NewServiceState extends State<NewService> {
                   itemCount: pictures.length,
                   itemBuilder: (context, index) {
                     final picture = pictures[index];
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                      width: 150,
-                      height: 200,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          picture.link,
-                          fit: BoxFit.cover,
+                    return Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          width: 150,
+                          height: 200,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              picture.link,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          top: 4,
+                          left: 4,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Handle deletion of the picture here
+                              setState(() {
+                                pictures.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -332,29 +389,44 @@ class _NewServiceState extends State<NewService> {
                 icon: FluentIcons.add_12_filled,
                 text: "Publier",
                 onPressed: () async {
-                  ServiceCreationRequest newService = buildRequest();
-                  try {
-                    print(newService.toJson());
-                    await service.post(newService);
+                  if (_nameController.text.isEmpty ||
+                      _descriptionController.text.isEmpty ||
+                      _selectedCategoryId == null ||
+                      prices.isEmpty ||
+                      pictures.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Service publié avec succès!',
-                        ),
-                        duration: Duration(seconds: 2),
-                      ),
-                    ); // Assuming postService is an instance of your PostService class
-                    service.fetch(); // Refresh data // Trigger data refresh
-                    Navigator.pop(context);
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Veuillez vérifier vos coordonnées',
+                          'Veuillez remplir tous les champs',
                         ),
                         duration: Duration(seconds: 2),
                       ),
                     );
+                  } else {
+                    ServiceCreationRequest newService = buildRequest();
+                    try {
+                      print(newService.toJson());
+                      await service.post(newService);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Service publié avec succès!',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      ); // Assuming postService is an instance of your PostService class
+                      service.fetch(); // Refresh data // Trigger data refresh
+                      Navigator.pop(context);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Veuillez vérifier vos coordonnées',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   }
                 },
               ),

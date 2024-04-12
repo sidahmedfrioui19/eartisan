@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/category/category.dart';
 import 'package:profinder/models/favorite/favorite.dart';
 import 'package:profinder/pages/home/service_detail.dart';
@@ -40,15 +39,12 @@ class _ServicesPageState extends State<ServicesPage> {
   final FavoriteListService favoriteList = FavoriteListService();
   final FavoriteService favoriteService = FavoriteService();
 
-  late String? currentUserId;
-
   @override
   void initState() {
     super.initState();
     _loadCategories();
     _loadServices();
     _loadFavorites();
-    loadUserId();
   }
 
   Future<void> _loadCategories() async {
@@ -61,15 +57,6 @@ class _ServicesPageState extends State<ServicesPage> {
 
   Future<void> _loadFavorites() async {
     _favoritesFuture = favoriteList.fetch();
-  }
-
-  Future<void> loadUserId() async {
-    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-    final String? jwtToken = await secureStorage.read(key: 'userId');
-
-    setState(() {
-      currentUserId = jwtToken ?? '';
-    });
   }
 
   Future<bool> _isServiceInFavorites(int serviceId) async {
@@ -238,7 +225,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       lastname: service.user.lastname,
                       userId: service.user.userId,
                       serviceId: service.serviceId!,
-                      currentUserId: currentUserId,
+                      currentUserId: widget.userId,
                       isFavorite: isFavorite,
                       onPress: () {
                         Navigator.push(

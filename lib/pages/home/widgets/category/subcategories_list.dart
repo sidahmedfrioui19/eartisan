@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/subcategory/subcategory.dart';
 import 'package:profinder/pages/home/services_by_subcategory.dart';
+import 'package:profinder/pages/home/services_by_subcategory_guest.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -8,10 +9,12 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 class SubcategoryList extends StatefulWidget {
   final String categoryName;
   final List<SubCategoryEntity> subcategories;
+  final String? jwtToken;
   const SubcategoryList({
     Key? key,
     required this.categoryName,
     required this.subcategories,
+    required this.jwtToken,
   });
 
   @override
@@ -32,15 +35,29 @@ class _SubcategoryListState extends State<SubcategoryList> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ServicesByCategory(
-                      subCategoryName:
-                          widget.subcategories[index].subCategoryName,
-                      subCategoryId: widget.subcategories[index].subCategoryId),
-                ),
-              );
+              if (widget.jwtToken != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ServicesByCategory(
+                        subCategoryName:
+                            widget.subcategories[index].subCategoryName,
+                        subCategoryId:
+                            widget.subcategories[index].subCategoryId),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ServicesByCategoryGuest(
+                        subCategoryName:
+                            widget.subcategories[index].subCategoryName,
+                        subCategoryId:
+                            widget.subcategories[index].subCategoryId),
+                  ),
+                );
+              }
             },
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 5),

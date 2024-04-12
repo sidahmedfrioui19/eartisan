@@ -49,31 +49,45 @@ class NewPost extends StatelessWidget {
               icon: FluentIcons.add_12_filled,
               text: "Publier",
               onPressed: () async {
-                PostCreationRequest data = PostCreationRequest(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                );
-                try {
-                  await _postService.post(data);
+                if (_titleController.text.isEmpty ||
+                    _descriptionController.text.isEmpty) {
+                  // If any of the fields are empty, show an error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        'Contenu publié avec succès!',
-                      ),
-                      duration: Duration(seconds: 2),
-                    ),
-                  ); // Assuming postService is an instance of your PostService class
-                  _postService.fetch(); // Refresh data // Trigger data refresh
-                  Navigator.pop(context);
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Veuillez vérifier vos coordonnées',
+                        'Veuillez remplir tous les champs',
                       ),
                       duration: Duration(seconds: 2),
                     ),
                   );
+                } else {
+                  // If all fields are filled, proceed with posting
+                  PostCreationRequest data = PostCreationRequest(
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                  );
+                  try {
+                    await _postService.post(data);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Contenu publié avec succès!',
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    _postService.fetch();
+                    Navigator.pop(context);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Veuillez vérifier vos coordonnées',
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 }
               },
             ),

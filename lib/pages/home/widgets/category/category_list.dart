@@ -8,7 +8,11 @@ import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class CategoryList extends StatefulWidget {
-  const CategoryList({Key? key});
+  final String? jwtToken;
+  const CategoryList({
+    Key? key,
+    this.jwtToken,
+  });
 
   @override
   State<CategoryList> createState() => _CategoryListState();
@@ -57,8 +61,10 @@ class _CategoryListState extends State<CategoryList> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => SubcategoryList(
-                            categoryName: category.name,
-                            subcategories: category.subcategories),
+                          categoryName: category.name,
+                          subcategories: category.subcategories,
+                          jwtToken: widget.jwtToken,
+                        ),
                       ),
                     );
                   },
