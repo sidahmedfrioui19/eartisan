@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:profinder/models/appointement/appointment_creation_request.dart';
+import 'package:profinder/models/appointement/appointment_update_request.dart';
 import 'package:profinder/services/data.dart';
 import 'package:http/http.dart' as http;
 import 'package:profinder/services/user/authentication.dart';
@@ -18,7 +19,7 @@ class AppointementService {
     return _genericService.post(body);
   }
 
-  Future<Map<String, bool>> setStatus(Map<String, String> body, int id) async {
+  Future<Map<String, bool>> cancel(Map<String, String> body, int? id) async {
     final String? jwtToken = await AuthenticationService.getJwtToken();
     print('$apiUrl/appointment/update/$id');
     final response = await http.patch(
@@ -26,7 +27,30 @@ class AppointementService {
       headers: {
         'Authorization': 'Bearer $jwtToken',
       },
-      body: body,
+      body: {
+        '_status': 'cancelled',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return {'success': true};
+    } else {
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
+    }
+  }
+
+  Future<Map<String, bool>> update(
+      AppointementUpdateRequest entity, int? id) async {
+    final String? jwtToken = await AuthenticationService.getJwtToken();
+    final response = await http.patch(
+      Uri.parse('$apiUrl/appointment/update/$id'),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+      },
+      body: entity.toJson(),
     );
 
     if (response.statusCode == 200) {

@@ -3,6 +3,7 @@ class ProfessionalAppointment {
   final String? description;
   final String? date;
   final String? time;
+  final String? status;
   final Service service;
   final Customer customer;
 
@@ -11,6 +12,7 @@ class ProfessionalAppointment {
     required this.description,
     required this.date,
     required this.time,
+    required this.status,
     required this.service,
     required this.customer,
   });
@@ -21,6 +23,7 @@ class ProfessionalAppointment {
       description: json['description'],
       date: json['date'],
       time: json['time'],
+      status: json['status'],
       service: Service.fromJson(json['service']),
       customer: Customer.fromJson(json['customer']),
     );

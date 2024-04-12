@@ -59,4 +59,45 @@ class Helpers {
     String formattedTime = '${dateTime.day} $monthAbbreviation';
     return formattedTime;
   }
+
+  static String getAppointementStatus(String? state) {
+    String status;
+    switch (state) {
+      case 'pending':
+        status = 'En attente';
+        break;
+      case 'processing':
+        status = 'Traitement en cours';
+        break;
+      case 'confirmed':
+        status = 'Confirmé';
+        break;
+      case 'cancelled':
+        status = 'Annulé';
+        break;
+      default:
+        status = '';
+    }
+
+    return status;
+  }
+
+  static String formatDateForMySQL(String date) {
+    List<String> parts = date.split('-');
+    if (parts.length == 3) {
+      // Assuming the format is 'MM-DD-YYYY'
+      String formattedDate = '${parts[2]}-${parts[0]}-${parts[1]}';
+      return formattedDate;
+    } else {
+      // Handle the case where the date format is unexpected
+      print('Invalid date format: $date');
+      return date; // Return the original date string
+    }
+  }
+
+  static String reverseDateFormat(String? dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString ?? '');
+    String formattedDate = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
+    return formattedDate;
+  }
 }

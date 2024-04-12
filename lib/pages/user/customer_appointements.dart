@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/appointement/appointment_update_request.dart';
 import 'package:profinder/models/appointement/customer_appointment.dart';
+import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/services/appointement/customer_appointement.dart';
+import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class CustomerAppointments extends StatefulWidget {
@@ -16,8 +19,16 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
   final CustomerAppointementService _appointmentService =
       CustomerAppointementService();
 
+  final AppointementService appointementService = AppointementService();
+
   Future<void> _loadAppointments() async {
     _appointments = _appointmentService.fetch();
+  }
+
+  void _updateAppointments() {
+    setState(() {
+      _loadAppointments();
+    });
   }
 
   @override
@@ -59,12 +70,27 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                         Text('Date: ${appointment.date ?? 'N/D'}'),
                         SizedBox(height: 4),
                         Text('Temps: ${appointment.time ?? 'N/D'}'),
+                        SizedBox(height: 4),
+                        Text(
+                            'Status: ${Helpers.getAppointementStatus(appointment.status)}'),
                       ],
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.cancel),
-                      onPressed: () {
-                        // Add cancel appointment logic here
+                      onPressed: () async {
+                        AppointementUpdateRequest req =
+                            AppointementUpdateRequest(
+                          state: 'cancelled',
+                        );
+                        await appointementService.update(
+                            req, appointment.appointmentId);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Rendez-vous annulé'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        _updateAppointments();
                       },
                     ),
                   ),

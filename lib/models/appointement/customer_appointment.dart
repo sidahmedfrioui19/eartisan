@@ -5,12 +5,14 @@ class CustomerAppointment {
   final String? time;
   final Service service;
   final Professional professional;
+  final String? status;
 
   CustomerAppointment({
     this.appointmentId,
     this.description,
     this.date,
     this.time,
+    required this.status,
     required this.service,
     required this.professional,
   });
@@ -21,6 +23,7 @@ class CustomerAppointment {
       description: json['description'],
       date: json['date'],
       time: json['time'],
+      status: json['status'],
       service: Service.fromJson(json['service']),
       professional: Professional.fromJson(json['professional']),
     );
