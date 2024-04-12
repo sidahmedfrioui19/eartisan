@@ -20,12 +20,10 @@ import 'package:profinder/widgets/progress/loader.dart';
 import '../../models/post/service.dart';
 
 class ServicesPage extends StatefulWidget {
-  final String? jwtToken;
   final String? userId;
   const ServicesPage({
     Key? key,
     required this.userId,
-    required this.jwtToken,
   }) : super(key: key);
 
   @override
@@ -248,6 +246,7 @@ class _ServicesPageState extends State<ServicesPage> {
                           MaterialPageRoute(
                             builder: (context) => ServiceDetail(
                               serviceId: service.serviceId,
+                              loggedIn: true,
                             ),
                           ),
                         );

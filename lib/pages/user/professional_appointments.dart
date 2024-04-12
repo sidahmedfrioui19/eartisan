@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/appointement/professional_appointment.dart';
 import 'package:profinder/services/appointement/professional_appointement.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class ProfessionalAppointments extends StatefulWidget {
@@ -69,13 +70,29 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                         SizedBox(height: 4),
                         Text(
                             'Temps: ${appointment.time != null ? appointment.time : 'N/D'}'),
+                        Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              bottom: 5,
+                              left: 0,
+                              right: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FilledAppButton(
+                                  icon: Icons.edit,
+                                  text: 'Modifier',
+                                  onPressed: () {},
+                                ),
+                                FilledAppButton(
+                                  icon: Icons.cancel,
+                                  text: 'Annuler',
+                                  onPressed: () {},
+                                ),
+                              ],
+                            )),
                       ],
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.cancel),
-                      onPressed: () {
-                        // Add cancel appointment logic here
-                      },
                     ),
                   ),
                 );

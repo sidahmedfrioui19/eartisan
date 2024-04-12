@@ -64,7 +64,7 @@ class PostService extends StatelessWidget {
                     content: job,
                     available: available,
                   ),
-                  if (this.currentUserId != userId)
+                  if (this.userId != null && this.currentUserId != userId)
                     PostToolBar(
                       icon1: FluentIcons.send_16_regular,
                       icon2: FluentIcons.bookmark_16_regular,
@@ -75,7 +75,7 @@ class PostService extends StatelessWidget {
                       pictureUrl: pictureUrl,
                       available: available,
                       user_id: userId,
-                      isFavorite: isFavorite!,
+                      isFavorite: isFavorite ?? false,
                     )
                 ],
               ),

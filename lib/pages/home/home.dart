@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/home/posts.dart';
 import 'package:profinder/pages/home/services.dart';
+import 'package:profinder/pages/home/services_guest.dart';
 import 'package:profinder/pages/home/widgets/home_page_selector.dart';
 import 'package:profinder/utils/theme_data.dart';
 import '../../widgets/navigation/burger_menu.dart';
@@ -63,8 +64,12 @@ class _HomePageState extends State<HomePage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                ServicesPage(userId: currentUserId, jwtToken: jwtToken),
-                PostsPage(userId: currentUserId, jwtToken: jwtToken),
+                if (jwtToken != null) ServicesPage(userId: currentUserId),
+                if (jwtToken != null)
+                  PostsPage(userId: currentUserId, jwtToken: jwtToken),
+                if (jwtToken == null) ServicesGuestPage(userId: currentUserId),
+                if (jwtToken == null)
+                  PostsPage(userId: currentUserId, jwtToken: jwtToken),
               ],
             ),
           ),

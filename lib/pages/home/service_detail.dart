@@ -17,10 +17,13 @@ import 'package:profinder/widgets/cards/snapshot_error.dart';
 class ServiceDetail extends StatefulWidget {
   final bool? isFavorite;
   final int? serviceId;
+  final bool? loggedIn;
+
   const ServiceDetail({
     Key? key,
     required this.serviceId,
     this.isFavorite,
+    this.loggedIn,
   }) : super(key: key);
 
   @override
@@ -194,18 +197,20 @@ class _ServiceDetailState extends State<ServiceDetail> {
             children: [
               Expanded(
                 child: FilledAppButton(
-                  icon: FluentIcons.calendar_12_filled,
+                  icon: FluentIcons.arrow_right_12_filled,
                   text: "Prendre un rendez-vous",
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAppointmentPage(
-                          serviceId: service_id,
-                          professionalId: professional_id,
+                  onPressed: () {
+                    if (widget.loggedIn == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAppointmentPage(
+                            serviceId: service_id,
+                            professionalId: professional_id,
+                          ),
                         ),
-                      ),
-                    )
+                      );
+                    } else {}
                   },
                 ),
               ),
