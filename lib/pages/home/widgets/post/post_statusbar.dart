@@ -26,9 +26,7 @@ class PostStatusBar extends StatelessWidget {
           if (phoneNumber != null)
             InfoIcon(icon: FluentIcons.phone_12_filled, text: phoneNumber!),
           Icon(
-            status == 'active'
-                ? Icons.hourglass_empty
-                : FluentIcons.check_20_filled,
+            status == 'active' ? Icons.hourglass_empty : Icons.check,
             color: AppTheme.secondaryColor,
             size: 18,
           )

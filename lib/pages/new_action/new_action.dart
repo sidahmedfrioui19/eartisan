@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/new_action/new_post.dart';
 import 'package:profinder/pages/new_action/new_service.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
 
 import '../../utils/theme_data.dart';
 
@@ -16,6 +18,18 @@ class NewAction extends StatefulWidget {
 class _NewActionState extends State<NewAction> {
   late List<bool> isSelected;
   int _selected = 0;
+  bool showErrorDialog = false;
+
+  late String? currentUserId;
+  late String? userRole = '';
+
+  Future<void> getCurrentUserRole() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? role = await secureStorage.read(key: 'role');
+
+    userRole = role;
+    print("role: $userRole");
+  }
 
   final List<Widget> _partials = [
     NewPost(),
@@ -25,7 +39,9 @@ class _NewActionState extends State<NewAction> {
   @override
   void initState() {
     super.initState();
+    getCurrentUserRole();
     isSelected = [true, false];
+    _selected = 0;
   }
 
   @override
@@ -50,15 +66,39 @@ class _NewActionState extends State<NewAction> {
                     borderRadius: BorderRadius.circular(8.0),
                     isSelected: isSelected,
                     onPressed: (int index) {
-                      setState(() {
-                        isSelected[0] = index == 0;
-                        isSelected[1] = index == 1;
-                        if (index == 0) {
+                      if (userRole == 'customer') {
+                        setState(() {
+                          if (!showErrorDialog) {
+                            showErrorDialog = true;
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: Colors.white,
+                                surfaceTintColor: Colors.white,
+                                content: Text(
+                                    'Veuillez créer un compte professionel pour ajouter des services.'),
+                                actions: [
+                                  FilledAppButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    text: "Ok",
+                                    icon: Icons.check,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          isSelected = [true, false];
                           _selected = 0;
-                        } else {
-                          _selected = 1;
-                        }
-                      });
+                        });
+                      } else {
+                        setState(() {
+                          isSelected[0] = index == 0;
+                          isSelected[1] = index == 1;
+                          _selected = index;
+                        });
+                      }
                     },
                     children: const <Widget>[
                       Padding(

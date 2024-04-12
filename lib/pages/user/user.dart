@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_update_request.dart';
@@ -29,15 +30,31 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
   late Future<UserEntity> _userFuture;
-  late TabController _tabController = TabController(length: 4, vsync: this);
+  late TabController _tabController;
 
   final AuthenticationService auth = AuthenticationService();
+
+  late String? userRole = '';
+
+  Future<void> getCurrentUserRole() async {
+    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final String? role = await secureStorage.read(key: 'role');
+
+    userRole = role;
+    print("role: $userRole");
+    setState(() {
+      _tabController = TabController(
+        length: userRole == 'customer' ? 2 : 4,
+        vsync: this,
+      );
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _userFuture = _loadUser();
-    _tabController = TabController(length: 4, vsync: this);
+    getCurrentUserRole();
   }
 
   @override
@@ -211,8 +228,8 @@ class _UserPageState extends State<UserPage>
                     controller: _tabController,
                     tabs: [
                       Tab(text: 'Mes Demandes'),
-                      Tab(text: 'Mes Services'),
-                      Tab(text: 'Mes Clients'),
+                      if (userRole != 'customer') Tab(text: 'Mes Services'),
+                      if (userRole != 'customer') Tab(text: 'Mes Clients'),
                       Tab(text: 'Rendez-vous'),
                     ],
                     labelPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -224,8 +241,8 @@ class _UserPageState extends State<UserPage>
                       controller: _tabController,
                       children: [
                         MyPosts(),
-                        MyServices(),
-                        ProfessionalAppointments(),
+                        if (userRole != 'customer') MyServices(),
+                        if (userRole != 'customer') ProfessionalAppointments(),
                         CustomerAppointments(),
                       ],
                     ),

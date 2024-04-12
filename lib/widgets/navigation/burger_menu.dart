@@ -101,6 +101,7 @@ class BurgerMenu extends StatelessWidget {
                     icon: Icons.login,
                     text: "Se connecter",
                     onPressed: () async {
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

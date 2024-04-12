@@ -84,25 +84,17 @@ class _MyServicesState extends State<MyServices> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.edit),
-                      color: AppTheme.secondaryColor,
+                      color: AppTheme.primaryColor,
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.close),
                       color: Colors.red,
                       onPressed: () {},
                     ),
                   ],
                 )
               ],
-            ),
-            SizedBox(height: 8),
-            Text(
-              service.description!,
-              style: TextStyle(
-                fontSize: 16,
-                color: AppTheme.primaryColor,
-              ),
             ),
             SizedBox(height: 8),
           ],

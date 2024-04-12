@@ -14,7 +14,7 @@ class MyPosts extends StatefulWidget {
 class _MyPostsState extends State<MyPosts> {
   late Future<List<OwnPostEntity>> _posts;
 
-  final PostService post = PostService();
+  final PostService postService = PostService();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _MyPostsState extends State<MyPosts> {
   }
 
   Future<void> _loadPosts() async {
-    _posts = post.fetchUserPosts();
+    _posts = postService.fetchUserPosts();
   }
 
   String statusBuilder(String s) {
@@ -83,14 +83,6 @@ class _MyPostsState extends State<MyPosts> {
                       color: AppTheme.primaryColor,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    post.description,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppTheme.primaryColor,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -112,11 +104,36 @@ class _MyPostsState extends State<MyPosts> {
                 IconButton(
                   icon: Icon(Icons.check_circle_outline),
                   color: Colors.green,
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      await postService
+                          .setToComplete({"_status": "inactive"}, post.postId);
+                      setState(() {
+                        _loadPosts();
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Demande est complété',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Une érreur est survenue veuillez réessayer',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.edit),
-                  color: AppTheme.secondaryColor,
+                  color: AppTheme.primaryColor,
                   onPressed: () {},
                 ),
               ],

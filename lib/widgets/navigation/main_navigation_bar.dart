@@ -85,7 +85,8 @@ class _MainNavBarState extends State<MainNavBar> {
                         color: AppTheme.secondaryColor),
               ),
               ActionButton(onPressed: () async {
-                getToken();
+                await getToken();
+
                 if (jwtToken != null) {
                   Navigator.push(
                     context,
@@ -118,7 +119,7 @@ class _MainNavBarState extends State<MainNavBar> {
               ),
               IconButton(
                 onPressed: () async {
-                  getToken();
+                  await getToken();
                   if (jwtToken != null) {
                     _onItemTapped(3);
                   } else {

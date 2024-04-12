@@ -23,9 +23,11 @@ class AuthenticationService {
       final String jwtToken = data['token'];
       print(response.body);
       final String userId = data['user']['user_id'];
+      final String role = data['user']['role'];
 
       await secureStorage.write(key: 'jwtToken', value: jwtToken);
       await secureStorage.write(key: 'userId', value: userId);
+      await secureStorage.write(key: 'role', value: role);
     } else {
       throw Exception('Failed to login');
     }

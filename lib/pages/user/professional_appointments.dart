@@ -71,27 +71,28 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                         Text(
                             'Temps: ${appointment.time != null ? appointment.time : 'N/D'}'),
                         Padding(
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              bottom: 5,
-                              left: 0,
-                              right: 0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FilledAppButton(
-                                  icon: Icons.edit,
-                                  text: 'Modifier',
-                                  onPressed: () {},
-                                ),
-                                FilledAppButton(
-                                  icon: Icons.cancel,
-                                  text: 'Annuler',
-                                  onPressed: () {},
-                                ),
-                              ],
-                            )),
+                          padding: EdgeInsets.only(
+                            top: 10,
+                            bottom: 5,
+                            left: 0,
+                            right: 0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FilledAppButton(
+                                icon: Icons.edit,
+                                text: 'Modifier',
+                                onPressed: () {},
+                              ),
+                              FilledAppButton(
+                                icon: Icons.cancel,
+                                text: 'Annuler',
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
