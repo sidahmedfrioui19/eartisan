@@ -5,8 +5,6 @@ class NotificationTile extends StatelessWidget {
   final String username;
   final bool onlineStatus;
   final String latestMessage;
-  final String sentTime;
-  final num? unreadCount;
   final VoidCallback? onPressed;
 
   const NotificationTile({
@@ -15,9 +13,7 @@ class NotificationTile extends StatelessWidget {
     required this.username,
     required this.onlineStatus,
     required this.latestMessage,
-    required this.sentTime,
     required this.onPressed,
-    this.unreadCount,
   });
 
   @override

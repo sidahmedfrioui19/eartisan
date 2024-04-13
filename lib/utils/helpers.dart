@@ -67,10 +67,10 @@ class Helpers {
         status = 'En attente';
         break;
       case 'processing':
-        status = 'Traitement en cours';
+        status = 'Confirmé';
         break;
       case 'confirmed':
-        status = 'Confirmé';
+        status = 'Terminé';
         break;
       case 'cancelled':
         status = 'Annulé';

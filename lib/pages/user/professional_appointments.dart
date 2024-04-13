@@ -79,12 +79,12 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                           child: Text('En attente'),
                         ),
                         DropdownMenuItem(
-                          value: 'confirmed',
+                          value: 'processing',
                           child: Text('Confirmé'),
                         ),
                         DropdownMenuItem(
-                          value: 'processing',
-                          child: Text('En traitement'),
+                          value: 'confirmed',
+                          child: Text('Terminé'),
                         ),
                       ],
                     ),

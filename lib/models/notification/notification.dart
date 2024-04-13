@@ -1,18 +1,18 @@
-class Notification {
+class NotificationEntity {
   final int? notificationId;
   final String? content;
   final int userId;
   final User user;
 
-  Notification({
+  NotificationEntity({
     required this.notificationId,
     required this.content,
     required this.userId,
     required this.user,
   });
 
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
+  factory NotificationEntity.fromJson(Map<String, dynamic> json) {
+    return NotificationEntity(
       notificationId: json['notification_id'],
       content: json['content'],
       userId: json['user_id'],
