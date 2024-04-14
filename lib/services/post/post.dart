@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:profinder/models/post/post.dart';
 import 'package:profinder/models/post/post_creation_request.dart';
+import 'package:profinder/models/post/post_update_request.dart';
 import 'package:profinder/models/post/user_post.dart';
 import 'package:profinder/services/data.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +45,27 @@ class PostService {
         'Authorization': 'Bearer $jwtToken',
       },
       body: body,
+    );
+
+    if (response.statusCode == 200) {
+      return {'success': true};
+    } else {
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
+    }
+  }
+
+  Future<Map<String, bool>> updatePost(PostUpdateRequest body, int id) async {
+    final String? jwtToken = await AuthenticationService.getJwtToken();
+    print('$apiUrl/post/update/$id');
+    final response = await http.patch(
+      Uri.parse('$apiUrl/post/update/$id'),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+      },
+      body: body.toJson(),
     );
 
     if (response.statusCode == 200) {

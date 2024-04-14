@@ -2,17 +2,21 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/favorite/favorite_creation_request.dart';
 import 'package:profinder/models/post/service_detail.dart';
+import 'package:profinder/models/review/review.dart';
 import 'package:profinder/pages/home/widgets/contact_detail.dart';
 import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/picture_list.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
+import 'package:profinder/pages/home/widgets/review_list.dart';
 import 'package:profinder/services/favorite/favorite.dart';
 import 'package:profinder/services/post/professional.dart';
+import 'package:profinder/services/review/review.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
+import 'package:profinder/widgets/progress/loader.dart';
 
 class ServiceDetail extends StatefulWidget {
   final bool? isFavorite;
@@ -31,9 +35,13 @@ class ServiceDetail extends StatefulWidget {
 }
 
 class _ServiceDetailState extends State<ServiceDetail> {
-  late Future<ServiceDetailEntity> _serviceFuture;
+  late Future<ServiceDetailEntity> _services;
+  late Future<List<Review>> _reviews;
+
   ProfessionalService service = ProfessionalService();
   FavoriteService favorite = FavoriteService();
+  ReviewService review = ReviewService();
+
   bool _isButtonDisabled = false;
   late int service_id;
   late String professional_id;
@@ -42,11 +50,16 @@ class _ServiceDetailState extends State<ServiceDetail> {
   void initState() {
     super.initState();
     _loadService(widget.serviceId);
+    _loadreviews(widget.serviceId!);
   }
 
   Future<void> _loadService(int? id) async {
-    _serviceFuture =
+    _services =
         service.fetchService((json) => ServiceDetailEntity.fromJson(json), id);
+  }
+
+  Future<void> _loadreviews(int id) async {
+    _reviews = review.fetch(id);
   }
 
   @override
@@ -101,7 +114,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
 
       // Inside the build method of ServiceDetail widget
       body: FutureBuilder<ServiceDetailEntity>(
-        future: _serviceFuture,
+        future: _services,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -146,6 +159,23 @@ class _ServiceDetailState extends State<ServiceDetail> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FutureBuilder<List<Review>>(
+                    future: _reviews,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return AppLoading();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.data!.isEmpty) {
+                        return Container();
+                      } else {
+                        return ReviewList(reviews: snapshot.data!);
+                      }
+                    },
                   ),
 
                   HeadingTitle(text: 'Contact'),

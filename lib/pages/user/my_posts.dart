@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/post/post_update_request.dart';
 import 'package:profinder/models/post/user_post.dart';
 import 'package:profinder/services/post/post.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class MyPosts extends StatefulWidget {
@@ -134,13 +138,95 @@ class _MyPostsState extends State<MyPosts> {
                 IconButton(
                   icon: Icon(Icons.edit),
                   color: AppTheme.primaryColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    _editPost(context, post);
+                  },
                 ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _editPost(BuildContext context, OwnPostEntity post) async {
+    TextEditingController titleController =
+        TextEditingController(text: post.title);
+    TextEditingController descriptionController =
+        TextEditingController(text: post.description);
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: Text('Modifier demande'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RoundedTextField(
+                controller: titleController,
+                hintText: "Titre",
+              ),
+              RoundedTextArea(
+                controller: descriptionController,
+                hintText: "Description",
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 5),
+                  child: FilledAppButton(
+                    icon: Icons.close,
+                    text: "Annuler",
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: FilledAppButton(
+                    icon: Icons.save,
+                    text: "Ok",
+                    onPressed: () async {
+                      PostUpdateRequest req = PostUpdateRequest(
+                        title: titleController.text,
+                        description: descriptionController.text,
+                      );
+                      try {
+                        await postService.updatePost(req, post.postId);
+                        setState(() {
+                          _loadPosts();
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Post updated successfully'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text('$e An error occurred. Please try again.'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }
