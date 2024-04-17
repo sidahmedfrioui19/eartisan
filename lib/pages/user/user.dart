@@ -206,6 +206,31 @@ class _UserPageState extends State<UserPage>
                       ),
                     ],
                   ),
+                  if (!Helpers.boolVal(user.verified) &&
+                      userRole == 'professional')
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Vous n\'êtes pas vérifié',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (!Helpers.boolVal(user.verified) &&
+                      userRole == 'professional')
+                    SizedBox(
+                      child: Center(
+                        child: Text(
+                          'Veuillez choisir une catégorie dans les paramétres et ajouter votre cv',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      width: 250,
+                    ),
                   SizedBox(height: 10),
                   Badge(
                     largeSize: 35,
