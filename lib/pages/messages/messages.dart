@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:profinder/models/message/conversation.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/message/conversation.dart';
+import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/conversation-tile.dart';
 import 'package:profinder/widgets/navigation/burger_menu.dart';
@@ -53,12 +54,13 @@ class _MessagesPageState extends State<MessagesPage> {
               itemBuilder: (context, index) {
                 final conversation = conversations[index];
                 return ConversationTile(
-                  pictureUrl: conversation.profilePicture,
+                  pictureUrl:
+                      conversation.profilePicture ?? Constants.defaultAvatar,
                   username:
                       '${conversation.firstname} ${conversation.lastname}',
                   onlineStatus: true, // You can modify this based on your logic
-                  latestMessage: conversation.lastMessage,
-                  sentTime: conversation.lastMessageTimestamp,
+                  latestMessage: conversation.lastMessage!,
+                  sentTime: conversation.lastMessageTimestamp!,
                   unreadCount: 0, // You can modify this based on your logic
                   onPressed: () {
                     Navigator.push(
@@ -67,10 +69,11 @@ class _MessagesPageState extends State<MessagesPage> {
                         builder: (context) => ChatRoom(
                           available:
                               true, // You can modify this based on your logic
-                          firstname: conversation.firstname,
-                          lastname: conversation.lastname,
-                          pictureUrl: conversation.profilePicture,
-                          user_id: conversation.userId,
+                          firstname: conversation.firstname!,
+                          lastname: conversation.lastname!,
+                          pictureUrl: conversation.profilePicture ??
+                              Constants.defaultAvatar,
+                          user_id: conversation.userId!,
                         ),
                       ),
                     );
