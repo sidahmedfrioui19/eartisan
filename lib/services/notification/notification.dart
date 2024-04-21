@@ -12,7 +12,6 @@ class NotificationService {
   final url = Constants.apiUrl;
   final GenericDataService _genericService =
       GenericDataService('notification', {
-    'get': 'view',
     'post': 'add',
   });
 
@@ -36,6 +35,7 @@ class NotificationService {
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
         final jsonData = parsed['data'];
+        print(jsonData);
 
         final List<NotificationEntity> messages = [];
         for (var item in jsonData) {

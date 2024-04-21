@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:profinder/models/appointement/appointment_creation_request.dart';
 import 'package:profinder/models/appointement/appointment_update_request.dart';
+import 'package:profinder/models/notification/notification_creation_request.dart';
 import 'package:profinder/services/data.dart';
 import 'package:http/http.dart' as http;
+import 'package:profinder/services/notification/notification.dart';
 import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/error_handler/business_error_handler.dart';
@@ -15,6 +17,13 @@ class AppointementService {
   });
 
   Future<Map<String, bool>> post(AppointementCreationRequest entity) async {
+    final NotificationService notificationService = NotificationService();
+    await notificationService.post(
+      NotificationCreationRequest(
+        content: "Nouveau demande de rendez vous récu",
+        receivingUser: entity.professionalId,
+      ),
+    );
     final String body = jsonEncode(entity.toJson());
     return _genericService.post(body);
   }

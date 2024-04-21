@@ -1,6 +1,6 @@
 class NotificationCreationRequest {
   final String? content;
-  final int? receivingUser;
+  final String? receivingUser;
 
   NotificationCreationRequest({
     required this.content,

@@ -22,19 +22,18 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
-    _fetchNotifications(); // Fetch notifications when the widget is initialized
+    _fetchNotifications();
   }
 
   Future<void> _fetchNotifications() async {
     try {
       List<NotificationEntity> fetchedNotifications =
-          await notificationService.fetch(); // Fetch notifications
+          await notificationService.fetch();
       setState(() {
-        notifications = fetchedNotifications; // Update notifications list
+        notifications = fetchedNotifications;
       });
     } catch (error) {
       print('Error fetching notifications: $error');
-      // Handle error appropriately (e.g., show error message)
     }
   }
 
@@ -50,16 +49,10 @@ class _NotificationsState extends State<Notifications> {
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           return NotificationTile(
-            pictureUrl:
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Minimalist_info_Icon.png/768px-Minimalist_info_Icon.png", // Access user profile picture URL
-            username:
-                notifications[index].user.username ?? "", // Access username
-            onlineStatus:
-                true, // You can set online status as per your requirement
-            latestMessage: notifications[index].content ??
-                "", // Access notification content
-            onPressed: () =>
-                {}, // onPressed callback (you can add functionality here)
+            username: 'Rendez-vous',
+            onlineStatus: true,
+            latestMessage: notifications[index].content,
+            onPressed: () => {},
           );
         },
       ),

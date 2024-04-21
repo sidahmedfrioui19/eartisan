@@ -52,6 +52,7 @@ dependencies:
   web_socket_channel: any
   socket_io_client: any
   flutter_rating_bar:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
