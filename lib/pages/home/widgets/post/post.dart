@@ -58,7 +58,6 @@ class Post extends StatelessWidget {
                   pictureUrl: pictureUrl,
                   username: '$firstname $lastname',
                   content: '@${username}',
-                  available: true,
                 ),
                 if (this.currentUserId != userId && jwtToken != null)
                   PostToolBar(

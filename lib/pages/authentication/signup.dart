@@ -195,6 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 );
                                 Navigator.pop(context);
+                                Navigator.pop(context);
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

@@ -9,6 +9,7 @@ import 'package:profinder/pages/user/my_posts.dart';
 import 'package:profinder/pages/user/my_services.dart';
 import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/services/user/user.dart';
+import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
@@ -167,8 +168,7 @@ class _UserPageState extends State<UserPage>
                       CircleAvatar(
                         radius: 80,
                         backgroundImage: Image.network(
-                          user.profilePic ??
-                              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
+                          user.profilePic ?? Constants.defaultAvatar,
                           fit: BoxFit.cover,
                         ).image,
                       ),
@@ -206,6 +206,20 @@ class _UserPageState extends State<UserPage>
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Badge(
+                    largeSize: 35,
+                    smallSize: 30,
+                    label: Text(
+                      '@${user.username}',
+                      style: TextStyle(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15 // Adjust text color if needed
+                          ),
+                    ),
+                    backgroundColor: AppTheme.inputColor,
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                  ),
                   if (!Helpers.boolVal(user.verified) &&
                       userRole == 'professional')
                     Padding(
@@ -231,20 +245,6 @@ class _UserPageState extends State<UserPage>
                       ),
                       width: 250,
                     ),
-                  SizedBox(height: 10),
-                  Badge(
-                    largeSize: 35,
-                    smallSize: 30,
-                    label: Text(
-                      '@${user.username}',
-                      style: TextStyle(
-                          color: AppTheme.primaryColor,
-                          fontSize: 15 // Adjust text color if needed
-                          ),
-                    ),
-                    backgroundColor: AppTheme.inputColor,
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                  ),
                   SizedBox(height: 20),
                   TabBar(
                     indicatorColor: AppTheme.primaryColor,

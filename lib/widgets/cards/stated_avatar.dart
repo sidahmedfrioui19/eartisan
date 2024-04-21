@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/utils/constants.dart';
 
 class StatedAvatar extends StatelessWidget {
   final String? imageUrl;
-  final bool online;
+  final bool? online;
 
-  const StatedAvatar({super.key, required this.imageUrl, required this.online});
+  const StatedAvatar({
+    Key? key,
+    required this.imageUrl,
+    this.online,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,24 +18,24 @@ class StatedAvatar extends StatelessWidget {
         CircleAvatar(
           radius: 20,
           backgroundImage: Image.network(
-            imageUrl ??
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
-            fit: BoxFit.cover, // Adjust this as needed
+            imageUrl ?? Constants.defaultAvatar,
+            fit: BoxFit.cover,
           ).image,
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: online ? Colors.green : Colors.grey,
-              border: Border.all(color: Colors.white, width: 2),
+        if (online != null)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: online! ? Colors.green : Colors.grey,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
             ),
           ),
-        ),
       ],
     );
   }

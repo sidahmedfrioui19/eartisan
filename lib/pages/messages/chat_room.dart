@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/message/message.dart';
+import 'package:profinder/providers/conversations_provider.dart';
 import 'package:profinder/services/message/message.dart';
 import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/message_appbar.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -14,6 +16,7 @@ class ChatRoom extends StatefulWidget {
   final String lastname;
   final String pictureUrl;
   final bool available;
+  final VoidCallback? onMessageSentOrReceived;
 
   const ChatRoom({
     Key? key,
@@ -22,6 +25,7 @@ class ChatRoom extends StatefulWidget {
     required this.lastname,
     required this.pictureUrl,
     required this.available,
+    this.onMessageSentOrReceived,
   }) : super(key: key);
 
   @override
@@ -48,7 +52,16 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void dispose() {
     socket.disconnect();
+    if (widget.onMessageSentOrReceived != null) {
+      widget.onMessageSentOrReceived!();
+    }
     super.dispose();
+  }
+
+  updateConversions() {
+    final conversationsProvider =
+        Provider.of<ConversationProvider>(context, listen: false);
+    conversationsProvider.fetchConversations();
   }
 
   void loadUserId() async {
@@ -84,6 +97,7 @@ class _ChatRoomState extends State<ChatRoom> {
         print('Received new message: $data');
         if (data != null && mounted) {
           setState(() {
+            updateConversions();
             _messages = _addMessageToList(data);
           });
         }
