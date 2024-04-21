@@ -67,14 +67,19 @@ class _TopBarState extends State<TopBar> {
   }
 
   Future<void> _loadReadNotificationIds() async {
-    String? readIds = await secureStorage.read(key: 'readNotificationIds');
-    if (readIds != null) {
-      setState(() {
-        readNotificationIds = readIds
-            .split(',')
-            .map(int.parse)
-            .toSet(); // Load read notification IDs from secure storage
-      });
+    try {
+      String? readIds = await secureStorage.read(key: 'readNotificationIds');
+      print('Read IDs from storage: $readIds');
+      if (readIds != null && readIds.isNotEmpty) {
+        setState(() {
+          readNotificationIds = readIds
+              .split(',')
+              .map((id) => int.tryParse(id.trim()) ?? 0)
+              .toSet();
+        });
+      }
+    } catch (error) {
+      print('Error loading read notification IDs: $error');
     }
   }
 
