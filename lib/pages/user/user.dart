@@ -42,7 +42,6 @@ class _UserPageState extends State<UserPage>
     final String? role = await secureStorage.read(key: 'role');
 
     userRole = role;
-    print("role: $userRole");
     setState(() {
       _tabController = TabController(
         length: userRole == 'customer' ? 2 : 4,
@@ -199,11 +198,12 @@ class _UserPageState extends State<UserPage>
                         style: AppTheme.headingTextStyle,
                       ),
                       SizedBox(width: 5),
-                      VerificationBadge(
-                        isVerified: Helpers.boolVal(
-                          user.verified,
+                      if (userRole == 'professional')
+                        VerificationBadge(
+                          isVerified: Helpers.boolVal(
+                            user.verified,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                   SizedBox(height: 10),

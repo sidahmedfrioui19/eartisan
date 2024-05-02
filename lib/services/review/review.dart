@@ -31,8 +31,8 @@ class ReviewService {
 
         final List<Review> reviews = [];
         for (var item in jsonData) {
-          final message = Review.fromJson(item);
-          reviews.add(message);
+          final review = Review.fromJson(item);
+          reviews.add(review);
         }
         return reviews;
       } else {

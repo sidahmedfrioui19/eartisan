@@ -24,8 +24,8 @@ class _TopBarState extends State<TopBar> {
   final NotificationService notificationService = NotificationService();
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-  List<NotificationEntity> notifications = []; // List to hold notifications
-  Set<int> readNotificationIds = {}; // Set to hold IDs of read notifications
+  List<NotificationEntity> notifications = [];
+  Set<int> readNotificationIds = {};
 
   @override
   void initState() {
@@ -59,11 +59,10 @@ class _TopBarState extends State<TopBar> {
 
   void _markNotificationsAsRead() {
     setState(() {
-      readNotificationIds.addAll(notifications
-          .map((n) => n.notificationId)); // Mark notifications as read
-      unreadCount = 0; // Reset unread count
+      readNotificationIds.addAll(notifications.map((n) => n.notificationId));
+      unreadCount = 0;
     });
-    _saveReadNotificationIds(); // Save read notification IDs to secure storage
+    _saveReadNotificationIds();
   }
 
   Future<void> _loadReadNotificationIds() async {
@@ -85,9 +84,7 @@ class _TopBarState extends State<TopBar> {
 
   Future<void> _saveReadNotificationIds() async {
     await secureStorage.write(
-        key: 'readNotificationIds',
-        value: readNotificationIds
-            .join(',')); // Save read notification IDs to secure storage
+        key: 'readNotificationIds', value: readNotificationIds.join(','));
   }
 
   @override
@@ -103,7 +100,7 @@ class _TopBarState extends State<TopBar> {
             return IconButton(
               icon: Icon(FluentIcons.line_horizontal_3_20_filled),
               onPressed: () {
-                Scaffold.of(context).openDrawer(); // Open navigation drawer
+                Scaffold.of(context).openDrawer();
               },
             );
           },
@@ -125,7 +122,7 @@ class _TopBarState extends State<TopBar> {
                     context,
                     MaterialPageRoute(builder: (context) => Notifications()),
                   ).then((_) {
-                    _markNotificationsAsRead(); // Mark notifications as read
+                    _markNotificationsAsRead();
                   });
                 },
               ),

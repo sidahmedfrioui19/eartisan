@@ -40,6 +40,13 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 20,
             ),
+            Image.asset(
+              'assets/icon/icon.png',
+              height: 130,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Text(
               "Se connecter",
               style: AppTheme.headingTextStyle,

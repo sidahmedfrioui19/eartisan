@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/generic_search/generic_search_request.dart';
 import 'package:profinder/models/generic_search/generic_search_response.dart';
+import 'package:profinder/pages/authentication/login.dart';
+import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/generic_search/generic_search.dart';
 import '../../utils/theme_data.dart';
@@ -20,11 +22,18 @@ class _SearchPageState extends State<SearchPage> {
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   GenericSearchResponse? response;
   List<String>? recentSearches;
+  String? jwtToken;
+
+  Future<void> _getCurrentUserToken() async {
+    final String? token = await _secureStorage.read(key: 'jwtToken');
+    jwtToken = token;
+  }
 
   @override
   void initState() {
     super.initState();
     _loadRecentSearches();
+    _getCurrentUserToken();
   }
 
   void _saveRecentSearch(String keyword) async {
@@ -44,7 +53,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _removeRecentSearch(int index) async {
-    //recentSearches!.removeAt(index);
     await _secureStorage.write(key: 'recentSearches', value: '');
     setState(() {});
   }
@@ -214,6 +222,37 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ],
                   ),
+                  IconButton(
+                    onPressed: () => {
+                      if (jwtToken != null)
+                        {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatRoom(
+                                available: true,
+                                firstname: service.user.firstname,
+                                lastname: service.user.lastname,
+                                pictureUrl: service.user.profilePicture,
+                                user_id: service.user.userId,
+                              ),
+                            ),
+                          ),
+                        }
+                      else
+                        {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          ),
+                        }
+                    },
+                    icon: Icon(
+                      FluentIcons.send_16_filled,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -222,12 +261,9 @@ class _SearchPageState extends State<SearchPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatRoom(
-                  available: true,
-                  firstname: service.user.firstname,
-                  lastname: service.user.lastname,
-                  pictureUrl: service.user.profilePicture,
-                  user_id: service.user.userId,
+                builder: (context) => ServiceDetail(
+                  serviceId: service.serviceId,
+                  loggedIn: false,
                 ),
               ),
             );
@@ -289,18 +325,27 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatRoom(
-                  available: true,
-                  firstname: post.firstname,
-                  lastname: post.lastname,
-                  pictureUrl: post.profilePicture!,
-                  user_id: post.userId,
+            if (jwtToken != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatRoom(
+                    available: true,
+                    firstname: post.firstname,
+                    lastname: post.lastname,
+                    pictureUrl: post.profilePicture!,
+                    user_id: post.userId,
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            }
           },
         );
       },
@@ -344,7 +389,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Addresse: ${artisan.address}',
+                          'Adresse: ${artisan.address}',
                         ),
                       ],
                     )
@@ -354,18 +399,27 @@ class _SearchPageState extends State<SearchPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatRoom(
-                              available: true,
-                              firstname: artisan.firstname,
-                              lastname: artisan.lastname,
-                              pictureUrl: artisan.profilePicture,
-                              user_id: artisan.userId,
+                        if (jwtToken != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatRoom(
+                                available: true,
+                                firstname: artisan.firstname,
+                                lastname: artisan.lastname,
+                                pictureUrl: artisan.profilePicture,
+                                user_id: artisan.userId,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        }
                       },
                       icon: Icon(FluentIcons.send_16_filled),
                     ),
@@ -416,7 +470,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Addresse: ${client.address}',
+                          'Adresse: ${client.address}',
                         ),
                       ],
                     )
@@ -426,18 +480,27 @@ class _SearchPageState extends State<SearchPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatRoom(
-                              available: true,
-                              firstname: client.firstname,
-                              lastname: client.lastname,
-                              pictureUrl: client.profilePicture,
-                              user_id: client.userId,
+                        if (jwtToken != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatRoom(
+                                available: true,
+                                firstname: client.firstname,
+                                lastname: client.lastname,
+                                pictureUrl: client.profilePicture,
+                                user_id: client.userId,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        }
                       },
                       icon: Icon(FluentIcons.send_16_filled),
                     ),

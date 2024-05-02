@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_update_request.dart';
 import 'package:profinder/services/user/authentication.dart';
@@ -9,12 +12,14 @@ import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/progress/loader.dart';
-
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../utils/theme_data.dart';
 import '../../widgets/appbar/overlay_top_bar.dart';
 
 class SettingsOverlay extends StatefulWidget {
-  const SettingsOverlay({super.key});
+  const SettingsOverlay({Key? key}) : super(key: key);
 
   @override
   State<SettingsOverlay> createState() => _SettingsOverlayState();
@@ -35,10 +40,72 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
   late TextEditingController _tiktokController;
   late TextEditingController _phoneNumberController;
 
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  late String? userRole = '';
+
+  Future<void> getUserRole() async {
+    final String? role = await secureStorage.read(key: 'role');
+
+    userRole = role;
+  }
+
+  Future<bool> storagePermission() async {
+    final DeviceInfoPlugin info =
+        DeviceInfoPlugin(); // import 'package:device_info_plus/device_info_plus.dart';
+    final AndroidDeviceInfo androidInfo = await info.androidInfo;
+    debugPrint('releaseVersion : ${androidInfo.version.release}');
+    final int androidVersion = int.parse(androidInfo.version.release!);
+    bool havePermission = false;
+
+    if (androidVersion >= 13) {
+      final request = await [
+        Permission.videos,
+        Permission.photos,
+        //..... as needed
+      ].request(); //import 'package:permission_handler/permission_handler.dart';
+
+      havePermission =
+          request.values.every((status) => status == PermissionStatus.granted);
+    } else {
+      final status = await Permission.storage.request();
+      havePermission = status.isGranted;
+    }
+
+    if (!havePermission) {
+      // if no permission then open app-setting
+      await openAppSettings();
+    }
+
+    return havePermission;
+  }
+
+  Future<void> _uploadCv() async {
+    try {
+      if (await storagePermission()) {
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['pdf', 'doc', 'docx'],
+        );
+
+        if (result != null) {
+          File file = File(result.files.single.path!);
+          // Proceed with file upload
+        } else {
+          // User canceled file selection
+        }
+      } else {
+        // Permission not granted, handle accordingly
+      }
+    } catch (error) {
+      print('Error picking file: $error');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _userFuture = _loadUser();
+    getUserRole();
   }
 
   Future<UserEntity> _loadUser() async {
@@ -140,46 +207,68 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                       margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
                       child: Text("Contact"),
                     ),
-                    RoundedTextField(
-                      controller: _facebookController,
-                      hintText: "Facebook",
-                      icon: Icons.facebook,
-                    ),
-                    RoundedTextField(
-                      controller: _instagramController,
-                      hintText: "Instagram",
-                      icon: Icons.camera,
-                    ),
-                    RoundedTextField(
-                      controller: _tiktokController,
-                      hintText: "Tiktok",
-                      icon: Icons.tiktok,
-                    ),
+                    if (userRole == 'professional')
+                      RoundedTextField(
+                        controller: _facebookController,
+                        hintText: "Facebook",
+                        icon: Icons.facebook,
+                      ),
+                    if (userRole == 'professional')
+                      RoundedTextField(
+                        controller: _instagramController,
+                        hintText: "Instagram",
+                        icon: Icons.camera,
+                      ),
+                    if (userRole == 'professional')
+                      RoundedTextField(
+                        controller: _tiktokController,
+                        hintText: "Tiktok",
+                        icon: Icons.tiktok,
+                      ),
                     RoundedTextField(
                       controller: _phoneNumberController,
                       hintText: "Phone",
                       icon: FluentIcons.phone_12_filled,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 5, top: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Disponibilité"),
-                          Switch(
-                            value: new_availability,
-                            onChanged: (newValue) {
-                              setState(() {
-                                new_availability = newValue;
-                              });
-                            },
-                            activeColor: Colors.green,
-                            inactiveThumbColor: Colors.grey,
-                          ),
-                        ],
+                    if (userRole == 'professional')
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 5,
+                          top: 10,
+                        ),
+                        child: FilledAppButton(
+                          icon: FluentIcons.document_16_filled,
+                          text: 'Ajouter/Modifier CV',
+                          onPressed: _uploadCv,
+                        ),
                       ),
-                    ),
+                    if (userRole == 'professional')
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 5,
+                          top: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Disponibilité"),
+                            Switch(
+                              value: new_availability,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  new_availability = newValue;
+                                });
+                              },
+                              activeColor: Colors.green,
+                              inactiveThumbColor: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
                     Container(
                       width: double.infinity,
                       margin:

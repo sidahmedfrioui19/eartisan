@@ -49,8 +49,9 @@ class ReviewList extends StatelessWidget {
                         for (int i = 0; i < 5; i++)
                           Icon(
                             Icons.star,
-                            color:
-                                i < review.rating ? Colors.yellow : Colors.grey,
+                            color: i < double.parse(review.rating!).floor()
+                                ? Colors.yellow
+                                : Colors.grey,
                             size: 20,
                           ),
                       ],

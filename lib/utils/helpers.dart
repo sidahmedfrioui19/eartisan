@@ -83,16 +83,13 @@ class Helpers {
   }
 
   static String formatDateForMySQL(String date) {
-    List<String> parts = date.split('-');
-    if (parts.length == 3) {
-      // Assuming the format is 'MM-DD-YYYY'
-      String formattedDate = '${parts[2]}-${parts[0]}-${parts[1]}';
-      return formattedDate;
-    } else {
-      // Handle the case where the date format is unexpected
-      print('Invalid date format: $date');
-      return date; // Return the original date string
+    List<String> parts = date.split('/');
+    if (parts.length != 3) {
+      // Handle invalid date format
+      return '';
     }
+    String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
+    return formattedDate;
   }
 
   static String reverseDateFormat(String? dateTimeString) {

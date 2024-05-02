@@ -65,6 +65,13 @@ class _SignUpPageState extends State<SignUpPage> {
             margin: EdgeInsets.all(10),
             child: Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset(
+                  'assets/icon/icon.png',
+                  height: 130,
+                ),
                 SizedBox(height: 20),
                 Text(
                   "S'inscrire",

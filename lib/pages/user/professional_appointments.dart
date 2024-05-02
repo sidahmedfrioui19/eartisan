@@ -6,7 +6,7 @@ import 'package:profinder/services/appointement/professional_appointement.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/inputs/dropdown.dart';
-import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:intl/intl.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class ProfessionalAppointments extends StatefulWidget {
@@ -60,11 +60,41 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    RoundedTextField(
-                        controller: dateController,
-                        hintText: "Date: JJ/MM/AAAA"),
-                    RoundedTextField(
-                        controller: timeController, hintText: "Temps: HH:MM"),
+                    TextFormField(
+                      controller: dateController,
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        );
+                        if (pickedDate != null)
+                          setState(() {
+                            dateController.text =
+                                DateFormat('dd/MM/yyyy').format(pickedDate);
+                          });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Date: JJ/MM/AAAA",
+                      ),
+                    ),
+                    TextFormField(
+                      controller: timeController,
+                      onTap: () async {
+                        TimeOfDay? pickedTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+                        if (pickedTime != null)
+                          setState(() {
+                            timeController.text = pickedTime.format(context);
+                          });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Temps: HH:MM",
+                      ),
+                    ),
                     RoundedDropdownButton<String>(
                       value: selectedState,
                       onChanged: (String? newValue) {
@@ -110,7 +140,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                             );
                             try {
                               await appointementService.update(req, id);
-                              _updateAppointments(); // Update appointments
+                              _updateAppointments();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Rendez-vous modifié'),
@@ -186,7 +216,9 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                         Text(
                           'Client: ${appointment.customer.firstname} ${appointment.customer.lastname}',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                         Text(
                           'Numéro de téléphone: ${appointment.customer.phoneNumber}',
@@ -258,7 +290,6 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
     );
   }
 
-  // Method to handle canceling the appointment
   void _cancelAppointment(ProfessionalAppointment appointment) async {
     AppointementUpdateRequest req = AppointementUpdateRequest(
       state: 'cancelled',
