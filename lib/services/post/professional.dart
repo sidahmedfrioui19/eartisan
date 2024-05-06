@@ -24,6 +24,17 @@ class ProfessionalService {
     return _genericService.post(body);
   }
 
+  Future<Map<String, bool>> delete(int serviceId) async {
+    final response =
+        await http.delete(Uri.parse('$url/service/delete/$serviceId'));
+
+    if (response.statusCode == 200) {
+      return {'success': true};
+    } else {
+      throw Exception('Failed to delete service');
+    }
+  }
+
   Future<ServiceDetailEntity> fetchService(
       ServiceDetailEntity Function(
         Map<String, dynamic> json,

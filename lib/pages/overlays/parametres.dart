@@ -1,18 +1,21 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:profinder/models/category/category.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_update_request.dart';
+import 'package:profinder/services/category/category.dart';
 import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/services/user/user.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
+import 'package:profinder/widgets/inputs/dropdown.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/progress/loader.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+//import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../utils/theme_data.dart';
@@ -27,6 +30,10 @@ class SettingsOverlay extends StatefulWidget {
 
 class _SettingsOverlayState extends State<SettingsOverlay> {
   late Future<UserEntity> _userFuture;
+  late Future<List<CategoryEntity>> _categoriesFuture;
+  final CategoryService categoryService = CategoryService();
+
+  late int _selectedCategoryId;
 
   late bool new_availability;
 
@@ -49,9 +56,12 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
     userRole = role;
   }
 
+  Future<void> _loadCategories() async {
+    _categoriesFuture = categoryService.fetch();
+  }
+
   Future<bool> storagePermission() async {
-    final DeviceInfoPlugin info =
-        DeviceInfoPlugin(); // import 'package:device_info_plus/device_info_plus.dart';
+    final DeviceInfoPlugin info = DeviceInfoPlugin();
     final AndroidDeviceInfo androidInfo = await info.androidInfo;
     debugPrint('releaseVersion : ${androidInfo.version.release}');
     final int androidVersion = int.parse(androidInfo.version.release!);
@@ -61,8 +71,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       final request = await [
         Permission.videos,
         Permission.photos,
-        //..... as needed
-      ].request(); //import 'package:permission_handler/permission_handler.dart';
+      ].request();
 
       havePermission =
           request.values.every((status) => status == PermissionStatus.granted);
@@ -72,7 +81,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
     }
 
     if (!havePermission) {
-      // if no permission then open app-setting
       await openAppSettings();
     }
 
@@ -88,14 +96,9 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         );
 
         if (result != null) {
-          File file = File(result.files.single.path!);
-          // Proceed with file upload
-        } else {
-          // User canceled file selection
-        }
-      } else {
-        // Permission not granted, handle accordingly
-      }
+          //File file = File(result.files.single.path!);
+        } else {}
+      } else {}
     } catch (error) {
       print('Error picking file: $error');
     }
@@ -106,6 +109,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
     super.initState();
     _userFuture = _loadUser();
     getUserRole();
+    _loadCategories();
   }
 
   Future<UserEntity> _loadUser() async {
@@ -120,6 +124,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       _instagramController = TextEditingController(text: user.instagramLink);
       _tiktokController = TextEditingController(text: user.tiktokLink);
       _phoneNumberController = TextEditingController(text: user.phoneNumber);
+      _selectedCategoryId = user.categoryId ?? 1;
 
       return user;
     } catch (error) {
@@ -140,6 +145,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         tiktokLink: _tiktokController.text,
         phoneNumber: _phoneNumberController.text,
         available: Helpers.intVal(new_availability),
+        //category_id: _selectedCategoryId,
       );
 
       await UserService().patch(updatedUser);
@@ -230,6 +236,42 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                       hintText: "Phone",
                       icon: FluentIcons.phone_12_filled,
                     ),
+                    if (userRole == 'professional')
+                      FutureBuilder<List<CategoryEntity>>(
+                        future: _categoriesFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return AppLoading();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            if (snapshot.data != null) {
+                              print(snapshot.data);
+                              return RoundedDropdownButton<String>(
+                                value: _selectedCategoryId.toString(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _selectedCategoryId = int.parse(newValue!);
+                                  });
+                                },
+                                hintText: 'Choisir une catégorie',
+                                items: snapshot.data!
+                                    .map<DropdownMenuItem<String>>(
+                                  (CategoryEntity category) {
+                                    return DropdownMenuItem<String>(
+                                      value: category.id.toString(),
+                                      child: Text(category.name),
+                                    );
+                                  },
+                                ).toList(),
+                              );
+                            } else {
+                              return Text('No subcategories available');
+                            }
+                          }
+                        },
+                      ),
                     if (userRole == 'professional')
                       Container(
                         margin: EdgeInsets.only(

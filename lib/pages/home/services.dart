@@ -3,7 +3,6 @@ import 'package:profinder/models/category/category.dart';
 import 'package:profinder/models/favorite/favorite.dart';
 import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/category/category_list.dart';
-import 'package:profinder/pages/home/widgets/favorite.dart';
 import 'package:profinder/services/category/category.dart';
 import 'package:profinder/services/favorite/favorite.dart';
 import 'package:profinder/services/favorite/favorite_list.dart';
@@ -120,72 +119,6 @@ class _ServicesPageState extends State<ServicesPage> {
             },
           ),
           SizedBox(height: 5),
-          FutureBuilder<List<Favorite>>(
-            future: _favoritesFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                final List<Favorite>? favorites = snapshot.data;
-                if (favorites != null && favorites.isNotEmpty) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 18),
-                            child: Text(
-                              'Services Favoris',
-                              style: AppTheme.elementTitle,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      HorizontalList<Favorite>(
-                        future: _favoritesFuture,
-                        errorMessage: "Liste des favoris vide",
-                        emptyText: "Liste des favoris vide",
-                        itemBuilder: (favorite) {
-                          return FavoriteWidget(
-                            favorite: favorite,
-                            onPress: () async {
-                              try {
-                                await favoriteService
-                                    .deleteById(favorite.favoriteId);
-                                setState(() {
-                                  _loadFavorites();
-                                });
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Supprimé des favoris'), // Confirmation message
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Erreur $e'), // Error message
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              }
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                } else {
-                  return SizedBox(); // Return an empty widget if there are no favorites
-                }
-              }
-            },
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

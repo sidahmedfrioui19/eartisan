@@ -47,32 +47,37 @@ class FavoriteWidget extends StatelessWidget {
           children: [
             SizedBox(height: 6.0),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    favorite.professional.profilePicture,
-                  ),
-                  radius: 20.0,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      favorite.service.title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        favorite.professional.profilePicture,
                       ),
+                      radius: 20.0,
                     ),
-                    Text(
-                      '${favorite.professional.firstname} ${favorite.professional.lastname}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.0,
-                      ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          favorite.service.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '${favorite.professional.firstname} ${favorite.professional.lastname}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

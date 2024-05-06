@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/user_service.dart';
+import 'package:profinder/pages/home/widgets/heading_title.dart';
+import 'package:profinder/pages/home/widgets/price_card.dart';
+import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/services/user/user_service.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
+import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class MyServices extends StatefulWidget {
@@ -85,12 +91,111 @@ class _MyServicesState extends State<MyServices> {
                     IconButton(
                       icon: Icon(Icons.edit),
                       color: AppTheme.primaryColor,
-                      onPressed: () {},
+                      onPressed: () {
+                        // Show dialog with service details
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.white,
+                              surfaceTintColor: Colors.white,
+                              title: Text('Modifier'),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RoundedTextField(
+                                      controller: TextEditingController(
+                                        text: service.title,
+                                      ),
+                                      hintText: 'Titre',
+                                    ),
+                                    RoundedTextArea(
+                                      controller: TextEditingController(
+                                        text: service.description,
+                                      ),
+                                      hintText: 'Description',
+                                    ),
+                                    HeadingTitle(text: 'Prix'),
+                                    ...service.prices.map((price) {
+                                      return PriceCard(
+                                        description: price.description!,
+                                        value: price.value.toString(),
+                                        rate: price.rate ?? '',
+                                      );
+                                    }).toList(),
+                                    Text('Photos: '),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Wrap(
+                                      spacing: 15,
+                                      runSpacing: 10,
+                                      children: service.pictures.map(
+                                        (picture) {
+                                          return ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                              picture.link!,
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          );
+                                        },
+                                      ).toList(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                FilledAppButton(
+                                  icon: Icons.close,
+                                  text: 'Annuler',
+                                  onPressed: () => {
+                                    Navigator.of(context).pop(),
+                                  },
+                                ),
+                                FilledAppButton(
+                                  icon: Icons.save,
+                                  text: 'Mettre a jour',
+                                  onPressed: () => {
+                                    Navigator.of(context).pop(),
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.close),
                       color: Colors.red,
-                      onPressed: () {},
+                      onPressed: () async {
+                        final ProfessionalService _service =
+                            ProfessionalService();
+                        try {
+                          await _service.delete(service.serviceId);
+                          setState(() {
+                            _loadServices();
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Service supprimé'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Une erreur est survenue.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 )

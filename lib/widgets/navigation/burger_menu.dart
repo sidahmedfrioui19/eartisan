@@ -1,9 +1,12 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/overlays/conditions.dart';
+import 'package:profinder/pages/overlays/favorites.dart';
 import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
+import 'package:profinder/pages/overlays/suggestion.dart';
 import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/navigation/main_navigation_bar.dart';
@@ -39,6 +42,17 @@ class BurgerMenu extends StatelessWidget {
                     },
                   ),
                   MenuItem(
+                    icon: FluentIcons.heart_12_regular,
+                    text: "Mes Favoris",
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Favorites()),
+                      );
+                    },
+                  ),
+                  MenuItem(
                     icon: Icons.message_outlined,
                     text: "Envoyer un rapport",
                     onPressed: () {
@@ -46,6 +60,17 @@ class BurgerMenu extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Report()),
+                      );
+                    },
+                  ),
+                  MenuItem(
+                    icon: Icons.add,
+                    text: "Envoyer une suggestion",
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Suggestion()),
                       );
                     },
                   ),

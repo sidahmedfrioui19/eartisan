@@ -187,38 +187,43 @@ class _SearchPageState extends State<SearchPage> {
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  Row(
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            service.user.profilePicture,
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                service.user.profilePicture,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${service.user.firstname} ${service.user.lastname}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${service.user.firstname} ${service.user.lastname}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        service.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Description: ${service.description.substring(0, 25)}...',
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Status: ${service.status}',
+                          Text(
+                            service.title,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Description: ${service.description.substring(0, 25)}...',
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Status: ${service.status}',
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -365,34 +370,41 @@ class _SearchPageState extends State<SearchPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        artisan.profilePicture,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
+                Row(
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${artisan.firstname} ${artisan.lastname}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Numéro téléphone: ${artisan.phoneNumber}',
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Adresse: ${artisan.address}',
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            artisan.profilePicture,
+                          ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${artisan.firstname} ${artisan.lastname}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Numéro téléphone: ${artisan.phoneNumber}',
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Adresse: ${artisan.address}',
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ],
                 ),
                 Column(

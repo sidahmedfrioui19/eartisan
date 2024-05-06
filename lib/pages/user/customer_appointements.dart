@@ -1,14 +1,18 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:profinder/models/appointement/appointment_update_request.dart';
 import 'package:profinder/models/appointement/customer_appointment.dart';
+import 'package:profinder/models/report/report.dart';
 import 'package:profinder/models/review/review_creation_request.dart';
 import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/services/appointement/customer_appointement.dart';
+import 'package:profinder/services/report/report.dart';
 import 'package:profinder/services/review/review.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
@@ -27,6 +31,9 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
 
   final AppointementService appointementService = AppointementService();
   final ReviewService reviewService = ReviewService();
+
+  final TextEditingController reportMessageController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
 
   Future<void> _loadAppointments() async {
     _appointments = _appointmentService.fetch();
@@ -87,24 +94,26 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             if (appointment.status == 'pending')
-                              FilledAppButton(
-                                icon: Icons.cancel,
-                                text: "Annuler",
-                                onPressed: () async {
-                                  AppointementUpdateRequest req =
-                                      AppointementUpdateRequest(
-                                    state: 'cancelled',
-                                  );
-                                  await appointementService.update(
-                                      req, appointment.appointmentId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Rendez-vous annulé'),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
-                                  _updateAppointments();
-                                },
+                              Expanded(
+                                child: FilledAppButton(
+                                  icon: Icons.cancel,
+                                  text: "Annuler",
+                                  onPressed: () async {
+                                    AppointementUpdateRequest req =
+                                        AppointementUpdateRequest(
+                                      state: 'cancelled',
+                                    );
+                                    await appointementService.update(
+                                        req, appointment.appointmentId);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Rendez-vous annulé'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                    _updateAppointments();
+                                  },
+                                ),
                               ),
                             if (appointment.status == 'confirmed')
                               Expanded(
@@ -204,6 +213,103 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                               )
                                             ],
                                           ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            if (appointment.status == 'confirmed')
+                              Expanded(
+                                child: FilledAppButton(
+                                  text: 'Signaler',
+                                  icon: FluentIcons.info_12_filled,
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          insetPadding: EdgeInsets.all(0),
+                                          surfaceTintColor: Colors.white,
+                                          title: Text("Signaler"),
+                                          content: Container(
+                                            height: 200,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .stretch, // Expand items horizontally
+                                              children: [
+                                                RoundedTextField(
+                                                  controller: titleController,
+                                                  hintText: 'Sujet',
+                                                ),
+                                                SizedBox(height: 8),
+                                                Expanded(
+                                                  child: RoundedTextArea(
+                                                    controller:
+                                                        reportMessageController,
+                                                    hintText: 'Message...',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            FilledAppButton(
+                                              icon: Icons.close,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              text: 'Annuler',
+                                            ),
+                                            FilledAppButton(
+                                              icon: Icons.check,
+                                              onPressed: () async {
+                                                final ReportService
+                                                    reportService =
+                                                    ReportService();
+                                                final String reportContent =
+                                                    'Sujet: ${titleController.text}, Contenu: ${reportMessageController.text}';
+                                                ReportEntity report =
+                                                    new ReportEntity(
+                                                  description: reportContent,
+                                                  reported_id: appointment
+                                                      .service.serviceId,
+                                                );
+
+                                                try {
+                                                  await reportService
+                                                      .post(report);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          'Rapport envoyé'),
+                                                      duration: Duration(
+                                                        seconds: 2,
+                                                      ),
+                                                    ),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content:
+                                                          Text('Erreur $e'),
+                                                      duration: Duration(
+                                                        seconds: 2,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              text: 'Envoyer',
+                                            ),
+                                          ],
                                         );
                                       },
                                     );

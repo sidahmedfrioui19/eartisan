@@ -78,11 +78,13 @@ class Price {
   final int? priceId;
   final double? value;
   final String? description;
+  final String? rate;
 
   Price({
     required this.priceId,
     required this.value,
     required this.description,
+    required this.rate,
   });
 
   factory Price.fromJson(Map<String, dynamic> json) {
@@ -90,6 +92,7 @@ class Price {
       priceId: json['price_id'],
       value: double.parse(json['value']),
       description: json['description'],
+      rate: json['rate'],
     );
   }
 }

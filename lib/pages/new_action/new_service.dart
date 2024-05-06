@@ -128,11 +128,10 @@ class _NewServiceState extends State<NewService> {
 
         print('Profile picture URL updated: $downloadURL');
 
-        Navigator.of(context).pop(); // Dismiss dialog
+        Navigator.of(context).pop();
       } catch (error) {
         print('Error uploading image: $error');
-        Navigator.of(context).pop(); // Dismiss dialog
-        // Optionally show an error message
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error uploading image: $error')),
         );
