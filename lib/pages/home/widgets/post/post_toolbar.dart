@@ -92,7 +92,7 @@ class _PostToolBarState extends State<PostToolBar> {
         if (widget.icon2 != null)
           IconButton(
             icon: Icon(
-              widget.isFavorite!
+              _isButtonDisabled
                   ? FluentIcons.bookmark_16_filled
                   : FluentIcons.bookmark_16_regular,
               color: AppTheme.primaryColor,
