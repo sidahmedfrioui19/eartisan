@@ -43,6 +43,7 @@ class _UserPageState extends State<UserPage>
 
     userRole = role;
     setState(() {
+      print(role);
       _tabController = TabController(
         length: userRole == 'customer' ? 2 : 4,
         vsync: this,
