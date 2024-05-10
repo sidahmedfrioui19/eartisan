@@ -32,13 +32,13 @@ class InternetError extends StatelessWidget {
               color: AppTheme.secondaryColor,
             ),
             Text(
-              "Vous êtes hors ligne",
+              "You are offline",
               style: AppTheme.headingTextStyle,
             ),
             SizedBox(height: 20),
             FilledAppButton(
               onPressed: () => _handleConnection(context),
-              text: 'Réessayer',
+              text: 'Retry',
               icon: FluentIcons.arrow_rotate_clockwise_16_filled,
             ),
           ],

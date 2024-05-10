@@ -26,7 +26,7 @@ class _ReportState extends State<Report> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Envoyer un rapport',
+        title: 'Send a feedback',
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
       body: Column(
@@ -36,7 +36,7 @@ class _ReportState extends State<Report> {
               children: [
                 RoundedTextField(
                   controller: _titleController,
-                  hintText: "Sujet",
+                  hintText: "Subject",
                   icon: FluentIcons.text_header_1_lines_16_filled,
                 ),
                 RoundedTextArea(
@@ -52,7 +52,7 @@ class _ReportState extends State<Report> {
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: FilledAppButton(
               icon: FluentIcons.send_16_filled,
-              text: "Envoyer",
+              text: "Send",
               onPressed: () async {
                 final String reportContent =
                     'Sujet: ${_titleController.text}, Contenu: ${_contentController.text}';
@@ -63,7 +63,7 @@ class _ReportState extends State<Report> {
                   await reportService.post(report);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Rapport envoyé'), // Confirmation message
+                      content: Text('Feedback sent'), // Confirmation message
                       duration:
                           Duration(seconds: 2), // Adjust the duration as needed
                     ),
@@ -71,7 +71,9 @@ class _ReportState extends State<Report> {
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Erreur $e'), // Confirmation message
+                      content: Text(
+                        'An error has occured, try again',
+                      ), // Confirmation message
                       duration:
                           Duration(seconds: 2), // Adjust the duration as needed
                     ),

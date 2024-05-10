@@ -75,7 +75,8 @@ class _SearchPageState extends State<SearchPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      'Une erreur est survenue veuillez réessayer'), // Confirmation message
+                    'An error has occured, try again',
+                  ), // Confirmation message
                   duration:
                       Duration(seconds: 2), // Adjust the duration as needed
                 ),
@@ -94,9 +95,9 @@ class _SearchPageState extends State<SearchPage> {
                     indicatorColor: AppTheme.primaryColor,
                     tabs: [
                       Tab(text: 'Service (${response!.services.length})'),
-                      Tab(text: 'Demande (${response!.posts.length})'),
-                      Tab(text: 'Artisan (${response!.artisans.length})'),
-                      Tab(text: 'Client (${response!.clients.length})'),
+                      Tab(text: 'Request (${response!.posts.length})'),
+                      Tab(text: 'Professional (${response!.artisans.length})'),
+                      Tab(text: 'Customer (${response!.clients.length})'),
                     ],
                     labelPadding: EdgeInsets.symmetric(horizontal: 0),
                     labelStyle: TextStyle(fontSize: 12),
@@ -122,7 +123,7 @@ class _SearchPageState extends State<SearchPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Text(
-                          'Recherches récentes (${recentSearches!.length})',
+                          'Recent searches (${recentSearches!.length})',
                         )),
                     Expanded(
                       child: ListView.builder(
@@ -156,7 +157,8 @@ class _SearchPageState extends State<SearchPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                          'Une erreur est survenue veuillez réessayer'),
+                                        'An error has occured, try again',
+                                      ),
                                       duration: Duration(
                                         seconds: 2,
                                       ),
@@ -221,7 +223,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                           SizedBox(height: 4),
                           Text(
-                            'Status: ${service.status}',
+                            'State: ${service.status}',
                           ),
                         ],
                       ),
@@ -321,7 +323,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Status: ${post.status}',
+                        'State: ${post.status}',
                       ),
                     ],
                   ),
@@ -395,11 +397,11 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              'Numéro téléphone: ${artisan.phoneNumber}',
+                              'Phone number: ${artisan.phoneNumber}',
                             ),
                             SizedBox(height: 4),
                             Text(
-                              'Adresse: ${artisan.address}',
+                              'Address: ${artisan.address}',
                             ),
                           ],
                         )
@@ -478,11 +480,11 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'Numéro téléphone: ${client.phoneNumber}',
+                          'Phone number: ${client.phoneNumber}',
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Adresse: ${client.address}',
+                          'Address: ${client.address}',
                         ),
                       ],
                     )

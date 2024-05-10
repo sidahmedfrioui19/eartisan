@@ -33,7 +33,7 @@ class PostEntity {
       username: json['username'],
       firstname: json['firstname'],
       lastname: json['lastname'],
-      address: json['address'],
+      address: json['adress'],
       phoneNumber: json['phone_number'],
       profilePicture: json['profile_picture'],
       postId: json['post_id'],

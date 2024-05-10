@@ -39,10 +39,10 @@ class _PostsPageState extends State<PostsPage> {
 
   Future<void> loadUserId() async {
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-    final String? jwtToken = await secureStorage.read(key: 'userId');
+    final String? userId = await secureStorage.read(key: 'userId');
 
     setState(() {
-      currentUserId = jwtToken ?? '';
+      currentUserId = userId ?? '';
     });
   }
 
@@ -58,7 +58,7 @@ class _PostsPageState extends State<PostsPage> {
               Container(
                 padding: EdgeInsets.only(left: 18),
                 child: Text(
-                  'Demandes récentes',
+                  'Recent requests',
                   style: AppTheme.elementTitle,
                 ),
               )
@@ -66,8 +66,8 @@ class _PostsPageState extends State<PostsPage> {
           ),
           VerticalList<PostEntity>(
             future: _posts,
-            errorMessage: "Aucun service",
-            emptyText: "Aucune publiciation",
+            errorMessage: "No requests",
+            emptyText: "No requests",
             itemBuilder: (post) {
               return Post(
                 title: post.title,

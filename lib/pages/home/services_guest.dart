@@ -59,7 +59,7 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Catégories',
+                  'Categories',
                   style: AppTheme.elementTitle,
                 ),
                 TextButton(
@@ -73,7 +73,7 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
                     );
                   },
                   child: Text(
-                    'Voir tout',
+                    'View all',
                     style: TextStyle(
                       color: AppTheme.textColor,
                       decoration: TextDecoration.underline,
@@ -86,8 +86,8 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
           SizedBox(height: 10),
           HorizontalList<CategoryEntity>(
             future: _categoriesFuture,
-            errorMessage: "Aucune catégorie",
-            emptyText: "Aucune catégorie",
+            errorMessage: "No category",
+            emptyText: "No category",
             itemBuilder: (category) {
               return Category(
                   iconUrl: category.icon,
@@ -110,8 +110,8 @@ class _ServicesGuestPageState extends State<ServicesGuestPage> {
           ),
           VerticalList<ServiceEntity>(
               future: _servicesFuture,
-              errorMessage: "Aucun service",
-              emptyText: "Aucun service",
+              errorMessage: "No services",
+              emptyText: "No services",
               itemBuilder: (service) {
                 return PostService(
                   title: service.title ?? '',

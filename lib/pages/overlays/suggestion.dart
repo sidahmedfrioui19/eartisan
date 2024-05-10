@@ -23,7 +23,7 @@ class _SuggestionState extends State<Suggestion> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Envoyer une suggestion',
+        title: 'Send a suggestion',
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
       body: Column(
@@ -44,7 +44,7 @@ class _SuggestionState extends State<Suggestion> {
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: FilledAppButton(
               icon: FluentIcons.send_16_filled,
-              text: "Envoyer",
+              text: "Send",
               onPressed: () async {
                 SuggestionCreationRequest suggestion =
                     new SuggestionCreationRequest(
@@ -65,7 +65,8 @@ class _SuggestionState extends State<Suggestion> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                          'Une erreur est survenue'), // Confirmation message
+                        'An error has occured, try again',
+                      ), // Confirmation message
                       duration:
                           Duration(seconds: 2), // Adjust the duration as needed
                     ),

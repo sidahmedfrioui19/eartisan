@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             Text(
-              "Se connecter",
+              "Sign in",
               style: AppTheme.headingTextStyle,
             ),
             SizedBox(
@@ -56,12 +56,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
             RoundedTextField(
               controller: _emailController,
-              hintText: "Adresse email",
+              hintText: "Email address",
               icon: FluentIcons.mail_12_filled,
             ),
             RoundedTextField(
               controller: _passwordController,
-              hintText: "Mot de passe",
+              hintText: "Password",
               obscured: true,
               icon: FluentIcons.lock_closed_12_filled,
             ),
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   Expanded(
                     child: FilledAppButton(
                       icon: FluentIcons.arrow_right_12_filled,
-                      text: "Se Connecter",
+                      text: "Sign in",
                       onPressed: () async {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                  'Connecté avec succéss!'), // Confirmation message
+                                  'Successfully signed in!'), // Confirmation message
                               duration: Duration(
                                   seconds: 2), // Adjust the duration as needed
                             ),
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    '$e Email ou mot de passe incorrect'), // Confirmation message
+                                    'Your email or password is incorrect'), // Confirmation message
                                 duration: Duration(
                                     seconds:
                                         2), // Adjust the duration as needed
@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               child: Row(
                 children: [
-                  Text("Pas encore inscrit?"),
+                  Text("Don't have an account yet?"),
                   TextAppButton(
                       onPressed: () async {
                         Navigator.push(
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                           MaterialPageRoute(builder: (context) => SignUpPage()),
                         );
                       },
-                      text: "Créer un compte")
+                      text: "Create an account")
                 ],
               ),
               margin: EdgeInsets.all(15),

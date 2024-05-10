@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/post/post_statusbar.dart';
 import 'package:profinder/pages/home/widgets/post/post_toolbar.dart';
@@ -55,7 +56,7 @@ class Post extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UserCard(
-                  pictureUrl: pictureUrl,
+                  pictureUrl: pictureUrl ?? Constants.defaultAvatar,
                   username: '$firstname $lastname',
                   content: '@${username}',
                 ),

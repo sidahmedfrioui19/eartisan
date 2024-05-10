@@ -68,7 +68,6 @@ class _UserPageState extends State<UserPage>
       final UserEntity user = await auth.fetchUserData();
       return user;
     } catch (error) {
-      print('Error loading user data: $error');
       throw error;
     }
   }
@@ -91,8 +90,7 @@ class _UserPageState extends State<UserPage>
           return AlertDialog(
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            title:
-                Text("Changement d'image...", style: TextStyle(fontSize: 15)),
+            title: Text("Changing picture...", style: TextStyle(fontSize: 15)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -126,15 +124,13 @@ class _UserPageState extends State<UserPage>
             UserUpdateEntity(profilePicture: downloadURL);
         await UserService().patch(updatedData);
 
-        print('Profile picture URL updated: $downloadURL');
-
-        Navigator.of(context).pop(); // Dismiss dialog
+        Navigator.of(context).pop();
       } catch (error) {
-        print('Error uploading image: $error');
-        Navigator.of(context).pop(); // Dismiss dialog
-        // Optionally show an error message
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error uploading image: $error')),
+          SnackBar(
+            content: Text('Error uploading image'),
+          ),
         );
       }
     }
@@ -146,7 +142,7 @@ class _UserPageState extends State<UserPage>
       backgroundColor: AppTheme.backgroundColor,
       drawer: BurgerMenu(),
       appBar: TopBar(
-        title: "Compte",
+        title: "Account",
       ),
       body: FutureBuilder<UserEntity>(
         future: _userFuture,
@@ -228,7 +224,7 @@ class _UserPageState extends State<UserPage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Vous n\'êtes pas vérifié',
+                            'Your account is not verified',
                             style: TextStyle(color: Colors.red),
                           ),
                         ],
@@ -239,7 +235,7 @@ class _UserPageState extends State<UserPage>
                     SizedBox(
                       child: Center(
                         child: Text(
-                          'Veuillez choisir une catégorie dans les paramétres et ajouter votre cv',
+                          'Please pick a category in the settings and add your cv',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -252,10 +248,10 @@ class _UserPageState extends State<UserPage>
                     unselectedLabelColor: Colors.black,
                     controller: _tabController,
                     tabs: [
-                      Tab(text: 'Mes Demandes'),
-                      if (userRole != 'customer') Tab(text: 'Mes Services'),
-                      if (userRole != 'customer') Tab(text: 'Mes Clients'),
-                      Tab(text: 'Rendez-vous'),
+                      Tab(text: 'My requests'),
+                      if (userRole != 'customer') Tab(text: 'My services'),
+                      if (userRole != 'customer') Tab(text: 'My customers'),
+                      Tab(text: 'Appointements'),
                     ],
                     labelPadding: EdgeInsets.symmetric(horizontal: 0),
                     labelStyle: TextStyle(fontSize: 12),

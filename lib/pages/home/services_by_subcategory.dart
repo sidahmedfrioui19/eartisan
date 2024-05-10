@@ -10,6 +10,7 @@ import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
@@ -85,8 +86,8 @@ class _ServicesByCategoryState extends State<ServicesByCategory> {
             Container(
               child: VerticalList<ServiceEntity>(
                 future: _servicesFuture,
-                errorMessage: "Aucun service",
-                emptyText: "Aucun service",
+                errorMessage: "No services",
+                emptyText: "No services",
                 itemBuilder: (service) {
                   return FutureBuilder<bool>(
                     future: _isServiceInFavorites(service.serviceId!),
@@ -94,7 +95,7 @@ class _ServicesByCategoryState extends State<ServicesByCategory> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return AppLoading();
                       } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
+                        return SnapshotErrorWidget(error: snapshot.error);
                       } else {
                         bool isFavorite = snapshot.data ?? false;
                         return PostService(

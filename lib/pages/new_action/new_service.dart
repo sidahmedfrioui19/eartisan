@@ -12,6 +12,7 @@ import 'package:profinder/services/category/category.dart';
 import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/dropdown.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
@@ -123,14 +124,9 @@ class _NewServiceState extends State<NewService> {
       try {
         TaskSnapshot snapshot = await uploadTask;
         String downloadURL = await snapshot.ref.getDownloadURL();
-
         addPicture(downloadURL);
-
-        print('Profile picture URL updated: $downloadURL');
-
         Navigator.of(context).pop();
       } catch (error) {
-        print('Error uploading image: $error');
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error uploading image: $error')),
@@ -162,7 +158,7 @@ class _NewServiceState extends State<NewService> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Créer un service",
+                    "Create a service",
                     style: AppTheme.headingTextStyle,
                   )
                 ],
@@ -171,10 +167,10 @@ class _NewServiceState extends State<NewService> {
             SizedBox(height: 10),
             RoundedTextField(
               controller: _nameController,
-              hintText: "Nom",
+              hintText: "Title",
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Veuillez entrer un nom";
+                  return "Please type a title";
                 }
                 return null;
               },
@@ -185,7 +181,7 @@ class _NewServiceState extends State<NewService> {
               hintText: "Description",
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Veuillez entrer une description";
+                  return "Please type a description";
                 }
                 return null;
               },
@@ -197,7 +193,9 @@ class _NewServiceState extends State<NewService> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return AppLoading();
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Center(
+                    child: SnapshotErrorWidget(error: snapshot.error),
+                  );
                 } else {
                   // Check if the fetched list is not null
                   if (snapshot.data != null) {
@@ -209,7 +207,7 @@ class _NewServiceState extends State<NewService> {
                           _selectedCategoryId = newValue!;
                         });
                       },
-                      hintText: 'Choisir une catégorie',
+                      hintText: 'Choose a subcategory',
                       items: snapshot.data!.map<DropdownMenuItem<String>>(
                         (SubCategoryEntity subcategory) {
                           return DropdownMenuItem<String>(
@@ -231,10 +229,10 @@ class _NewServiceState extends State<NewService> {
                 Flexible(
                   child: RoundedTextField(
                     controller: _priceDescriptionController,
-                    hintText: "Tache",
+                    hintText: "Task",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Veuillez entrer une tâche";
+                        return "Please type a task";
                       }
                       return null;
                     },
@@ -243,10 +241,10 @@ class _NewServiceState extends State<NewService> {
                 Flexible(
                   child: RoundedTextField(
                     controller: _valueController,
-                    hintText: "Prix",
+                    hintText: "Price",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Veuillez entrer un prix";
+                        return "Please type a price";
                       }
                       return null;
                     },
@@ -259,7 +257,7 @@ class _NewServiceState extends State<NewService> {
                     hintText: "",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Veuillez entrer une valeur de taux";
+                        return "Please type the rate";
                       }
                       return null;
                     },
@@ -294,7 +292,7 @@ class _NewServiceState extends State<NewService> {
                             children: [
                               Text(price.description),
                               SizedBox(width: 10),
-                              Text('Prix: ${price.value}DA / ${price.rate}'),
+                              Text('Price: ${price.value}DA / ${price.rate}'),
                               SizedBox(width: 10),
                               IconButton(
                                 icon: Icon(Icons.delete),
@@ -322,7 +320,7 @@ class _NewServiceState extends State<NewService> {
             Container(
               child: FilledAppButton(
                 icon: FluentIcons.add_12_filled,
-                text: "Ajouter une photo",
+                text: "Add a photo",
                 onPressed: () async {
                   _uploadPicture();
                 },
@@ -386,7 +384,7 @@ class _NewServiceState extends State<NewService> {
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: FilledAppButton(
                 icon: FluentIcons.add_12_filled,
-                text: "Publier",
+                text: "Post",
                 onPressed: () async {
                   if (_nameController.text.isEmpty ||
                       _descriptionController.text.isEmpty ||
@@ -396,7 +394,7 @@ class _NewServiceState extends State<NewService> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Veuillez remplir tous les champs',
+                          'Please fill in all the required fields',
                         ),
                         duration: Duration(seconds: 2),
                       ),
@@ -409,7 +407,7 @@ class _NewServiceState extends State<NewService> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Service publié avec succès!',
+                            'Service posted successfully!',
                           ),
                           duration: Duration(seconds: 2),
                         ),
@@ -420,7 +418,7 @@ class _NewServiceState extends State<NewService> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Veuillez vérifier vos coordonnées',
+                            'Please fill in all the required fields',
                           ),
                           duration: Duration(seconds: 2),
                         ),

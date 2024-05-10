@@ -102,7 +102,7 @@ class _PostToolBarState extends State<PostToolBar> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            'Le Service est déja dans la liste des favoris'), // Confirmation message
+                            'Service is already in your favorites list'), // Confirmation message
                         duration: Duration(seconds: 2),
                       ),
                     );
@@ -116,7 +116,7 @@ class _PostToolBarState extends State<PostToolBar> {
                       await favorite.post(fav);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Ajouté au favoris'),
+                          content: Text('Added to favorites'),
                           duration: Duration(seconds: 2),
                         ),
                       );
@@ -126,7 +126,7 @@ class _PostToolBarState extends State<PostToolBar> {
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Erreur $e'),
+                          content: Text('An error has occured'),
                           duration: Duration(seconds: 2),
                         ),
                       );

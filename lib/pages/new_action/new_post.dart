@@ -26,7 +26,7 @@ class NewPost extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Créer une demande",
+                  "Create a request",
                   style: AppTheme.headingTextStyle,
                 )
               ],
@@ -34,7 +34,7 @@ class NewPost extends StatelessWidget {
           ),
           RoundedTextField(
             controller: _titleController,
-            hintText: "Titre",
+            hintText: "Title",
             icon: FluentIcons.text_header_1_lines_16_filled,
           ),
           RoundedTextArea(
@@ -47,7 +47,7 @@ class NewPost extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: FilledAppButton(
               icon: FluentIcons.add_12_filled,
-              text: "Publier",
+              text: "Post",
               onPressed: () async {
                 if (_titleController.text.isEmpty ||
                     _descriptionController.text.isEmpty) {
@@ -55,7 +55,7 @@ class NewPost extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        'Veuillez remplir tous les champs',
+                        'Please fill in all the required fields',
                       ),
                       duration: Duration(seconds: 2),
                     ),
@@ -71,7 +71,7 @@ class NewPost extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Contenu publié avec succès!',
+                          'Contenu posted successfully!',
                         ),
                         duration: Duration(seconds: 2),
                       ),
@@ -82,7 +82,7 @@ class NewPost extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Veuillez vérifier vos coordonnées',
+                          'Please fill in all the required fields',
                         ),
                         duration: Duration(seconds: 2),
                       ),

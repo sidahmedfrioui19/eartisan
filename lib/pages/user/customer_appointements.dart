@@ -77,16 +77,16 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                       children: [
                         SizedBox(height: 4),
                         Text(
-                          'Professionel: ${appointment.professional.firstname} ${appointment.professional.lastname}',
+                          'Professional: ${appointment.professional.firstname} ${appointment.professional.lastname}',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 4),
                         Text('Date: ${appointment.date ?? 'N/D'}'),
                         SizedBox(height: 4),
-                        Text('Temps: ${appointment.time ?? 'N/D'}'),
+                        Text('Time: ${appointment.time ?? 'N/D'}'),
                         SizedBox(height: 4),
                         Text(
-                            'Status: ${Helpers.getAppointementStatus(appointment.status)}'),
+                            'State: ${Helpers.getAppointementStatus(appointment.status)}'),
                         SizedBox(
                           height: 10,
                         ),
@@ -97,7 +97,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                               Expanded(
                                 child: FilledAppButton(
                                   icon: Icons.cancel,
-                                  text: "Annuler",
+                                  text: "Cancel",
                                   onPressed: () async {
                                     AppointementUpdateRequest req =
                                         AppointementUpdateRequest(
@@ -107,7 +107,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                         req, appointment.appointmentId);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text('Rendez-vous annulé'),
+                                        content: Text('Appointement cancelled'),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -119,7 +119,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                               Expanded(
                                 child: FilledAppButton(
                                   icon: Icons.star,
-                                  text: "Évaluer",
+                                  text: "Review",
                                   onPressed: () async {
                                     showDialog(
                                       context: context,
@@ -135,7 +135,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                           title: Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
-                                              'Évaluer le service',
+                                              'Review service',
                                               style: AppTheme.headingTextStyle,
                                             ),
                                           ),
@@ -168,14 +168,13 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                               RoundedTextArea(
                                                   controller:
                                                       _commentController,
-                                                  hintText:
-                                                      "Entrez votre commentaire..."),
+                                                  hintText: "Type comment..."),
                                               Row(
                                                 children: [
                                                   Expanded(
                                                     child: FilledAppButton(
                                                       icon: Icons.check,
-                                                      text: "Envoyer",
+                                                      text: "Send",
                                                       onPressed: () async {
                                                         ReviewCreationRequest
                                                             req =
@@ -196,7 +195,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                             .showSnackBar(
                                                           SnackBar(
                                                             content: Text(
-                                                              'Évaluation soumise',
+                                                              'Review submitted',
                                                             ),
                                                             duration: Duration(
                                                               seconds: 3,
@@ -225,7 +224,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                             if (appointment.status == 'confirmed')
                               Expanded(
                                 child: FilledAppButton(
-                                  text: 'Signaler',
+                                  text: 'Report',
                                   icon: FluentIcons.info_12_filled,
                                   onPressed: () {
                                     showDialog(
@@ -234,7 +233,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                         return AlertDialog(
                                           insetPadding: EdgeInsets.all(0),
                                           surfaceTintColor: Colors.white,
-                                          title: Text("Signaler"),
+                                          title: Text("Send report"),
                                           content: Container(
                                             height: 200,
                                             child: Column(
@@ -244,7 +243,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                               children: [
                                                 RoundedTextField(
                                                   controller: titleController,
-                                                  hintText: 'Sujet',
+                                                  hintText: 'Subject',
                                                 ),
                                                 SizedBox(height: 8),
                                                 Expanded(
@@ -263,7 +262,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
-                                              text: 'Annuler',
+                                              text: 'Cancel',
                                             ),
                                             FilledAppButton(
                                               icon: Icons.check,
@@ -286,8 +285,8 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
-                                                      content: Text(
-                                                          'Rapport envoyé'),
+                                                      content:
+                                                          Text('Report sent'),
                                                       duration: Duration(
                                                         seconds: 2,
                                                       ),
@@ -298,8 +297,8 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
-                                                      content:
-                                                          Text('Erreur $e'),
+                                                      content: Text(
+                                                          'An error has occured, try again'),
                                                       duration: Duration(
                                                         seconds: 2,
                                                       ),
@@ -307,7 +306,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                   );
                                                 }
                                               },
-                                              text: 'Envoyer',
+                                              text: 'Send',
                                             ),
                                           ],
                                         );
@@ -323,8 +322,8 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                   ),
                 );
               },
-              errorMessage: "Aucun rendez-vous",
-              emptyText: "Aucun rendez-vous",
+              errorMessage: "No appointements",
+              emptyText: "No appointements",
             ),
           ),
         ],

@@ -44,6 +44,13 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    print(_role);
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.blue, // Change this to match your app bar color
@@ -74,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "S'inscrire",
+                  "Sign up",
                   style: AppTheme.headingTextStyle,
                 ),
                 SizedBox(height: 20),
@@ -83,84 +90,85 @@ class _SignUpPageState extends State<SignUpPage> {
                   onChanged: (String? newValue) {
                     setState(() {
                       _role = newValue!;
+                      print(_role);
                     });
                   },
                   hintText: 'Role',
                   items: [
                     DropdownMenuItem(
                       value: 'customer',
-                      child: Text('Client'),
+                      child: Text('Customer'),
                     ),
                     DropdownMenuItem(
                       value: 'professional',
-                      child: Text('Professionel'),
+                      child: Text('Professional'),
                     ),
                   ],
                 ),
                 RoundedTextField(
-                  controller: _firstnameController,
-                  hintText: "Nom",
+                  controller: _lastnameController,
+                  hintText: "First name",
                   icon: FluentIcons.person_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre nom';
+                      return 'Please type your first name';
                     }
                     return null;
                   },
                 ),
                 RoundedTextField(
-                  controller: _lastnameController,
-                  hintText: "Prénom",
+                  controller: _firstnameController,
+                  hintText: "Last name",
                   icon: FluentIcons.person_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre prénom';
+                      return 'Please type your last name';
                     }
                     return null;
                   },
                 ),
                 RoundedTextField(
                   controller: _usernameController,
-                  hintText: "Nom d'utilisateur",
+                  hintText: "Username",
                   icon: FluentIcons.number_symbol_16_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre nom d\'utilisateur';
+                      return 'Please type your username';
                     }
                     return null;
                   },
                 ),
                 RoundedTextField(
                   controller: _addressController,
-                  hintText: "Adresse",
+                  hintText: "Address",
                   obscured: false,
                   icon: FluentIcons.location_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre adresse';
+                      return 'Please type your adress';
                     }
                     return null;
                   },
                 ),
                 RoundedTextField(
                   controller: _emailController,
-                  hintText: "Adresse email",
+                  hintText: "Email address",
                   icon: FluentIcons.mail_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre adresse email';
+                      return 'Please type your email address';
                     }
                     return null;
                   },
                 ),
                 RoundedTextField(
                   controller: _passwordController,
-                  hintText: "Mot de passe",
+                  hintText: "Password",
                   obscured: true,
                   icon: FluentIcons.lock_closed_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez saisir votre mot de passe';
+                      return 'Please type your password';
                     }
                     return null;
                   },
@@ -168,14 +176,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 RoundedTextField(
                   controller:
                       _confirmpasswordController, // Use a separate controller
-                  hintText: "Confirmer mot de passe",
+                  hintText: "Confirm password",
                   obscured: true,
                   icon: FluentIcons.lock_closed_12_filled,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Veuillez confirmer votre mot de passe';
+                      return 'Please confirm your password';
                     } else if (value != _passwordController.text) {
-                      return 'Les mots de passe ne correspondent pas';
+                      return 'The password does not match';
                     }
                     return null;
                   },
@@ -187,7 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       Expanded(
                         child: FilledAppButton(
                           icon: FluentIcons.person_add_16_filled,
-                          text: "S'inscrire",
+                          text: "Sign up",
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               UserCreationRequest req = buildRequest();
@@ -196,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Utilisateur créé avec succès!',
+                                      'User created successfully!',
                                     ),
                                     duration: Duration(seconds: 2),
                                   ),
@@ -207,7 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      '$e Veuillez vérifier vos coordonnées',
+                                      'Please verifiy your credentials',
                                     ),
                                     duration: Duration(seconds: 2),
                                   ),
@@ -224,7 +232,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   margin: EdgeInsets.all(15),
                   child: Row(
                     children: [
-                      Text("Vous avez déjà un compte?"),
+                      Text("Already have an account?"),
                       TextAppButton(
                         onPressed: () {
                           Navigator.push(
@@ -233,7 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 builder: (context) => LoginPage()),
                           );
                         },
-                        text: "Se connecter",
+                        text: "Sign in",
                       ),
                     ],
                   ),

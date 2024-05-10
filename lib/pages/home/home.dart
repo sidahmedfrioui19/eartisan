@@ -17,13 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
   int _selectedIndex = 0;
-  String? jwtToken;
-
-  late String? currentUserId;
+  late String? jwtToken;
+  late String? currentUserId = '';
 
   Future<void> getCurrentUserId() async {
-    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final String? id = await secureStorage.read(key: 'userId');
     final String? token = await secureStorage.read(key: 'jwtToken');
 
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: AppTheme.backgroundColor,
             drawer: BurgerMenu(),
             appBar: TopBar(
-              title: "Explorer",
+              title: "Explore",
             ),
             body: Column(
               children: [

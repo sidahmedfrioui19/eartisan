@@ -4,6 +4,7 @@ import 'package:profinder/models/post/user_post.dart';
 import 'package:profinder/services/post/post.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/progress/loader.dart';
@@ -31,7 +32,7 @@ class _MyPostsState extends State<MyPosts> {
   }
 
   String statusBuilder(String s) {
-    return s == 'active' ? 'En attente' : 'Terminé';
+    return s == 'active' ? 'Waiting' : 'Completed';
   }
 
   Color statusColor(String s) {
@@ -49,7 +50,11 @@ class _MyPostsState extends State<MyPosts> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return AppLoading();
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(
+                child: SnapshotErrorWidget(
+                  error: snapshot.error,
+                ),
+              );
             } else {
               final posts = snapshot.data!;
               return Column(
@@ -118,7 +123,7 @@ class _MyPostsState extends State<MyPosts> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Demande est complété',
+                            'Request marked as complete',
                           ),
                           duration: Duration(seconds: 2),
                         ),
@@ -127,7 +132,7 @@ class _MyPostsState extends State<MyPosts> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Une érreur est survenue veuillez réessayer',
+                            'An error has occured, try again',
                           ),
                           duration: Duration(seconds: 2),
                         ),
@@ -162,13 +167,13 @@ class _MyPostsState extends State<MyPosts> {
         return AlertDialog(
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
-          title: Text('Modifier demande'),
+          title: Text('Edit request'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               RoundedTextField(
                 controller: titleController,
-                hintText: "Titre",
+                hintText: "Title",
               ),
               RoundedTextArea(
                 controller: descriptionController,
@@ -183,7 +188,7 @@ class _MyPostsState extends State<MyPosts> {
                   padding: EdgeInsets.only(right: 5),
                   child: FilledAppButton(
                     icon: Icons.close,
-                    text: "Annuler",
+                    text: "Cancel",
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -213,7 +218,7 @@ class _MyPostsState extends State<MyPosts> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content:
-                                Text('$e An error occurred. Please try again.'),
+                                Text('An error occurred, Please try again.'),
                             duration: Duration(seconds: 2),
                           ),
                         );

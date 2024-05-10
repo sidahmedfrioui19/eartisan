@@ -30,7 +30,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
             FluentIcons.search_12_filled,
             color: AppTheme.secondaryColor,
           ),
-          hintText: 'Rechercher',
+          hintText: 'Search',
           border: InputBorder.none,
         ),
         style: TextStyle(

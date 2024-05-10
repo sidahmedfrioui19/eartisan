@@ -44,7 +44,7 @@ class HomePageSelector extends StatelessWidget {
                 child: TextButton(
                   onPressed: onPost,
                   child: Text(
-                    "Demandes",
+                    "Requests",
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
                       color: demandesSelected

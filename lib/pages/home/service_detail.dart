@@ -77,7 +77,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Le Service est déjà dans la liste des favoris',
+                              'This service is already in your favorites list',
                             ),
                             duration: Duration(seconds: 2),
                           ),
@@ -92,7 +92,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                           await favorite.post(fav);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Ajouté au favoris'),
+                              content: Text('Added to favorites'),
                               duration: Duration(seconds: 2),
                             ),
                           );
@@ -102,7 +102,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Erreur $e'),
+                              content: Text('Error'),
                               duration: Duration(seconds: 2),
                             ),
                           );
@@ -169,7 +169,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return AppLoading();
                       } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
+                        return Text('An Error has occured');
                       } else if (snapshot.data!.isEmpty) {
                         return Container();
                       } else {
@@ -178,7 +178,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                     },
                   ),
 
-                  HeadingTitle(text: 'Contact'),
+                  HeadingTitle(text: 'Contact details'),
                   ContactDetail(
                     text: service.user.phoneNumber ?? '',
                     icon: FluentIcons.phone_12_filled,
@@ -195,7 +195,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                     text: service.user.tiktokLink ?? '',
                     icon: Icons.tiktok,
                   ),
-                  HeadingTitle(text: 'Prix'),
+                  HeadingTitle(text: 'Price'),
                   ...service.prices.map((price) {
                     return PriceCard(
                       description: price.description!,
@@ -203,7 +203,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                       rate: price.rate!,
                     );
                   }).toList(),
-                  HeadingTitle(text: 'Réalistations'),
+                  HeadingTitle(text: 'Previous projects'),
                   // Wrap PictureList with Center if there's only one picture
                   service.pictures.length < 3
                       ? Row(children: [PictureList(pictures: service.pictures)])
@@ -227,8 +227,8 @@ class _ServiceDetailState extends State<ServiceDetail> {
             children: [
               Expanded(
                 child: FilledAppButton(
-                  icon: FluentIcons.arrow_right_12_filled,
-                  text: "Prendre un rendez-vous",
+                  icon: FluentIcons.calendar_12_filled,
+                  text: "Take an appointement",
                   onPressed: () {
                     if (widget.loggedIn == true) {
                       Navigator.push(

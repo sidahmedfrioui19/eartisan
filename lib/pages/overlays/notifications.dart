@@ -49,7 +49,7 @@ class _NotificationsState extends State<Notifications> {
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           return NotificationTile(
-            username: 'Rendez-vous',
+            username: 'Appointement',
             onlineStatus: true,
             latestMessage: notifications[index].content,
             onPressed: () => {},

@@ -31,7 +31,7 @@ class BurgerMenu extends StatelessWidget {
                 children: <Widget>[
                   MenuItem(
                     icon: Icons.settings_outlined,
-                    text: "Paramétres",
+                    text: "User settings",
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -43,7 +43,7 @@ class BurgerMenu extends StatelessWidget {
                   ),
                   MenuItem(
                     icon: FluentIcons.heart_12_regular,
-                    text: "Mes Favoris",
+                    text: "My favorites",
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -54,7 +54,7 @@ class BurgerMenu extends StatelessWidget {
                   ),
                   MenuItem(
                     icon: Icons.message_outlined,
-                    text: "Envoyer un rapport",
+                    text: "Send feedback",
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -65,7 +65,7 @@ class BurgerMenu extends StatelessWidget {
                   ),
                   MenuItem(
                     icon: Icons.add,
-                    text: "Envoyer une suggestion",
+                    text: "Send a suggestion",
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -76,7 +76,7 @@ class BurgerMenu extends StatelessWidget {
                   ),
                   MenuItem(
                     icon: Icons.file_copy_outlined,
-                    text: "Conditions d'utilisation",
+                    text: "Terms & usage conditions",
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -88,7 +88,7 @@ class BurgerMenu extends StatelessWidget {
                   ),
                   MenuItem(
                     icon: Icons.logout_outlined,
-                    text: "Se déconnecter",
+                    text: "Sign out",
                     onPressed: () async {
                       Navigator.pop(context);
                       await AuthenticationService().logout();
@@ -98,7 +98,7 @@ class BurgerMenu extends StatelessWidget {
                               builder: (context) => MainNavBar()));
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Déconnecté'), // Confirmation message
+                          content: Text('Signed out'), // Confirmation message
                           duration:
                               Duration(seconds: 2), // Adjust duration as needed
                         ),
@@ -108,34 +108,35 @@ class BurgerMenu extends StatelessWidget {
                 ]);
           } else {
             return ListView(
-                padding: EdgeInsets.only(top: 30),
-                children: <Widget>[
-                  MenuItem(
-                    icon: Icons.file_copy_outlined,
-                    text: "Conditions d'utilisation",
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ConditionsOverlay()),
-                      );
-                    },
-                  ),
-                  MenuItem(
-                    icon: Icons.login,
-                    text: "Se connecter",
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ]);
+              padding: EdgeInsets.only(top: 30),
+              children: <Widget>[
+                MenuItem(
+                  icon: Icons.file_copy_outlined,
+                  text: "Terms & usage conditions",
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ConditionsOverlay()),
+                    );
+                  },
+                ),
+                MenuItem(
+                  icon: Icons.login,
+                  text: "Sign in",
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            );
           }
         },
       ),

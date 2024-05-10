@@ -10,6 +10,7 @@ import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/category.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/lists/generic_horizontal_list.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 import 'package:profinder/pages/home/widgets/post/service.dart';
@@ -82,7 +83,7 @@ class _ServicesPageState extends State<ServicesPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Catégories',
+                  'Categories',
                   style: AppTheme.elementTitle,
                 ),
                 TextButton(
@@ -95,7 +96,7 @@ class _ServicesPageState extends State<ServicesPage> {
                     );
                   },
                   child: Text(
-                    'Voir tout',
+                    'View all',
                     style: TextStyle(
                       color: AppTheme.textColor,
                       decoration: TextDecoration.underline,
@@ -108,8 +109,8 @@ class _ServicesPageState extends State<ServicesPage> {
           SizedBox(height: 10),
           HorizontalList<CategoryEntity>(
             future: _categoriesFuture,
-            errorMessage: "Aucune catégorie",
-            emptyText: "Aucune catégorie",
+            errorMessage: "No category",
+            emptyText: "No category",
             itemBuilder: (category) {
               return Category(
                 iconUrl: category.icon,
@@ -133,8 +134,8 @@ class _ServicesPageState extends State<ServicesPage> {
           ),
           VerticalList<ServiceEntity>(
             future: _servicesFuture,
-            errorMessage: "Aucun service",
-            emptyText: "Aucun service",
+            errorMessage: "No services",
+            emptyText: "No services",
             itemBuilder: (service) {
               return FutureBuilder<bool>(
                 future: _isServiceInFavorites(service.serviceId!),
@@ -142,7 +143,7 @@ class _ServicesPageState extends State<ServicesPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return AppLoading();
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return SnapshotErrorWidget(error: snapshot.error);
                   } else {
                     bool isFavorite = snapshot.data ?? false;
                     return PostService(

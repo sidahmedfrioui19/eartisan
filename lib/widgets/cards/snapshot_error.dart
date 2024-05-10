@@ -26,7 +26,7 @@ class SnapshotErrorWidget extends StatelessWidget {
                 color: AppTheme.secondaryColor,
               ),
               Text(
-                "Une erreur est survenue",
+                "An error has occured",
                 style: AppTheme.headingTextStyle,
               ),
             ],
@@ -46,7 +46,7 @@ class SnapshotErrorWidget extends StatelessWidget {
                 color: AppTheme.secondaryColor,
               ),
               Text(
-                "Une erreur est survenue",
+                "An error has occured",
                 style: AppTheme.headingTextStyle,
               ),
             ],
@@ -54,7 +54,7 @@ class SnapshotErrorWidget extends StatelessWidget {
         ),
       );
     } else if (error.runtimeType == Null) {
-      return Center(child: Text('User data is null'));
+      return Center(child: Text('An error has occured'));
     } else if (error is ClientException) {
       return Center(
         child: Container(
@@ -68,7 +68,7 @@ class SnapshotErrorWidget extends StatelessWidget {
                 color: AppTheme.secondaryColor,
               ),
               Text(
-                "Une erreur est survenue",
+                "An error has occured",
                 style: AppTheme.headingTextStyle,
               ),
             ],
@@ -88,7 +88,7 @@ class SnapshotErrorWidget extends StatelessWidget {
                 color: AppTheme.secondaryColor,
               ),
               Text(
-                "Une erreur est survenue",
+                "An error has occured",
                 style: AppTheme.headingTextStyle,
               ),
             ],

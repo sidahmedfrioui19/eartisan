@@ -128,7 +128,6 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
 
       return user;
     } catch (error) {
-      print('Error loading user data: $error');
       throw error;
     }
   }
@@ -152,7 +151,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Nouveaux paramétres enregistrées'),
+          content: Text('New user settings saved'),
           duration: Duration(seconds: 2),
         ),
       );
@@ -160,7 +159,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       print(error);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur $error'),
+          content: Text('An error has occured, try again'),
           duration: Duration(seconds: 2),
         ),
       );
@@ -172,7 +171,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Paramétres',
+        title: 'User settings',
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
       body: SingleChildScrollView(
@@ -190,23 +189,23 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                      child: Text("Détails"),
+                      child: Text("Details"),
                     ),
                     RoundedTextField(
-                      controller: _lastNameController,
-                      hintText: "Nom",
+                      controller: _firstNameController,
+                      hintText: "First name",
                       icon: FluentIcons.person_12_filled,
                       enabled: false,
                     ),
                     RoundedTextField(
-                      controller: _firstNameController,
-                      hintText: "Prénom",
+                      controller: _lastNameController,
+                      hintText: "Last name",
                       icon: FluentIcons.person_12_filled,
                       enabled: false,
                     ),
                     RoundedTextField(
                       controller: _addressController,
-                      hintText: "Localisation",
+                      hintText: "Adsress",
                       icon: FluentIcons.location_12_filled,
                     ),
                     Container(
@@ -244,7 +243,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                               ConnectionState.waiting) {
                             return AppLoading();
                           } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
+                            return SnapshotErrorWidget(error: snapshot.error);
                           } else {
                             if (snapshot.data != null) {
                               print(snapshot.data);
@@ -255,7 +254,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                                     _selectedCategoryId = int.parse(newValue!);
                                   });
                                 },
-                                hintText: 'Choisir une catégorie',
+                                hintText: 'Choose a category',
                                 items: snapshot.data!
                                     .map<DropdownMenuItem<String>>(
                                   (CategoryEntity category) {
@@ -267,7 +266,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                                 ).toList(),
                               );
                             } else {
-                              return Text('No subcategories available');
+                              return Text('No categories available');
                             }
                           }
                         },
@@ -282,7 +281,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                         ),
                         child: FilledAppButton(
                           icon: FluentIcons.document_16_filled,
-                          text: 'Ajouter/Modifier CV',
+                          text: 'Add/Edit CV',
                           onPressed: _uploadCv,
                         ),
                       ),
@@ -297,7 +296,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Disponibilité"),
+                            Text("Availability"),
                             Switch(
                               value: new_availability,
                               onChanged: (newValue) {
@@ -317,7 +316,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                           EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       child: FilledAppButton(
                         icon: FluentIcons.save_16_filled,
-                        text: "Enregistrer",
+                        text: "Save settings",
                         onPressed: _saveChanges,
                       ),
                     ),

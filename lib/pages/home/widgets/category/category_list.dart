@@ -43,7 +43,7 @@ class _CategoryListState extends State<CategoryList> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Tous les catégories (${_categoriesLength})',
+        title: 'All categories (${_categoriesLength})',
         dismissIcon: FluentIcons.dismiss_12_filled,
       ),
       body: Container(
@@ -52,8 +52,8 @@ class _CategoryListState extends State<CategoryList> {
           children: [
             VerticalList<CategoryEntity>(
               future: _categoriesFuture,
-              errorMessage: "Aucun catégorie",
-              emptyText: "Aucune catégorie",
+              errorMessage: "No category",
+              emptyText: "No category",
               itemBuilder: (category) {
                 return GestureDetector(
                   onTap: () {

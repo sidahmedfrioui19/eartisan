@@ -28,7 +28,6 @@ class _NewActionState extends State<NewAction> {
     final String? role = await secureStorage.read(key: 'role');
 
     userRole = role;
-    print("role: $userRole");
   }
 
   final List<Widget> _partials = [
@@ -49,7 +48,7 @@ class _NewActionState extends State<NewAction> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Créer',
+        title: 'Create',
         dismissIcon: FluentIcons.dismiss_12_filled,
       ),
       body: SingleChildScrollView(
@@ -76,7 +75,7 @@ class _NewActionState extends State<NewAction> {
                                 backgroundColor: Colors.white,
                                 surfaceTintColor: Colors.white,
                                 content: Text(
-                                    'Veuillez créer un compte professionel pour ajouter des services.'),
+                                    'You need to have a professional account to be able to create services.'),
                                 actions: [
                                   FilledAppButton(
                                     onPressed: () {
@@ -103,7 +102,7 @@ class _NewActionState extends State<NewAction> {
                     children: const <Widget>[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text("Demande"),
+                        child: Text("Request"),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),

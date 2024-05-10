@@ -57,8 +57,8 @@ class _ServicesByCategoryGuestState extends State<ServicesByCategoryGuest> {
             Container(
               child: VerticalList<ServiceEntity>(
                 future: _servicesFuture,
-                errorMessage: "Aucun service",
-                emptyText: "Aucun service",
+                errorMessage: "No services",
+                emptyText: "No services",
                 itemBuilder: (service) {
                   return PostService(
                     title: service.title ?? '',

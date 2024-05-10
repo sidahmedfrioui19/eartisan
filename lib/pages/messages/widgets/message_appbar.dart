@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               Text(
-                userStatus ? 'Disponible' : 'Non disponible',
+                userStatus ? 'Available' : 'Not available',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 12,

@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/providers/conversations_provider.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,6 @@ import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/conversation-tile.dart';
 import 'package:profinder/widgets/navigation/burger_menu.dart';
 import 'package:profinder/widgets/appbar/top_bar.dart';
-import 'package:profinder/widgets/progress/loader.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);
@@ -35,11 +35,22 @@ class _MessagesPageState extends State<MessagesPage> {
       ),
       body: Consumer<ConversationProvider>(
         builder: (context, provider, _) {
-          // Use provider.conversations to access the list of conversations
           final conversations = provider.conversations;
           if (conversations.isEmpty) {
             return Center(
-              child: AppLoading(), // Show a loading indicator while fetching
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    FluentIcons.mail_20_filled,
+                    size: 48,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("No conversations"),
+                ],
+              ),
             );
           } else {
             return ListView.builder(

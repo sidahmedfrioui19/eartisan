@@ -85,7 +85,7 @@ class PostService extends StatelessWidget {
               SizedBox(height: 10),
               Text(description),
               SizedBox(height: 10),
-              Text("Realisations",
+              Text("Previous projects",
                   style: TextStyle(fontWeight: FontWeight.w700)),
               SizedBox(height: 10),
               Wrap(
@@ -115,7 +115,7 @@ class PostService extends StatelessWidget {
                                         onTap: onPress,
                                         child: Center(
                                           child: Text(
-                                            'Voir plus',
+                                            'View more',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

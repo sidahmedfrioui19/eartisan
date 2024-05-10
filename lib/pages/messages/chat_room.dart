@@ -6,6 +6,7 @@ import 'package:profinder/services/message/message.dart';
 import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/messages/widgets/message_appbar.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -157,7 +158,9 @@ class _ChatRoomState extends State<ChatRoom> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(
+                    child: SnapshotErrorWidget(error: snapshot.error),
+                  );
                 } else {
                   final messages = snapshot.data!;
                   return ListView.builder(

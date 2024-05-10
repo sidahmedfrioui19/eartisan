@@ -55,7 +55,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
             return AlertDialog(
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
-              title: Text("Modifier le rendez-vous"),
+              title: Text("Edit appointement"),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -64,6 +64,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                       controller: dateController,
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
+                          barrierColor: Colors.white,
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
@@ -92,7 +93,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                           });
                       },
                       decoration: InputDecoration(
-                        hintText: "Temps: HH:MM",
+                        hintText: "Time: HH:MM",
                       ),
                     ),
                     RoundedDropdownButton<String>(
@@ -102,19 +103,19 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                           selectedState = newValue;
                         });
                       },
-                      hintText: 'Etat',
+                      hintText: 'State',
                       items: [
                         DropdownMenuItem(
                           value: 'pending',
-                          child: Text('En attente'),
+                          child: Text('Waiting'),
                         ),
                         DropdownMenuItem(
                           value: 'processing',
-                          child: Text('Confirmé'),
+                          child: Text('Confirmed'),
                         ),
                         DropdownMenuItem(
                           value: 'confirmed',
-                          child: Text('Terminé'),
+                          child: Text('Completed'),
                         ),
                       ],
                     ),
@@ -143,7 +144,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                               _updateAppointments();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Rendez-vous modifié'),
+                                  content: Text('Appointement updated'),
                                   duration: Duration(seconds: 2),
                                 ),
                               );
@@ -151,7 +152,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Une érreur est survenue veuillez réessayer',
+                                    'An error has occured, try again',
                                   ),
                                   duration: Duration(seconds: 2),
                                 ),
@@ -165,7 +166,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                     Expanded(
                       child: FilledAppButton(
                         icon: Icons.close,
-                        text: "Annuler",
+                        text: "Cancel",
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -205,7 +206,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     title: Text(
-                      'Description du client: ${appointment.description!}',
+                      'Customer description: ${appointment.description!}',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
@@ -214,26 +215,26 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                       children: [
                         SizedBox(height: 4),
                         Text(
-                          'Client: ${appointment.customer.firstname} ${appointment.customer.lastname}',
+                          'Customer: ${appointment.customer.firstname} ${appointment.customer.lastname}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
                         ),
                         Text(
-                          'Numéro de téléphone: ${appointment.customer.phoneNumber}',
+                          'Phone number: ${appointment.customer.phoneNumber}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14),
                         ),
                         SizedBox(height: 4),
                         Text(
-                            'Date: ${appointment.date != null ? appointment.date : 'N/D'}'),
+                            'Date: ${appointment.date != null ? appointment.date : 'N/A'}'),
                         SizedBox(height: 4),
                         Text(
-                            'Temps: ${appointment.time != null ? appointment.time : 'N/D'}'),
+                            'Time: ${appointment.time != null ? appointment.time : 'N/A'}'),
                         SizedBox(height: 4),
                         Text(
-                            'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/D'}'),
+                            'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}'),
                         Padding(
                           padding: EdgeInsets.only(
                             top: 10,
@@ -246,13 +247,14 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                             children: [
                               FilledAppButton(
                                 icon: Icons.edit,
-                                text: 'Modifier',
+                                text: 'Edit',
                                 onPressed: () {
                                   if (appointment.status == 'cancelled') {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content:
-                                            Text('Rendez-vous est déja annulé'),
+                                        content: Text(
+                                          'Appointement already canceled',
+                                        ),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -268,7 +270,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                               ),
                               FilledAppButton(
                                 icon: Icons.cancel,
-                                text: 'Annuler',
+                                text: 'Cancel',
                                 onPressed: () {
                                   _cancelAppointment(appointment);
                                 },
@@ -281,8 +283,8 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                   ),
                 );
               },
-              errorMessage: "Aucun rendez-vous",
-              emptyText: "Aucun rendez-vous",
+              errorMessage: "No appointements",
+              emptyText: "No appointements",
             ),
           ),
         ],
@@ -297,7 +299,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
     await appointementService.update(req, appointment.appointmentId);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Rendez-vous annulé'),
+        content: Text('Appointement cancelled'),
         duration: Duration(seconds: 2),
       ),
     );

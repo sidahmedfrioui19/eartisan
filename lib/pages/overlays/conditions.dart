@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/usage_condition/usage_condition.dart';
 import 'package:profinder/services/usage_conditions/usage_conditions.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 
 import '../../utils/theme_data.dart';
 import '../../widgets/appbar/overlay_top_bar.dart';
@@ -33,7 +34,7 @@ class _ConditionsOverlayState extends State<ConditionsOverlay> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: "Conditions d'utilisation",
+        title: "Terms and usage conditions",
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
       body: Padding(
@@ -44,7 +45,9 @@ class _ConditionsOverlayState extends State<ConditionsOverlay> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(
+                child: SnapshotErrorWidget(error: snapshot.error),
+              );
             } else if (snapshot.hasData) {
               final conditions = snapshot.data!;
               return SingleChildScrollView(
@@ -52,22 +55,22 @@ class _ConditionsOverlayState extends State<ConditionsOverlay> {
                   children: [
                     SizedBox(height: 20),
                     Text(
-                      "Bienvenue sur E-Artisan.",
+                      "Welcome to E-Artisan.",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "Les conditions d'utilisation suivantes régissent l'utilisation de cette application. En accédant à cette application, nous supposons que vous acceptez ces conditions d'utilisation dans leur intégralité. Ne continuez pas à utiliser l'application si vous n'acceptez pas tous les termes et conditions énoncés sur cette page.",
+                      "The following terms of use govern the use of this application. By accessing this application, we assume that you accept these terms of use in full. Do not continue to use the application if you do not accept all the terms and conditions stated on this page.",
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "La terminologie suivante s'applique à ces conditions d'utilisation, à la déclaration de confidentialité et à l'avis de non-responsabilité, à tous les accords: «Client», «Vous» et «Votre» se réfèrent à vous, à la personne accédant à cette application et acceptant les conditions de la Société. " +
-                          "«La Société», «Nous-mêmes», «Nous», «Notre» et «Nous» font référence à notre société. «Partie», «Parties» ou «Nous» désigne à la fois le Client et nous-mêmes. Tous les termes se rapportent à l'offre, à l'acceptation et à la considération du paiement nécessaire pour entreprendre le processus de notre assistance au Client de la manière la plus appropriée, qu'il s'agisse de réunions formelles de durée fixe ou autrement, dans le but exprès de répondre aux besoins du Client concernant la fourniture des services / produits déclarés de la Société, conformément et sous réserve de la loi en vigueur de France. ",
+                      "The following terminology applies to these terms of use, the privacy statement, and the disclaimer, and all agreements: ‘Client’, ‘You’, and ‘Your’ refer to you, the person accessing this application and accepting the Company’s terms and conditions. " +
+                          "‘The Company’, ‘Ourselves’, ‘We’, ‘Our’, and ‘Us’, refer to our company. ‘Party’, ‘Parties’, or ‘Us’, refers to both the Client and ourselves. All terms refer to the offer, acceptance, and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner, whether by formal meetings of a fixed duration, or otherwise, for the express purpose of meeting the Client’s needs in respect of the provision of the Company’s stated services/products, in accordance with and subject to the law of France.",
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "L'utilisation de cette application est soumise aux lois et réglementations françaises.",
+                      "The use of this application is subject to French laws and regulations.",
                     ),
                     SizedBox(height: 20),
                     ListView.builder(

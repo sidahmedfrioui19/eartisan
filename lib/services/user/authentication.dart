@@ -35,18 +35,24 @@ class AuthenticationService {
 
   Future<void> signup(UserCreationRequest req) async {
     final String path = 'signup';
-    final response = await http.post(
-      Uri.parse('$url/$path'),
-      body: req.toJson(),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$url/$path'),
+        body: req.toJson(),
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      final String jwtToken = data['token'];
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final String jwtToken = data['token'];
+        final String role = data['user']['role'];
+        final String userId = data['user']['user_id'];
 
-      await secureStorage.write(key: 'jwtToken', value: jwtToken);
-    } else {
-      throw Exception('Failed to signup');
+        await secureStorage.write(key: 'jwtToken', value: jwtToken);
+        await secureStorage.write(key: 'role', value: role);
+        await secureStorage.write(key: 'userId', value: userId);
+      }
+    } catch (e) {
+      throw e;
     }
   }
 

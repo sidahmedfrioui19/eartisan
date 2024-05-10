@@ -6,7 +6,9 @@ import 'package:profinder/services/favorite/favorite.dart';
 import 'package:profinder/services/favorite/favorite_list.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
+import 'package:profinder/widgets/progress/loader.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({super.key});
@@ -36,7 +38,7 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: 'Mes Favoris',
+        title: 'My favorites',
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
       body: Container(
@@ -44,9 +46,9 @@ class _FavoritesState extends State<Favorites> {
           future: _favoritesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container();
+              return AppLoading();
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Center(child: SnapshotErrorWidget(error: snapshot.error));
             } else {
               final List<Favorite>? favorites = snapshot.data;
               if (favorites != null && favorites.isNotEmpty) {
@@ -55,8 +57,8 @@ class _FavoritesState extends State<Favorites> {
                     SizedBox(height: 10),
                     VerticalList<Favorite>(
                       future: _favoritesFuture,
-                      errorMessage: "Liste des favoris vide",
-                      emptyText: "Liste des favoris vide",
+                      errorMessage: "Favorites list is empty",
+                      emptyText: "Favorites list is empty",
                       itemBuilder: (favorite) {
                         return Expanded(
                           child: FavoriteWidget(
@@ -71,14 +73,16 @@ class _FavoritesState extends State<Favorites> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Supprimé des favoris'), // Confirmation message
+                                        'Deleted from favorites'), // Confirmation message
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Erreur $e'), // Error message
+                                    content: Text(
+                                      'An error has occured try again',
+                                    ), // Error message
                                     duration: Duration(seconds: 2),
                                   ),
                                 );

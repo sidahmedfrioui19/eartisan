@@ -16,7 +16,7 @@ class ReviewList extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Avis Clients',
+                'Customer reviews',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

@@ -35,7 +35,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Créer un rendez-vous'),
+        title: Text('Take an appointemnt'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -58,20 +58,20 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Rendez-vous créé'),
+                        content: Text('Appointement created'),
                         duration: Duration(seconds: 2),
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Veuillez vérifier vos coordonnées'),
+                        content: Text('Please enter a description'),
                         duration: Duration(seconds: 2),
                       ),
                     );
                   }
                 },
-                text: 'Confirmer',
+                text: 'Confirm',
                 icon: Icons.check,
               ),
             ),

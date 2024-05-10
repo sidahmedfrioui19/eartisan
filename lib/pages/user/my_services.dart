@@ -6,6 +6,7 @@ import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/services/user/user_service.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/progress/loader.dart';
@@ -45,10 +46,13 @@ class _MyServicesState extends State<MyServices> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return AppLoading();
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(
+                    child: SnapshotErrorWidget(
+                      error: snapshot.error,
+                    ),
+                  );
                 } else {
                   final services = snapshot.data!;
-                  print('services $services');
                   return Column(
                     children: services.map((service) {
                       return _buildServiceCard(service);
@@ -99,7 +103,7 @@ class _MyServicesState extends State<MyServices> {
                             return AlertDialog(
                               backgroundColor: Colors.white,
                               surfaceTintColor: Colors.white,
-                              title: Text('Modifier'),
+                              title: Text('Edit'),
                               content: SingleChildScrollView(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +112,7 @@ class _MyServicesState extends State<MyServices> {
                                       controller: TextEditingController(
                                         text: service.title,
                                       ),
-                                      hintText: 'Titre',
+                                      hintText: 'Title',
                                     ),
                                     RoundedTextArea(
                                       controller: TextEditingController(
@@ -116,7 +120,7 @@ class _MyServicesState extends State<MyServices> {
                                       ),
                                       hintText: 'Description',
                                     ),
-                                    HeadingTitle(text: 'Prix'),
+                                    HeadingTitle(text: 'Price'),
                                     ...service.prices.map((price) {
                                       return PriceCard(
                                         description: price.description!,
@@ -152,14 +156,14 @@ class _MyServicesState extends State<MyServices> {
                               actions: <Widget>[
                                 FilledAppButton(
                                   icon: Icons.close,
-                                  text: 'Annuler',
+                                  text: 'Cancel',
                                   onPressed: () => {
                                     Navigator.of(context).pop(),
                                   },
                                 ),
                                 FilledAppButton(
                                   icon: Icons.save,
-                                  text: 'Mettre a jour',
+                                  text: 'Update',
                                   onPressed: () => {
                                     Navigator.of(context).pop(),
                                   },
@@ -183,14 +187,16 @@ class _MyServicesState extends State<MyServices> {
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Service supprimé'),
+                              content: Text('Service deleted'),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Une erreur est survenue.'),
+                              content: Text(
+                                'An error has occured, try again',
+                              ),
                               duration: Duration(seconds: 2),
                             ),
                           );
