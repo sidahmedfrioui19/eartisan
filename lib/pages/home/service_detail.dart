@@ -1,6 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:profinder/models/favorite/favorite_creation_request.dart';
 import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/models/review/review.dart';
 import 'package:profinder/pages/home/widgets/contact_detail.dart';
@@ -42,7 +41,6 @@ class _ServiceDetailState extends State<ServiceDetail> {
   FavoriteService favorite = FavoriteService();
   ReviewService review = ReviewService();
 
-  bool _isButtonDisabled = false;
   late int service_id;
   late String professional_id;
 
@@ -67,49 +65,8 @@ class _ServiceDetailState extends State<ServiceDetail> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: OverlayTopBar(
-        title: "",
+        title: "Service details",
         dismissIcon: FluentIcons.chevron_left_12_filled,
-        action: widget.isFavorite != null || widget.isFavorite == false
-            ? IconButton(
-                icon: Icon(FluentIcons.bookmark_16_regular),
-                onPressed: _isButtonDisabled
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'This service is already in your favorites list',
-                            ),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    : () async {
-                        FavoriteCreationRequest fav = FavoriteCreationRequest(
-                          serviceId: widget.serviceId!,
-                        );
-
-                        try {
-                          await favorite.post(fav);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Added to favorites'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                          setState(() {
-                            _isButtonDisabled = true;
-                          });
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
-              )
-            : null,
       ),
 
       // Inside the build method of ServiceDetail widget

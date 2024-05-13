@@ -119,7 +119,7 @@ class Client {
   String facebookLink;
   String tiktokLink;
   String profilePicture;
-  String disponible;
+  int disponible;
 
   Client({
     required this.userId,
@@ -151,7 +151,7 @@ class Client {
       facebookLink: json['facebook_link'] ?? '',
       tiktokLink: json['tiktok_link'] ?? '',
       profilePicture: json['profile_picture'] ?? '',
-      disponible: json['disponible'] ?? '',
+      disponible: json['disponible'] ?? 1,
     );
   }
 

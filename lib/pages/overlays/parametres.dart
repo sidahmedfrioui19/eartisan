@@ -36,6 +36,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
   late int _selectedCategoryId;
 
   late bool new_availability;
+  bool alreadySelected = false;
 
   final AuthenticationService auth = AuthenticationService();
 
@@ -64,7 +65,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
     final DeviceInfoPlugin info = DeviceInfoPlugin();
     final AndroidDeviceInfo androidInfo = await info.androidInfo;
     debugPrint('releaseVersion : ${androidInfo.version.release}');
-    final int androidVersion = int.parse(androidInfo.version.release!);
+    final int androidVersion = int.parse(androidInfo.version.release);
     bool havePermission = false;
 
     if (androidVersion >= 13) {
@@ -72,13 +73,12 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         Permission.videos,
         Permission.photos,
       ].request();
+      final status = await Permission.storage.request();
+      havePermission = status.isGranted;
 
       havePermission =
           request.values.every((status) => status == PermissionStatus.granted);
-    } else {
-      final status = await Permission.storage.request();
-      havePermission = status.isGranted;
-    }
+    } else {}
 
     if (!havePermission) {
       await openAppSettings();
@@ -124,7 +124,11 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       _instagramController = TextEditingController(text: user.instagramLink);
       _tiktokController = TextEditingController(text: user.tiktokLink);
       _phoneNumberController = TextEditingController(text: user.phoneNumber);
+      if (user.categoryId != null) {
+        alreadySelected = true;
+      }
       _selectedCategoryId = user.categoryId ?? 1;
+      print(_selectedCategoryId);
 
       return user;
     } catch (error) {
@@ -144,7 +148,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         tiktokLink: _tiktokController.text,
         phoneNumber: _phoneNumberController.text,
         available: Helpers.intVal(new_availability),
-        //category_id: _selectedCategoryId,
+        category_id: _selectedCategoryId,
       );
 
       await UserService().patch(updatedUser);
@@ -250,9 +254,20 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                               return RoundedDropdownButton<String>(
                                 value: _selectedCategoryId.toString(),
                                 onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedCategoryId = int.parse(newValue!);
-                                  });
+                                  if (alreadySelected == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'The user category is already set'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      _selectedCategoryId =
+                                          int.parse(newValue!);
+                                    });
+                                  }
                                 },
                                 hintText: 'Choose a category',
                                 items: snapshot.data!

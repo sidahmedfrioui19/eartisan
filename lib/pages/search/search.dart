@@ -68,14 +68,15 @@ class _SearchPageState extends State<SearchPage> {
           );
           try {
             response = await search.post(req);
-            setState(() {});
-            _saveRecentSearch(keyword);
+            setState(() {
+              _saveRecentSearch(keyword);
+            });
           } catch (e) {
             setState(() {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'An error has occured, try again',
+                    'An error has occured, try again$e',
                   ), // Confirmation message
                   duration:
                       Duration(seconds: 2), // Adjust the duration as needed
@@ -270,7 +271,7 @@ class _SearchPageState extends State<SearchPage> {
               MaterialPageRoute(
                 builder: (context) => ServiceDetail(
                   serviceId: service.serviceId,
-                  loggedIn: false,
+                  loggedIn: (jwtToken != null) ? true : false,
                 ),
               ),
             );

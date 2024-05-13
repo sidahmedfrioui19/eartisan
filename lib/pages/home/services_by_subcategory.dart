@@ -120,6 +120,7 @@ class _ServicesByCategoryState extends State<ServicesByCategory> {
                                 builder: (context) => ServiceDetail(
                                   serviceId: service.serviceId,
                                   isFavorite: isFavorite,
+                                  loggedIn: true,
                                 ),
                               ),
                             );

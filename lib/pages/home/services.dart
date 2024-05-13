@@ -20,9 +20,12 @@ import '../../models/post/service.dart';
 
 class ServicesPage extends StatefulWidget {
   final String? userId;
+  final String? jwtToken;
+
   const ServicesPage({
     Key? key,
     required this.userId,
+    this.jwtToken,
   }) : super(key: key);
 
   @override
@@ -91,7 +94,9 @@ class _ServicesPageState extends State<ServicesPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CategoryList(),
+                        builder: (context) => CategoryList(
+                          jwtToken: widget.jwtToken,
+                        ),
                       ),
                     );
                   },
@@ -116,6 +121,7 @@ class _ServicesPageState extends State<ServicesPage> {
                 iconUrl: category.icon,
                 title: category.name,
                 subcategories: category.subcategories,
+                jwtToken: widget.jwtToken,
               );
             },
           ),

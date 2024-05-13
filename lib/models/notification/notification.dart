@@ -8,7 +8,7 @@ class NotificationEntity {
   final String lastname;
   final String email;
   final String password;
-  final String? categoryId;
+  final int? categoryId;
   final String? cv;
   final String address;
   final DateTime createdAt;

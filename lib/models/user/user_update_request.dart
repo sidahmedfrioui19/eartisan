@@ -8,6 +8,8 @@ class UserUpdateEntity {
   String? facebookLink;
   String? profilePicture;
   int? available;
+  int? category_id;
+  String? cv;
 
   UserUpdateEntity({
     this.firstname,
@@ -19,6 +21,8 @@ class UserUpdateEntity {
     this.facebookLink,
     this.profilePicture,
     this.available,
+    this.category_id,
+    this.cv,
   });
 
   Map<String, dynamic> toJson() {
@@ -32,6 +36,8 @@ class UserUpdateEntity {
       'facebook_link': facebookLink,
       'profile_picture': profilePicture,
       'disponible': available,
+      'category_id': category_id,
+      'cv': cv ?? '',
     };
   }
 

@@ -9,6 +9,7 @@ import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 
 class CategoryList extends StatefulWidget {
   final String? jwtToken;
+
   const CategoryList({
     Key? key,
     this.jwtToken,
@@ -57,6 +58,7 @@ class _CategoryListState extends State<CategoryList> {
               itemBuilder: (category) {
                 return GestureDetector(
                   onTap: () {
+                    print(widget.jwtToken);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -70,14 +70,26 @@ class _HomePageState extends State<HomePage> {
                   child: IndexedStack(
                     index: _selectedIndex,
                     children: [
-                      if (jwtToken != null) ServicesPage(userId: currentUserId),
                       if (jwtToken != null)
-                        PostsPage(userId: currentUserId, jwtToken: jwtToken),
+                        ServicesPage(
+                          userId: currentUserId,
+                          jwtToken: jwtToken,
+                        ),
+                      if (jwtToken != null)
+                        PostsPage(
+                          userId: currentUserId,
+                          jwtToken: jwtToken,
+                        ),
                       if (jwtToken == null)
                         ServicesGuestPage(
-                            userId: currentUserId, jwtToken: jwtToken),
+                          userId: currentUserId,
+                          jwtToken: jwtToken,
+                        ),
                       if (jwtToken == null)
-                        PostsPage(userId: currentUserId, jwtToken: jwtToken),
+                        PostsPage(
+                          userId: currentUserId,
+                          jwtToken: jwtToken,
+                        ),
                     ],
                   ),
                 ),
