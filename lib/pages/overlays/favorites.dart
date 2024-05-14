@@ -95,7 +95,20 @@ class _FavoritesState extends State<Favorites> {
                   ],
                 );
               } else {
-                return SizedBox(); // Return an empty widget if there are no favorites
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                      size: 64,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Favorite list empty")
+                  ],
+                )); // Return an empty widget if there are no favorites
               }
             }
           },

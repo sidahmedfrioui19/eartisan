@@ -19,8 +19,10 @@ class NotificationTile extends StatelessWidget {
     return ListTile(
       onTap: onPressed,
       leading: Icon(Icons.info, size: 48),
-      title: Text(username),
-      subtitle: Text(latestMessage),
+      title: Text(
+        latestMessage,
+        style: TextStyle(fontSize: 14),
+      ),
     );
   }
 }
