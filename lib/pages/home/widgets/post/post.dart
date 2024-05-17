@@ -62,7 +62,7 @@ class Post extends StatelessWidget {
                 ),
                 if (this.currentUserId != userId && jwtToken != null)
                   PostToolBar(
-                    icon1: FluentIcons.hand_wave_16_regular,
+                    icon1: FluentIcons.mail_16_regular,
                     pictureUrl: pictureUrl,
                     firstname: firstname,
                     lastname: lastname,

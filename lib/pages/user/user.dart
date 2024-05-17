@@ -1,10 +1,11 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:profinder/models/user/user.dart';
 import 'package:profinder/models/user/user_update_request.dart';
-import 'package:profinder/pages/user/customer_appointements.dart';
-import 'package:profinder/pages/user/professional_appointments.dart';
+import 'package:profinder/pages/overlays/favorites.dart';
+import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/user/my_posts.dart';
 import 'package:profinder/pages/user/my_services.dart';
 import 'package:profinder/services/user/authentication.dart';
@@ -28,10 +29,8 @@ class UserPage extends StatefulWidget {
   State<UserPage> createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage>
-    with SingleTickerProviderStateMixin {
+class _UserPageState extends State<UserPage> {
   late Future<UserEntity> _userFuture;
-  late TabController _tabController;
 
   final AuthenticationService auth = AuthenticationService();
 
@@ -44,10 +43,6 @@ class _UserPageState extends State<UserPage>
     userRole = role;
     setState(() {
       print(role);
-      _tabController = TabController(
-        length: userRole == 'customer' ? 2 : 4,
-        vsync: this,
-      );
     });
   }
 
@@ -56,12 +51,6 @@ class _UserPageState extends State<UserPage>
     super.initState();
     _userFuture = _loadUser();
     getCurrentUserRole();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   Future<UserEntity> _loadUser() async {
@@ -168,19 +157,23 @@ class _UserPageState extends State<UserPage>
                           fit: BoxFit.cover,
                         ).image,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          _changeProfilePicture();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            _changeProfilePicture();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -243,29 +236,114 @@ class _UserPageState extends State<UserPage>
                       width: 250,
                     ),
                   SizedBox(height: 20),
-                  TabBar(
-                    indicatorColor: AppTheme.primaryColor,
-                    labelColor: AppTheme.primaryColor,
-                    unselectedLabelColor: Colors.black,
-                    controller: _tabController,
-                    tabs: [
-                      Tab(text: 'My requests'),
-                      if (userRole != 'customer') Tab(text: 'My services'),
-                      if (userRole != 'customer') Tab(text: 'My customers'),
-                      Tab(text: 'Appointements'),
-                    ],
-                    labelPadding: EdgeInsets.symmetric(horizontal: 0),
-                    labelStyle: TextStyle(fontSize: 12),
-                  ),
-                  SizedBox(height: 20),
                   Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
+                    child: ListView(
                       children: [
-                        MyPosts(),
-                        if (userRole != 'customer') MyServices(),
-                        if (userRole != 'customer') ProfessionalAppointments(),
-                        CustomerAppointments(),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 1,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: Icon(Icons.post_add),
+                            title: Text('Requests'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyPosts(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        if (userRole != 'customer')
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 1,
+                                  offset: Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              leading: Icon(FluentIcons.backpack_12_filled),
+                              title: Text('Services'),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyServices(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 1,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: Icon(FluentIcons.heart_12_filled),
+                            title: Text('Favorites'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Favorites(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 1,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: Icon(FluentIcons.settings_16_filled),
+                            title: Text('Settings'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SettingsOverlay(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),

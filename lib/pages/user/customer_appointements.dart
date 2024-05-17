@@ -12,6 +12,7 @@ import 'package:profinder/services/review/review.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/stated_avatar.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
@@ -64,258 +65,309 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                   surfaceTintColor: Colors.white,
                   color: Colors.white,
                   elevation: 0.8,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 2),
                   child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    title: Text(
-                      appointment.description!,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    contentPadding: EdgeInsets.fromLTRB(15, 8, 2, 8),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(FluentIcons.clock_12_filled),
+                            SizedBox(width: 10),
+                            Text(
+                                'Date: ${appointment.date != null ? appointment.date : 'N/A'}'),
+                            SizedBox(width: 10),
+                            Icon(
+                              FluentIcons.circle_12_filled,
+                              size: 8,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                                '${appointment.time != null ? appointment.time : 'N/A'}'),
+                          ],
+                        ),
+                        if (appointment.status != 'processing')
+                          PopupMenuButton<int>(
+                            color: Colors.white,
+                            surfaceTintColor: Colors.white,
+                            onSelected: (value) {
+                              switch (value) {
+                                case 0:
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        insetPadding: EdgeInsets.all(0),
+                                        surfaceTintColor: Colors.white,
+                                        title: Text("Send report"),
+                                        content: Container(
+                                          height: 200,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .stretch, // Expand items horizontally
+                                            children: [
+                                              RoundedTextField(
+                                                controller: titleController,
+                                                hintText: 'Subject',
+                                              ),
+                                              SizedBox(height: 8),
+                                              Expanded(
+                                                child: RoundedTextArea(
+                                                  controller:
+                                                      reportMessageController,
+                                                  hintText: 'Message...',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          FilledAppButton(
+                                            icon: Icons.close,
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: 'Cancel',
+                                          ),
+                                          FilledAppButton(
+                                            icon: Icons.check,
+                                            onPressed: () async {
+                                              final ReportService
+                                                  reportService =
+                                                  ReportService();
+                                              final String reportContent =
+                                                  'Sujet: ${titleController.text}, Contenu: ${reportMessageController.text}';
+                                              ReportEntity report =
+                                                  new ReportEntity(
+                                                description: reportContent,
+                                                reported_id: appointment
+                                                    .service.serviceId,
+                                              );
+
+                                              try {
+                                                await reportService
+                                                    .post(report);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content:
+                                                        Text('Report sent'),
+                                                    duration: Duration(
+                                                      seconds: 2,
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              } catch (e) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        'An error has occured, try again'),
+                                                    duration: Duration(
+                                                      seconds: 2,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            text: 'Send',
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  break;
+                                case 1:
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      int rating = 0;
+                                      TextEditingController _commentController =
+                                          TextEditingController();
+
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        surfaceTintColor: Colors.white,
+                                        title: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Review service',
+                                            style: AppTheme.headingTextStyle,
+                                          ),
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            // Star rating widget
+                                            RatingBar.builder(
+                                              initialRating: 0,
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: false,
+                                              itemCount: 5,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                                size: 1,
+                                              ),
+                                              onRatingUpdate: (value) {
+                                                rating = value
+                                                    .toInt(); // Update rating when user selects stars
+                                              },
+                                            ),
+                                            SizedBox(height: 10),
+                                            // Text field for comment
+                                            RoundedTextArea(
+                                                controller: _commentController,
+                                                hintText: "Type comment..."),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: FilledAppButton(
+                                                    icon: Icons.check,
+                                                    text: "Send",
+                                                    onPressed: () async {
+                                                      ReviewCreationRequest
+                                                          req =
+                                                          ReviewCreationRequest(
+                                                        comment:
+                                                            _commentController
+                                                                .text,
+                                                        rating: rating,
+                                                        serviceId: appointment
+                                                            .service.serviceId,
+                                                      );
+
+                                                      await reviewService
+                                                          .post(req);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Review submitted',
+                                                          ),
+                                                          duration: Duration(
+                                                            seconds: 3,
+                                                          ),
+                                                        ),
+                                                      );
+                                                      _updateAppointments();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  break;
+                                case 2:
+                                  _cancelAppointment(appointment);
+                                  break;
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              if (appointment.status == 'confirmed' ||
+                                  appointment.status == 'cancelled')
+                                PopupMenuItem<int>(
+                                  value: 0,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.flag),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text('Report')
+                                    ],
+                                  ),
+                                ),
+                              if (appointment.status == 'confirmed')
+                                PopupMenuItem<int>(
+                                  value: 1,
+                                  child: Row(
+                                    children: [
+                                      Icon(FluentIcons.star_12_filled),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text('Review'),
+                                    ],
+                                  ),
+                                ),
+                              if (appointment.status == 'pending')
+                                PopupMenuItem<int>(
+                                  value: 2,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.cancel),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text('Cancel'),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          )
+                      ],
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 4),
-                        Text(
-                          'Professional: ${appointment.professional.firstname} ${appointment.professional.lastname}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(8, 0, 15, 5),
+                          child: Divider(
+                            color: Color(0xFFF5f6fa),
+                          ),
                         ),
-                        SizedBox(height: 4),
-                        Text('Date: ${appointment.date ?? 'N/D'}'),
-                        SizedBox(height: 4),
-                        Text('Time: ${appointment.time ?? 'N/D'}'),
-                        SizedBox(height: 4),
-                        Text(
-                            'State: ${Helpers.getAppointementStatus(appointment.status)}'),
-                        SizedBox(
-                          height: 10,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              StatedAvatar(
+                                imageUrl:
+                                    appointment.professional.profilePicture,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${appointment.professional.firstname} ${appointment.professional.lastname}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if (appointment.status == 'pending')
-                              Expanded(
-                                child: FilledAppButton(
-                                  icon: Icons.cancel,
-                                  text: "Cancel",
-                                  onPressed: () async {
-                                    AppointementUpdateRequest req =
-                                        AppointementUpdateRequest(
-                                      state: 'cancelled',
-                                    );
-                                    await appointementService.update(
-                                        req, appointment.appointmentId);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Appointement cancelled'),
-                                        duration: Duration(seconds: 2),
-                                      ),
-                                    );
-                                    _updateAppointments();
-                                  },
-                                ),
-                              ),
-                            if (appointment.status == 'confirmed')
-                              Expanded(
-                                child: FilledAppButton(
-                                  icon: Icons.star,
-                                  text: "Review",
-                                  onPressed: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        int rating = 0;
-                                        TextEditingController
-                                            _commentController =
-                                            TextEditingController();
-
-                                        return AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          surfaceTintColor: Colors.white,
-                                          title: Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              'Review service',
-                                              style: AppTheme.headingTextStyle,
-                                            ),
-                                          ),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              // Star rating widget
-                                              RatingBar.builder(
-                                                initialRating: 0,
-                                                minRating: 1,
-                                                direction: Axis.horizontal,
-                                                allowHalfRating: false,
-                                                itemCount: 5,
-                                                itemPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 4.0),
-                                                itemBuilder: (context, _) =>
-                                                    Icon(
-                                                  Icons.star,
-                                                  color: Colors.amber,
-                                                  size: 1,
-                                                ),
-                                                onRatingUpdate: (value) {
-                                                  rating = value
-                                                      .toInt(); // Update rating when user selects stars
-                                                },
-                                              ),
-                                              SizedBox(height: 10),
-                                              // Text field for comment
-                                              RoundedTextArea(
-                                                  controller:
-                                                      _commentController,
-                                                  hintText: "Type comment..."),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: FilledAppButton(
-                                                      icon: Icons.check,
-                                                      text: "Send",
-                                                      onPressed: () async {
-                                                        ReviewCreationRequest
-                                                            req =
-                                                            ReviewCreationRequest(
-                                                          comment:
-                                                              _commentController
-                                                                  .text,
-                                                          rating: rating,
-                                                          serviceId: appointment
-                                                              .service
-                                                              .serviceId,
-                                                        );
-
-                                                        await reviewService
-                                                            .post(req);
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                              'Review submitted',
-                                                            ),
-                                                            duration: Duration(
-                                                              seconds: 3,
-                                                            ),
-                                                          ),
-                                                        );
-                                                        _updateAppointments();
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            if (appointment.status == 'confirmed')
-                              Expanded(
-                                child: FilledAppButton(
-                                  text: 'Report',
-                                  icon: FluentIcons.info_12_filled,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          insetPadding: EdgeInsets.all(0),
-                                          surfaceTintColor: Colors.white,
-                                          title: Text("Send report"),
-                                          content: Container(
-                                            height: 200,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .stretch, // Expand items horizontally
-                                              children: [
-                                                RoundedTextField(
-                                                  controller: titleController,
-                                                  hintText: 'Subject',
-                                                ),
-                                                SizedBox(height: 8),
-                                                Expanded(
-                                                  child: RoundedTextArea(
-                                                    controller:
-                                                        reportMessageController,
-                                                    hintText: 'Message...',
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            FilledAppButton(
-                                              icon: Icons.close,
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              text: 'Cancel',
-                                            ),
-                                            FilledAppButton(
-                                              icon: Icons.check,
-                                              onPressed: () async {
-                                                final ReportService
-                                                    reportService =
-                                                    ReportService();
-                                                final String reportContent =
-                                                    'Sujet: ${titleController.text}, Contenu: ${reportMessageController.text}';
-                                                ReportEntity report =
-                                                    new ReportEntity(
-                                                  description: reportContent,
-                                                  reported_id: appointment
-                                                      .service.serviceId,
-                                                );
-
-                                                try {
-                                                  await reportService
-                                                      .post(report);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content:
-                                                          Text('Report sent'),
-                                                      duration: Duration(
-                                                        seconds: 2,
-                                                      ),
-                                                    ),
-                                                  );
-                                                  Navigator.of(context).pop();
-                                                } catch (e) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                          'An error has occured, try again'),
-                                                      duration: Duration(
-                                                        seconds: 2,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                              text: 'Send',
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                          ],
+                        SizedBox(height: 10),
+                        Text(
+                          'Description: ${appointment.description!}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
                         ),
                       ],
                     ),
@@ -329,5 +381,19 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
         ],
       ),
     );
+  }
+
+  void _cancelAppointment(CustomerAppointment appointment) async {
+    AppointementUpdateRequest req = AppointementUpdateRequest(
+      state: 'cancelled',
+    );
+    await appointementService.update(req, appointment.appointmentId);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Appointement cancelled'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+    _updateAppointments();
   }
 }

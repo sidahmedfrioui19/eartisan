@@ -88,17 +88,16 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: response != null
           ? DefaultTabController(
-              length: 4, // Number of tabs
+              length: 3, // Number of tabs
               child: Column(
                 children: <Widget>[
                   TabBar(
                     labelColor: AppTheme.textColor,
                     indicatorColor: AppTheme.primaryColor,
                     tabs: [
-                      Tab(text: 'Service (${response!.services.length})'),
-                      Tab(text: 'Request (${response!.posts.length})'),
-                      Tab(text: 'Professional (${response!.artisans.length})'),
-                      Tab(text: 'Customer (${response!.clients.length})'),
+                      Tab(text: 'Services (${response!.services.length})'),
+                      Tab(text: 'Professionals (${response!.artisans.length})'),
+                      Tab(text: 'Customers (${response!.clients.length})'),
                     ],
                     labelPadding: EdgeInsets.symmetric(horizontal: 0),
                     labelStyle: TextStyle(fontSize: 12),
@@ -107,7 +106,6 @@ class _SearchPageState extends State<SearchPage> {
                     child: TabBarView(
                       children: [
                         _buildServicesTab(),
-                        _buildPostsTab(),
                         _buildArtisansTab(),
                         _buildClientsTab(),
                       ],

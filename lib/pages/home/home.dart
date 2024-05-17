@@ -4,7 +4,6 @@ import 'package:profinder/pages/home/posts.dart';
 import 'package:profinder/pages/home/services.dart';
 import 'package:profinder/pages/home/services_guest.dart';
 import 'package:profinder/pages/home/widgets/home_page_selector.dart';
-import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 import '../../widgets/navigation/burger_menu.dart';
 import '../../widgets/appbar/top_bar.dart';
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           return AppLoading();
         } else {
           return Scaffold(
-            backgroundColor: AppTheme.backgroundColor,
+            backgroundColor: Colors.white,
             drawer: BurgerMenu(),
             appBar: TopBar(
               title: "Explore",

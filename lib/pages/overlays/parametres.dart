@@ -1,5 +1,8 @@
 //import 'dart:io';
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -39,6 +42,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
   bool alreadySelected = false;
 
   final AuthenticationService auth = AuthenticationService();
+  late String _cv;
 
   late TextEditingController _lastNameController;
   late TextEditingController _firstNameController;
@@ -96,11 +100,63 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         );
 
         if (result != null) {
-          //File file = File(result.files.single.path!);
+          File file = File(result.files.single.path!);
+          Reference ref = FirebaseStorage.instance
+              .ref()
+              .child('cv')
+              .child('${DateTime.now()}_${result.files.single.name}');
+          UploadTask uploadTask = ref.putFile(file);
+
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                title: Text("Uploading document...",
+                    style: TextStyle(fontSize: 15)),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 10),
+                    StreamBuilder<TaskSnapshot>(
+                      stream: uploadTask.snapshotEvents,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          double progress = snapshot.data!.bytesTransferred /
+                              snapshot.data!.totalBytes;
+                          return LinearProgressIndicator(
+                            value: progress,
+                            color: AppTheme.primaryColor,
+                          );
+                        } else {
+                          return SizedBox(); // Placeholder
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+
+          TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+
+          Navigator.pop(context);
+          _cv = downloadUrl;
         } else {}
       } else {}
     } catch (error) {
-      print('Error picking file: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'An error has occured',
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -124,11 +180,11 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
       _instagramController = TextEditingController(text: user.instagramLink);
       _tiktokController = TextEditingController(text: user.tiktokLink);
       _phoneNumberController = TextEditingController(text: user.phoneNumber);
+      _cv = user.cv ?? '';
       if (user.categoryId != null) {
         alreadySelected = true;
       }
       _selectedCategoryId = user.categoryId ?? 1;
-      print(_selectedCategoryId);
 
       return user;
     } catch (error) {
@@ -149,6 +205,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
         phoneNumber: _phoneNumberController.text,
         available: Helpers.intVal(new_availability),
         category_id: _selectedCategoryId,
+        cv: _cv,
       );
 
       await UserService().patch(updatedUser);
@@ -258,7 +315,8 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                            'The user category is already set'),
+                                          'The user category is already set',
+                                        ),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -286,6 +344,24 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                           }
                         },
                       ),
+                    if (userRole == 'professional')
+                      if (_cv != '')
+                        Container(
+                          margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                          child: Text(
+                            "You have already uploaded a cv document.",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                    if (userRole == 'professional')
+                      if (_cv == '')
+                        Container(
+                          margin: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                          child: Text(
+                            "You haven't uploaded a cv document yet.",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                     if (userRole == 'professional')
                       Container(
                         margin: EdgeInsets.only(

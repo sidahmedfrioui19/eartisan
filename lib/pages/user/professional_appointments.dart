@@ -1,10 +1,13 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/appointement/appointment_update_request.dart';
 import 'package:profinder/models/appointement/professional_appointment.dart';
+import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/services/appointement/professional_appointement.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
+import 'package:profinder/widgets/cards/stated_avatar.dart';
 import 'package:profinder/widgets/inputs/dropdown.dart';
 import 'package:intl/intl.dart';
 import 'package:profinder/widgets/lists/generic_vertical_list.dart';
@@ -64,7 +67,6 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                       controller: dateController,
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
-                          barrierColor: Colors.white,
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
@@ -201,82 +203,163 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                   surfaceTintColor: Colors.white,
                   color: Colors.white,
                   elevation: 0.8,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: ListTile(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    title: Text(
-                      'Customer description: ${appointment.description!}',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(FluentIcons.clock_12_filled),
+                            SizedBox(width: 10),
+                            Text(
+                                'Date: ${appointment.date != null ? appointment.date : 'N/A'}'),
+                            SizedBox(width: 10),
+                            Icon(
+                              FluentIcons.circle_12_filled,
+                              size: 8,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                                '${appointment.time != null ? appointment.time : 'N/A'}'),
+                          ],
+                        ),
+                        PopupMenuButton<int>(
+                          color: Colors.white,
+                          surfaceTintColor: Colors.white,
+                          onSelected: (value) {
+                            switch (value) {
+                              case 0:
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatRoom(
+                                      available: false,
+                                      firstname: appointment.customer.firstname,
+                                      lastname: appointment.customer.lastname,
+                                      pictureUrl: '',
+                                      user_id: appointment.customer.userId,
+                                    ),
+                                  ),
+                                );
+                                break;
+                              case 1:
+                                if (appointment.status == 'cancelled') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Appointement already canceled',
+                                      ),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  showEditAppointmentDialog(
+                                    appointment.date,
+                                    appointment.time,
+                                    appointment.status,
+                                    appointment.appointmentId,
+                                  );
+                                }
+                                break;
+                              case 2:
+                                _cancelAppointment(appointment);
+                                break;
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.message),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('Send message')
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Row(
+                                children: [
+                                  Icon(FluentIcons.pen_16_filled),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('Edit')
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 2,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.cancel),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('Cancel'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 4),
-                        Text(
-                          'Customer: ${appointment.customer.firstname} ${appointment.customer.lastname}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                        Divider(
+                          color: Color(0xFFF5f6fa),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              StatedAvatar(
+                                imageUrl: appointment.customer.profilePicture,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${appointment.customer.firstname} ${appointment.customer.lastname}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Text(
-                          'Phone number: ${appointment.customer.phoneNumber}',
+                          'Description: ${appointment.description!}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14),
                         ),
                         SizedBox(height: 4),
-                        Text(
-                            'Date: ${appointment.date != null ? appointment.date : 'N/A'}'),
                         SizedBox(height: 4),
                         Text(
-                            'Time: ${appointment.time != null ? appointment.time : 'N/A'}'),
-                        SizedBox(height: 4),
-                        Text(
-                            'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}'),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 10,
-                            bottom: 5,
-                            left: 0,
-                            right: 0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FilledAppButton(
-                                icon: Icons.edit,
-                                text: 'Edit',
-                                onPressed: () {
-                                  if (appointment.status == 'cancelled') {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Appointement already canceled',
-                                        ),
-                                        duration: Duration(seconds: 2),
-                                      ),
-                                    );
-                                  } else {
-                                    showEditAppointmentDialog(
-                                      appointment.date,
-                                      appointment.time,
-                                      appointment.status,
-                                      appointment.appointmentId,
-                                    );
-                                  }
-                                },
-                              ),
-                              FilledAppButton(
-                                icon: Icons.cancel,
-                                text: 'Cancel',
-                                onPressed: () {
-                                  _cancelAppointment(appointment);
-                                },
-                              ),
-                            ],
-                          ),
+                          'Phone number : ${appointment.customer.phoneNumber}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
                         ),
                       ],
                     ),

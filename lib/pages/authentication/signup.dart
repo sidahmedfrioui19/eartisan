@@ -62,8 +62,8 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: OverlayTopBar(
         title: "",
         dismissIcon: FluentIcons.chevron_left_12_filled,
-        color: AppTheme.primaryColor,
-        buttonsColor: Colors.white,
+        color: Colors.white,
+        buttonsColor: AppTheme.primaryColor,
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -81,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Sign up",
+                  "Create Account",
                   style: AppTheme.headingTextStyle,
                 ),
                 SizedBox(height: 20),

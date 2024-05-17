@@ -5,10 +5,12 @@ import 'package:profinder/pages/home/widgets/price_card.dart';
 import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/services/user/user_service.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
+import 'package:profinder/widgets/navigation/burger_menu.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class MyServices extends StatefulWidget {
@@ -35,33 +37,42 @@ class _MyServicesState extends State<MyServices> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FutureBuilder<List<ServiceDataEntity>>(
-              future: _services,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return AppLoading();
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: SnapshotErrorWidget(
-                      error: snapshot.error,
-                    ),
-                  );
-                } else {
-                  final services = snapshot.data!;
-                  return Column(
-                    children: services.map((service) {
-                      return _buildServiceCard(service);
-                    }).toList(),
-                  );
-                }
-              },
-            ),
-          ],
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      drawer: BurgerMenu(),
+      appBar: OverlayTopBar(
+        title: "My services",
+        dismissIcon: Icons.arrow_back,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder<List<ServiceDataEntity>>(
+                future: _services,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return AppLoading();
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: SnapshotErrorWidget(
+                        error: snapshot.error,
+                      ),
+                    );
+                  } else {
+                    final services = snapshot.data!;
+                    return Column(
+                      children: services.map((service) {
+                        return _buildServiceCard(service);
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

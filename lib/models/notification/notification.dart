@@ -1,6 +1,6 @@
 class NotificationEntity {
   final int notificationId;
-  final String content;
+  final String? content;
   final String userId;
   final String role;
   final String username;
@@ -10,19 +10,19 @@ class NotificationEntity {
   final String password;
   final int? categoryId;
   final String? cv;
-  final String address;
+  final String? address;
   final DateTime createdAt;
-  final int verifier;
-  final String phoneNumber;
-  final String profilePicture;
-  final String facebookLink;
-  final String instagramLink;
-  final String tiktokLink;
-  final int disponible;
+  final int? verifier;
+  final String? phoneNumber;
+  final String? profilePicture;
+  final String? facebookLink;
+  final String? instagramLink;
+  final String? tiktokLink;
+  final int? disponible;
 
   NotificationEntity({
     required this.notificationId,
-    required this.content,
+    this.content,
     required this.userId,
     required this.role,
     required this.username,
@@ -34,13 +34,13 @@ class NotificationEntity {
     this.cv,
     required this.address,
     required this.createdAt,
-    required this.verifier,
-    required this.phoneNumber,
-    required this.profilePicture,
-    required this.facebookLink,
-    required this.instagramLink,
-    required this.tiktokLink,
-    required this.disponible,
+    this.verifier,
+    this.phoneNumber,
+    this.profilePicture,
+    this.facebookLink,
+    this.instagramLink,
+    this.tiktokLink,
+    this.disponible,
   });
 
   factory NotificationEntity.fromJson(Map<String, dynamic> json) {

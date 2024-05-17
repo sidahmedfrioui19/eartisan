@@ -1,11 +1,11 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:profinder/pages/appointments/appointements_page.dart';
 import 'package:profinder/pages/home/home.dart';
 import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/messages/messages.dart';
 import 'package:profinder/pages/new_action/new_action.dart';
-import 'package:profinder/pages/search/search.dart';
 import 'package:profinder/pages/user/user.dart';
 import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/error_handler/connectivity_check.dart';
@@ -45,7 +45,7 @@ class _MainNavBarState extends State<MainNavBar> {
 
   final List<Widget> _pages = [
     HomePage(),
-    SearchPage(),
+    AppointementsPage(),
     MessagesPage(),
     UserPage()
   ];
@@ -62,83 +62,94 @@ class _MainNavBarState extends State<MainNavBar> {
       return InternetError();
     }
     return Scaffold(
-        body: _pages[_selectedIndex],
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () => _onItemTapped(0),
-                icon: _selectedIndex == 0
-                    ? Icon(FluentIcons.home_12_filled,
-                        color: AppTheme.primaryColor)
-                    : Icon(FluentIcons.home_12_regular,
-                        color: AppTheme.secondaryColor),
-              ),
-              IconButton(
-                onPressed: () => _onItemTapped(1),
-                icon: _selectedIndex == 1
-                    ? Icon(FluentIcons.search_12_filled,
-                        color: AppTheme.primaryColor)
-                    : Icon(FluentIcons.search_12_regular,
-                        color: AppTheme.secondaryColor),
-              ),
-              ActionButton(onPressed: () async {
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () => _onItemTapped(0),
+              icon: _selectedIndex == 0
+                  ? Icon(FluentIcons.home_12_filled,
+                      color: AppTheme.primaryColor)
+                  : Icon(FluentIcons.home_12_regular,
+                      color: AppTheme.secondaryColor),
+            ),
+            IconButton(
+              onPressed: () async {
                 await getToken();
-
                 if (jwtToken != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewAction()),
-                  );
+                  _onItemTapped(1);
                 } else {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 }
-              }),
-              IconButton(
-                onPressed: () async {
-                  await getToken();
-                  if (jwtToken != null) {
-                    _onItemTapped(2);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  }
-                },
-                icon: _selectedIndex == 2
-                    ? Icon(FluentIcons.chat_12_filled,
-                        color: AppTheme.primaryColor)
-                    : Icon(FluentIcons.chat_12_regular,
-                        color: AppTheme.secondaryColor),
-              ),
-              IconButton(
-                onPressed: () async {
-                  await getToken();
-                  if (jwtToken != null) {
-                    _onItemTapped(3);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  }
-                },
-                icon: _selectedIndex == 3
-                    ? Icon(FluentIcons.person_12_filled,
-                        color: AppTheme.primaryColor)
-                    : Icon(FluentIcons.person_12_regular,
-                        color: AppTheme.secondaryColor),
-              ),
-            ],
-          ),
-          surfaceTintColor: Colors.white,
-        ));
+              },
+              icon: _selectedIndex == 1
+                  ? Icon(FluentIcons.calendar_12_filled,
+                      color: AppTheme.primaryColor)
+                  : Icon(FluentIcons.calendar_12_regular,
+                      color: AppTheme.secondaryColor),
+            ),
+            ActionButton(onPressed: () async {
+              await getToken();
+
+              if (jwtToken != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewAction()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              }
+            }),
+            IconButton(
+              onPressed: () async {
+                await getToken();
+                if (jwtToken != null) {
+                  _onItemTapped(2);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                }
+              },
+              icon: _selectedIndex == 2
+                  ? Icon(FluentIcons.chat_12_filled,
+                      color: AppTheme.primaryColor)
+                  : Icon(FluentIcons.chat_12_regular,
+                      color: AppTheme.secondaryColor),
+            ),
+            IconButton(
+              onPressed: () async {
+                await getToken();
+                if (jwtToken != null) {
+                  _onItemTapped(3);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                }
+              },
+              icon: _selectedIndex == 3
+                  ? Icon(FluentIcons.person_12_filled,
+                      color: AppTheme.primaryColor)
+                  : Icon(FluentIcons.person_12_regular,
+                      color: AppTheme.secondaryColor),
+            ),
+          ],
+        ),
+        surfaceTintColor: Colors.white,
+      ),
+    );
   }
 
   void _onItemTapped(int index) {

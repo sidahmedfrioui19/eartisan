@@ -7,7 +7,6 @@ import 'package:profinder/services/favorite/favorite_list.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
-import 'package:profinder/widgets/lists/generic_vertical_list.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class Favorites extends StatefulWidget {
@@ -55,13 +54,12 @@ class _FavoritesState extends State<Favorites> {
                 return Column(
                   children: [
                     SizedBox(height: 10),
-                    VerticalList<Favorite>(
-                      future: _favoritesFuture,
-                      errorMessage: "Favorites list is empty",
-                      emptyText: "Favorites list is empty",
-                      itemBuilder: (favorite) {
-                        return Expanded(
-                          child: FavoriteWidget(
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: favorites.length,
+                        itemBuilder: (context, index) {
+                          final favorite = favorites[index];
+                          return FavoriteWidget(
                             favorite: favorite,
                             onPress: () async {
                               try {
@@ -81,34 +79,34 @@ class _FavoritesState extends State<Favorites> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'An error has occured try again',
-                                    ), // Error message
+                                        'An error has occured try again'), // Error message
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
                               }
                             },
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 );
               } else {
                 return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.favorite,
-                      size: 64,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Favorite list empty")
-                  ],
-                )); // Return an empty widget if there are no favorites
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.favorite,
+                        size: 64,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Favorite list empty")
+                    ],
+                  ),
+                ); // Return an empty widget if there are no favorites
               }
             }
           },

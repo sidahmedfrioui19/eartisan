@@ -3,10 +3,12 @@ import 'package:profinder/models/post/post_update_request.dart';
 import 'package:profinder/models/post/user_post.dart';
 import 'package:profinder/services/post/post.dart';
 import 'package:profinder/utils/theme_data.dart';
+import 'package:profinder/widgets/appbar/overlay_top_bar.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
 import 'package:profinder/widgets/inputs/rounded_text_field.dart';
 import 'package:profinder/widgets/inputs/text_area.dart';
+import 'package:profinder/widgets/navigation/burger_menu.dart';
 import 'package:profinder/widgets/progress/loader.dart';
 
 class MyPosts extends StatefulWidget {
@@ -41,29 +43,37 @@ class _MyPostsState extends State<MyPosts> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.all(5),
-        child: FutureBuilder<List<OwnPostEntity>>(
-          future: _posts,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return AppLoading();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: SnapshotErrorWidget(
-                  error: snapshot.error,
-                ),
-              );
-            } else {
-              final posts = snapshot.data!;
-              return Column(
-                children: posts.map((post) {
-                  return _buildPostCard(post);
-                }).toList(),
-              );
-            }
-          },
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      drawer: BurgerMenu(),
+      appBar: OverlayTopBar(
+        title: "My requests",
+        dismissIcon: Icons.arrow_back,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(5),
+          child: FutureBuilder<List<OwnPostEntity>>(
+            future: _posts,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return AppLoading();
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: SnapshotErrorWidget(
+                    error: snapshot.error,
+                  ),
+                );
+              } else {
+                final posts = snapshot.data!;
+                return Column(
+                  children: posts.map((post) {
+                    return _buildPostCard(post);
+                  }).toList(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

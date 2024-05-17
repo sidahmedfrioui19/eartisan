@@ -32,8 +32,8 @@ class _LoginPageState extends State<LoginPage> {
         appBar: OverlayTopBar(
           title: "",
           dismissIcon: FluentIcons.chevron_left_12_filled,
-          color: AppTheme.primaryColor,
-          buttonsColor: Colors.white,
+          color: Colors.white,
+          buttonsColor: AppTheme.primaryColor,
         ),
         body: Container(
           child: Column(children: [

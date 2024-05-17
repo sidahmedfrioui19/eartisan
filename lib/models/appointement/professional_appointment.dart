@@ -81,6 +81,7 @@ class Customer {
   final String email;
   final String role;
   final String? phoneNumber;
+  final String? profilePicture;
 
   Customer({
     required this.userId,
@@ -90,6 +91,7 @@ class Customer {
     required this.email,
     required this.role,
     this.phoneNumber,
+    this.profilePicture,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
@@ -101,6 +103,7 @@ class Customer {
       email: json['email'],
       role: json['role'],
       phoneNumber: json['phone_number'],
+      profilePicture: json['profile_picture'],
     );
   }
 

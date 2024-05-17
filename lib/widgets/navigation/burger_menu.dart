@@ -1,10 +1,7 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/overlays/conditions.dart';
-import 'package:profinder/pages/overlays/favorites.dart';
-import 'package:profinder/pages/overlays/parametres.dart';
 import 'package:profinder/pages/overlays/report.dart';
 import 'package:profinder/pages/overlays/suggestion.dart';
 import 'package:profinder/services/user/authentication.dart';
@@ -29,29 +26,6 @@ class BurgerMenu extends StatelessWidget {
             return ListView(
                 padding: EdgeInsets.only(top: 30),
                 children: <Widget>[
-                  MenuItem(
-                    icon: Icons.settings_outlined,
-                    text: "User settings",
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingsOverlay()),
-                      );
-                    },
-                  ),
-                  MenuItem(
-                    icon: FluentIcons.heart_12_regular,
-                    text: "My favorites",
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Favorites()),
-                      );
-                    },
-                  ),
                   MenuItem(
                     icon: Icons.message_outlined,
                     text: "Send feedback",

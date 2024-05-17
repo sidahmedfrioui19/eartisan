@@ -51,7 +51,7 @@ class _NotificationsState extends State<Notifications> {
           return NotificationTile(
             username: 'Appointement',
             onlineStatus: true,
-            latestMessage: notifications[index].content,
+            latestMessage: notifications[index].content ?? '',
             onPressed: () => {},
           );
         },

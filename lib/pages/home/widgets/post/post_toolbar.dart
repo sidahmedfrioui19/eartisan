@@ -93,8 +93,8 @@ class _PostToolBarState extends State<PostToolBar> {
           IconButton(
             icon: Icon(
               _isButtonDisabled
-                  ? FluentIcons.bookmark_16_filled
-                  : FluentIcons.bookmark_16_regular,
+                  ? FluentIcons.heart_16_filled
+                  : FluentIcons.heart_16_regular,
               color: AppTheme.primaryColor,
             ),
             onPressed: _isButtonDisabled

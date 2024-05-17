@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/utils/constants.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
@@ -26,7 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(profilePicUrl),
+            backgroundImage: NetworkImage(Constants.defaultAvatar),
           ),
           SizedBox(width: 8),
           Column(

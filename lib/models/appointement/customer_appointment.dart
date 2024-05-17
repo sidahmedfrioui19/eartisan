@@ -80,6 +80,7 @@ class Professional {
   final String lastname;
   final String email;
   final String role;
+  final String? profilePicture;
 
   Professional({
     required this.userId,
@@ -88,6 +89,7 @@ class Professional {
     required this.lastname,
     required this.email,
     required this.role,
+    this.profilePicture,
   });
 
   factory Professional.fromJson(Map<String, dynamic> json) {
@@ -98,6 +100,7 @@ class Professional {
       lastname: json['lastname'],
       email: json['email'],
       role: json['role'],
+      profilePicture: json['profile_picture'],
     );
   }
 

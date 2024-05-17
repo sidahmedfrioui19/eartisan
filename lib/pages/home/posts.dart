@@ -49,7 +49,7 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
       child: Column(
         children: [
           Row(
@@ -58,7 +58,7 @@ class _PostsPageState extends State<PostsPage> {
               Container(
                 padding: EdgeInsets.only(left: 18),
                 child: Text(
-                  'Recent requests',
+                  'Recent customers requests',
                   style: AppTheme.elementTitle,
                 ),
               )
