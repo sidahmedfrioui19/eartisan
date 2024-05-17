@@ -210,9 +210,13 @@ class _ServicesPageState extends State<ServicesPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container(
+                    margin: EdgeInsets.all(12),
                     height: 400,
                     width: 400,
-                    color: AppTheme.inputColor,
+                    decoration: BoxDecoration(
+                      color: AppTheme.inputColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return SnapshotErrorWidget(error: snapshot.error);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/post/price_creation_request.dart';
 import 'package:profinder/models/post/service_update_request.dart';
 import 'package:profinder/models/post/user_service.dart';
-import 'package:profinder/pages/home/widgets/heading_title.dart';
-import 'package:profinder/pages/home/widgets/price_card.dart';
 import 'package:profinder/services/post/professional.dart';
 import 'package:profinder/services/user/user_service.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -29,10 +28,29 @@ class _MyServicesState extends State<MyServices> {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
 
+  final TextEditingController _priceDescriptionController =
+      TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController _rateController = TextEditingController();
+
+  List<PriceCreationRequest> prices = [];
+
   @override
   void initState() {
     super.initState();
     _loadServices();
+  }
+
+  void addPrice() {
+    PriceCreationRequest price = PriceCreationRequest(
+      value: int.parse(_valueController.text),
+      description: _priceDescriptionController.text,
+      rate: _rateController.text,
+    );
+
+    setState(() {
+      prices.add(price);
+    });
   }
 
   Future<void> _loadServices() async {
@@ -132,48 +150,6 @@ class _MyServicesState extends State<MyServices> {
                                     RoundedTextArea(
                                       controller: contentController,
                                       hintText: 'Description',
-                                    ),
-                                    HeadingTitle(text: 'Price'),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: service.prices.map((price) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: PriceCard(
-                                              description: price.description!,
-                                              value: price.value.toString(),
-                                              rate: price.rate ?? '',
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                    Text('Photos: '),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Wrap(
-                                        spacing: 15,
-                                        runSpacing: 10,
-                                        children: service.pictures.map(
-                                          (picture) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.network(
-                                                picture.link!,
-                                                width: 100,
-                                                height: 100,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            );
-                                          },
-                                        ).toList(),
-                                      ),
                                     ),
                                     SizedBox(
                                       height: 15,
