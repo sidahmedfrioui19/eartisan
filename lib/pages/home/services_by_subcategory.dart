@@ -35,7 +35,7 @@ class _ServicesByCategoryState extends State<ServicesByCategory> {
   final FavoriteListService favoriteList = FavoriteListService();
   late String? currentUserId;
   Future<void> _loadServices() async {
-    _servicesFuture = service.fetch();
+    _servicesFuture = service.fetchById(widget.subCategoryId);
   }
 
   @override

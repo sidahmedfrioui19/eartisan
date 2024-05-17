@@ -153,7 +153,21 @@ class _ServicesPageState extends State<ServicesPage> {
               future: _categoriesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return AppLoading();
+                  return SizedBox(
+                    height: 100,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Category(
+                          iconUrl: null,
+                          title: null,
+                          subcategories: [],
+                          jwtToken: widget.jwtToken,
+                        );
+                      },
+                    ),
+                  );
                 } else if (snapshot.hasError) {
                   return SnapshotErrorWidget(error: snapshot.error);
                 } else {
@@ -167,7 +181,7 @@ class _ServicesPageState extends State<ServicesPage> {
                         itemBuilder: (context, index) {
                           CategoryEntity category = categories[index];
                           return Category(
-                            iconUrl: category.icon,
+                            iconUrl: category.icon!,
                             title: category.name,
                             subcategories: category.subcategories,
                             jwtToken: widget.jwtToken,
@@ -181,6 +195,9 @@ class _ServicesPageState extends State<ServicesPage> {
                 }
               },
             ),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
@@ -192,7 +209,11 @@ class _ServicesPageState extends State<ServicesPage> {
               future: _servicesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return AppLoading();
+                  return Container(
+                    height: 400,
+                    width: 400,
+                    color: AppTheme.inputColor,
+                  );
                 } else if (snapshot.hasError) {
                   return SnapshotErrorWidget(error: snapshot.error);
                 } else {

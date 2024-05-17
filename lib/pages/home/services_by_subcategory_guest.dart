@@ -33,7 +33,7 @@ class _ServicesByCategoryGuestState extends State<ServicesByCategoryGuest> {
   final ProfessionalService service = ProfessionalService();
 
   Future<void> _loadServices() async {
-    _servicesFuture = service.fetch();
+    _servicesFuture = service.fetchById(widget.subCategoryId);
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/service_detail.dart';
 import 'package:profinder/models/review/review.dart';
+import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/home/widgets/contact_detail.dart';
 import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/picture_list.dart';
@@ -197,7 +198,14 @@ class _ServiceDetailState extends State<ServiceDetail> {
                           ),
                         ),
                       );
-                    } else {}
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),

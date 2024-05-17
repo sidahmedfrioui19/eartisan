@@ -53,4 +53,27 @@ class ProfessionalService {
       throw Exception('Failed to load service');
     }
   }
+
+  Future<List<ServiceEntity>> fetchById(int? id) async {
+    final response = await http.get(
+      Uri.parse('$url/service/viewallb/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final parsed = jsonDecode(response.body);
+      final jsonData = parsed['data'];
+
+      final List<ServiceEntity> services = [];
+      for (var item in jsonData) {
+        final service = ServiceEntity.fromJson(item);
+        services.add(service);
+      }
+      return services;
+    } else {
+      throw Exception('${response.statusCode}');
+    }
+  }
 }

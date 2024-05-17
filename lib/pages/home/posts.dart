@@ -25,6 +25,7 @@ class _PostsPageState extends State<PostsPage> {
   final PostService post = PostService();
 
   late String? currentUserId;
+  late String? userRole = '';
 
   @override
   void initState() {
@@ -40,9 +41,11 @@ class _PostsPageState extends State<PostsPage> {
   Future<void> loadUserId() async {
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final String? userId = await secureStorage.read(key: 'userId');
+    final String? role = await secureStorage.read(key: 'role');
 
     setState(() {
       currentUserId = userId ?? '';
+      userRole = role ?? '';
     });
   }
 
@@ -70,20 +73,20 @@ class _PostsPageState extends State<PostsPage> {
             emptyText: "No requests",
             itemBuilder: (post) {
               return Post(
-                title: post.title,
-                description: post.description,
-                username: post.username,
-                firstname: post.firstname,
-                lastname: post.lastname,
-                pictureUrl: post.profilePicture,
-                location: post.address,
-                phoneNumber: post.phoneNumber,
-                available: true,
-                status: post.status,
-                userId: post.userId,
-                currentUserId: currentUserId,
-                jwtToken: widget.jwtToken,
-              );
+                  title: post.title,
+                  description: post.description,
+                  username: post.username,
+                  firstname: post.firstname,
+                  lastname: post.lastname,
+                  pictureUrl: post.profilePicture,
+                  location: post.address,
+                  phoneNumber: post.phoneNumber,
+                  available: true,
+                  status: post.status,
+                  userId: post.userId,
+                  currentUserId: currentUserId,
+                  jwtToken: widget.jwtToken,
+                  userRole: userRole);
             },
           ),
         ],

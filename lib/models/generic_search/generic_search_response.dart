@@ -49,8 +49,8 @@ class Artisan {
   String firstname;
   String lastname;
   String email;
-  String address;
-  String phoneNumber;
+  String? address;
+  String? phoneNumber;
   String instagramLink;
   String facebookLink;
   String tiktokLink;
@@ -63,8 +63,8 @@ class Artisan {
     required this.firstname,
     required this.lastname,
     required this.email,
-    required this.address,
-    required this.phoneNumber,
+    this.address,
+    this.phoneNumber,
     required this.instagramLink,
     required this.facebookLink,
     required this.tiktokLink,
@@ -79,7 +79,7 @@ class Artisan {
       firstname: json['firstname'] ?? '',
       lastname: json['lastname'] ?? '',
       email: json['email'] ?? '',
-      address: json['address'] ?? '',
+      address: json['adress'] ?? '',
       phoneNumber: json['phone_number'] ?? '',
       instagramLink: json['instagram_link'] ?? '',
       facebookLink: json['facebook_link'] ?? '',
@@ -113,8 +113,8 @@ class Client {
   String firstname;
   String lastname;
   String email;
-  String address;
-  String phoneNumber;
+  String? address;
+  String? phoneNumber;
   String instagramLink;
   String facebookLink;
   String tiktokLink;
@@ -128,8 +128,8 @@ class Client {
     required this.firstname,
     required this.lastname,
     required this.email,
-    required this.address,
-    required this.phoneNumber,
+    this.address,
+    this.phoneNumber,
     required this.instagramLink,
     required this.facebookLink,
     required this.tiktokLink,
@@ -145,7 +145,7 @@ class Client {
       firstname: json['firstname'] ?? '',
       lastname: json['lastname'] ?? '',
       email: json['email'] ?? '',
-      address: json['address'] ?? '',
+      address: json['adress'] ?? '',
       phoneNumber: json['phone_number'] ?? '',
       instagramLink: json['instagram_link'] ?? '',
       facebookLink: json['facebook_link'] ?? '',
@@ -328,12 +328,12 @@ class User {
   String username;
   String firstname;
   String lastname;
-  String address;
-  String phoneNumber;
+  String? address;
+  String? phoneNumber;
   String instagramLink;
   String facebookLink;
   String tiktokLink;
-  String profilePicture;
+  String? profilePicture;
   int? post_id;
   String? post_title;
   String? post_created_at;
@@ -345,12 +345,12 @@ class User {
     required this.username,
     required this.firstname,
     required this.lastname,
-    required this.address,
-    required this.phoneNumber,
+    this.address,
+    this.phoneNumber,
     required this.instagramLink,
     required this.facebookLink,
     required this.tiktokLink,
-    required this.profilePicture,
+    this.profilePicture,
     this.post_id,
     this.post_title,
     this.post_created_at,
@@ -364,8 +364,8 @@ class User {
       username: json['username'] ?? '',
       firstname: json['firstname'] ?? '',
       lastname: json['lastname'] ?? '',
-      address: json['address'] ?? '',
-      phoneNumber: json['phone_number'] ?? '',
+      address: json['adress'] ?? '',
+      phoneNumber: json['phone_number'],
       instagramLink: json['instagram_link'] ?? '',
       facebookLink: json['facebook_link'] ?? '',
       tiktokLink: json['tiktok_link'] ?? '',

@@ -4,7 +4,7 @@ class CategoryEntity {
   final int id;
   final String name;
   final String picture;
-  final String icon;
+  final String? icon;
   final List<SubCategoryEntity> subcategories;
 
   CategoryEntity({

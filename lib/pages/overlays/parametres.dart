@@ -256,13 +256,11 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                       controller: _firstNameController,
                       hintText: "First name",
                       icon: FluentIcons.person_12_filled,
-                      enabled: false,
                     ),
                     RoundedTextField(
                       controller: _lastNameController,
                       hintText: "Last name",
                       icon: FluentIcons.person_12_filled,
-                      enabled: false,
                     ),
                     RoundedTextField(
                       controller: _addressController,

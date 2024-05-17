@@ -10,7 +10,7 @@ class Picture {
   factory Picture.fromJson(Map<String, dynamic> json) {
     return Picture(
       pictureId: json['picture_id'],
-      link: json['link'],
+      link: json['link'] ?? '',
     );
   }
 

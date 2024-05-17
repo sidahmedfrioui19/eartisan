@@ -89,8 +89,8 @@ class PostService extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w700)),
               SizedBox(height: 10),
               Wrap(
-                spacing: 15,
-                runSpacing: 10,
+                spacing: 5,
+                runSpacing: 5,
                 children: pictures != null
                     ? pictures!.take(3).map((picture) {
                         int index = pictures!.indexOf(picture);
@@ -101,8 +101,8 @@ class PostService extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
                                       picture.link,
-                                      width: 100,
-                                      height: 100,
+                                      width: 90,
+                                      height: 90,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -131,8 +131,8 @@ class PostService extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
                                   picture.link,
-                                  width: 100,
-                                  height: 100,
+                                  width: 90,
+                                  height: 90,
                                   fit: BoxFit.cover,
                                 ),
                               );

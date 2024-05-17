@@ -100,7 +100,7 @@ class _AppointementsPageState extends State<AppointementsPage>
                       labelPadding: EdgeInsets.symmetric(horizontal: 0),
                       labelStyle: TextStyle(fontSize: 12),
                     ),
-                  SizedBox(height: 20),
+                  if (userRole != 'customer') SizedBox(height: 20),
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,

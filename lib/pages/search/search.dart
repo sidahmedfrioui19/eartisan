@@ -5,8 +5,10 @@ import 'package:profinder/models/generic_search/generic_search_request.dart';
 import 'package:profinder/models/generic_search/generic_search_response.dart';
 import 'package:profinder/pages/authentication/login.dart';
 import 'package:profinder/pages/home/service_detail.dart';
+import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/generic_search/generic_search.dart';
+import 'package:profinder/widgets/cards/stated_avatar.dart';
 import '../../utils/theme_data.dart';
 import '../../widgets/inputs/search_bar.dart';
 
@@ -172,7 +174,9 @@ class _SearchPageState extends State<SearchPage> {
                     )
                   ],
                 )
-              : Center(child: Icon(Icons.format_list_bulleted)),
+              : Center(
+                  child: Icon(Icons.format_list_bulleted),
+                ),
     );
   }
 
@@ -187,77 +191,120 @@ class _SearchPageState extends State<SearchPage> {
             surfaceTintColor: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                service.user.profilePicture,
+                          Column(
+                            children: [
+                              StatedAvatar(
+                                  imageUrl: service.user.profilePicture),
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${service.user.firstname} ${service.user.lastname}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            ),
-                          )
+                              Text(
+                                '@${service.user.username}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            '${service.user.firstname} ${service.user.lastname}',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          IconButton(
+                            onPressed: () => {
+                              if (jwtToken != null)
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CreateAppointmentPage(
+                                        serviceId: service.serviceId,
+                                        professionalId: service.user.userId,
+                                      ),
+                                    ),
+                                  ),
+                                }
+                              else
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                    ),
+                                  ),
+                                }
+                            },
+                            icon: Icon(
+                              FluentIcons.calendar_12_regular,
+                            ),
                           ),
-                          Text(
-                            service.title,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Description: ${service.description.substring(0, 25)}...',
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'State: ${service.status}',
+                          IconButton(
+                            onPressed: () => {
+                              if (jwtToken != null)
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatRoom(
+                                        available: true,
+                                        firstname: service.user.firstname,
+                                        lastname: service.user.lastname,
+                                        pictureUrl:
+                                            service.user.profilePicture!,
+                                        user_id: service.user.userId,
+                                      ),
+                                    ),
+                                  ),
+                                }
+                              else
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                    ),
+                                  ),
+                                }
+                            },
+                            icon: Icon(
+                              FluentIcons.send_16_regular,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () => {
-                      if (jwtToken != null)
-                        {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatRoom(
-                                available: true,
-                                firstname: service.user.firstname,
-                                lastname: service.user.lastname,
-                                pictureUrl: service.user.profilePicture,
-                                user_id: service.user.userId,
-                              ),
-                            ),
-                          ),
-                        }
-                      else
-                        {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          ),
-                        }
-                    },
-                    icon: Icon(
-                      FluentIcons.send_16_filled,
-                    ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        service.title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Description: ${service.description.substring(0, 80)}...',
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -279,85 +326,6 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildPostsTab() {
-    return ListView.builder(
-      itemCount: response!.posts.length,
-      itemBuilder: (context, index) {
-        final post = response!.posts[index];
-        return GestureDetector(
-          child: Card(
-            color: Colors.white,
-            surfaceTintColor: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            post.profilePicture!,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${post.firstname} ${post.lastname}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        post.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Description: ${post.description}',
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'State: ${post.status}',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          onTap: () {
-            if (jwtToken != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatRoom(
-                    available: true,
-                    firstname: post.firstname,
-                    lastname: post.lastname,
-                    pictureUrl: post.profilePicture!,
-                    user_id: post.userId,
-                  ),
-                ),
-              );
-            } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
   Widget _buildArtisansTab() {
     return ListView.builder(
       itemCount: response!.artisans.length,
@@ -370,8 +338,10 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       children: [
@@ -395,13 +365,34 @@ class _SearchPageState extends State<SearchPage> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 8),
-                            Text(
-                              'Phone number: ${artisan.phoneNumber}',
-                            ),
+                            if (artisan.phoneNumber != '')
+                              Row(
+                                children: [
+                                  Icon(
+                                    FluentIcons.phone_12_filled,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    '${artisan.phoneNumber}',
+                                  ),
+                                ],
+                              ),
                             SizedBox(height: 4),
-                            Text(
-                              'Address: ${artisan.address}',
-                            ),
+                            if (artisan.address != null ||
+                                artisan.address != '')
+                              Row(
+                                children: [
+                                  Icon(
+                                    FluentIcons.location_12_filled,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    '${artisan.address}',
+                                  ),
+                                ],
+                              ),
                           ],
                         )
                       ],
@@ -434,7 +425,7 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         }
                       },
-                      icon: Icon(FluentIcons.send_16_filled),
+                      icon: Icon(FluentIcons.send_16_regular),
                     ),
                   ],
                 )
@@ -458,35 +449,64 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        client.profilePicture,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${client.firstname} ${client.lastname}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Phone number: ${client.phoneNumber}',
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Address: ${client.address}',
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            client.profilePicture,
+                          ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${client.firstname} ${client.lastname}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            if (client.phoneNumber != '')
+                              Row(
+                                children: [
+                                  Icon(
+                                    FluentIcons.phone_12_filled,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    '${client.phoneNumber}',
+                                  ),
+                                ],
+                              ),
+                            SizedBox(height: 4),
+                            if (client.address != null || client.address != '')
+                              Row(
+                                children: [
+                                  Icon(
+                                    FluentIcons.location_12_filled,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    '${client.address}',
+                                  ),
+                                ],
+                              ),
+                          ],
+                        )
+                      ],
+                    ),
                   ],
                 ),
                 Column(
@@ -515,7 +535,7 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         }
                       },
-                      icon: Icon(FluentIcons.send_16_filled),
+                      icon: Icon(FluentIcons.send_16_regular),
                     ),
                   ],
                 )

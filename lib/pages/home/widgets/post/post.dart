@@ -13,6 +13,7 @@ class Post extends StatelessWidget {
   final String firstname;
   final String lastname;
   final String? userId;
+  final String? userRole;
   final String? pictureUrl;
   final String? location;
   final String? phoneNumber;
@@ -33,6 +34,7 @@ class Post extends StatelessWidget {
     required this.phoneNumber,
     required this.status,
     this.userId,
+    this.userRole,
     this.currentUserId,
     this.available,
     this.jwtToken,
@@ -60,7 +62,9 @@ class Post extends StatelessWidget {
                   username: '$firstname $lastname',
                   content: '@${username}',
                 ),
-                if (this.currentUserId != userId && jwtToken != null)
+                if (this.currentUserId != userId &&
+                    jwtToken != null &&
+                    this.userRole != 'customer')
                   PostToolBar(
                     icon1: FluentIcons.mail_16_regular,
                     pictureUrl: pictureUrl,
