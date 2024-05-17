@@ -3,8 +3,12 @@ import 'package:profinder/models/post/service.dart';
 import 'package:profinder/models/post/service_creation_request.dart';
 import 'package:http/http.dart' as http;
 import 'package:profinder/models/post/service_detail.dart';
+import 'package:profinder/models/post/service_update_request.dart';
 import 'package:profinder/services/data.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/constants.dart';
+import 'package:profinder/utils/error_handler/business_error_handler.dart';
+import 'package:profinder/utils/error_handler/error_payload.dart';
 
 class ProfessionalService {
   final url = Constants.apiUrl;
@@ -32,6 +36,27 @@ class ProfessionalService {
       return {'success': true};
     } else {
       throw Exception('Failed to delete service');
+    }
+  }
+
+  Future<Map<String, bool>> updateService(
+      ServiceUpdateRequest body, int id) async {
+    final String? jwtToken = await AuthenticationService.getJwtToken();
+    final response = await http.patch(
+      Uri.parse('$url/service/update/$id'),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+      },
+      body: body.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      return {'success': true};
+    } else {
+      ErrorPayload? errorPayload = await BusinessErrorHandler.checkErrorType();
+      BusinessErrorHandler.handleError(errorPayload);
+
+      throw Exception('Request failed with status ${response.statusCode}');
     }
   }
 

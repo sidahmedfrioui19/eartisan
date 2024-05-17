@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: "Create an account")
                 ],
               ),
-              margin: EdgeInsets.all(15),
+              margin: EdgeInsets.all(10),
             )
           ]),
           margin: EdgeInsets.all(10),

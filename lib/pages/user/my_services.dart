@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profinder/models/post/service_update_request.dart';
 import 'package:profinder/models/post/user_service.dart';
 import 'package:profinder/pages/home/widgets/heading_title.dart';
 import 'package:profinder/pages/home/widgets/price_card.dart';
@@ -24,6 +25,9 @@ class _MyServicesState extends State<MyServices> {
   late Future<List<ServiceDataEntity>> _services;
 
   final UserPostService service = UserPostService();
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
 
   @override
   void initState() {
@@ -63,6 +67,7 @@ class _MyServicesState extends State<MyServices> {
                     );
                   } else {
                     final services = snapshot.data!;
+
                     return Column(
                       children: services.map((service) {
                         return _buildServiceCard(service);
@@ -107,7 +112,8 @@ class _MyServicesState extends State<MyServices> {
                       icon: Icon(Icons.edit),
                       color: AppTheme.primaryColor,
                       onPressed: () {
-                        // Show dialog with service details
+                        titleController.text = service.title!;
+                        contentController.text = service.description!;
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -120,66 +126,123 @@ class _MyServicesState extends State<MyServices> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     RoundedTextField(
-                                      controller: TextEditingController(
-                                        text: service.title,
-                                      ),
+                                      controller: titleController,
                                       hintText: 'Title',
                                     ),
                                     RoundedTextArea(
-                                      controller: TextEditingController(
-                                        text: service.description,
-                                      ),
+                                      controller: contentController,
                                       hintText: 'Description',
                                     ),
                                     HeadingTitle(text: 'Price'),
-                                    ...service.prices.map((price) {
-                                      return PriceCard(
-                                        description: price.description!,
-                                        value: price.value.toString(),
-                                        rate: price.rate ?? '',
-                                      );
-                                    }).toList(),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: service.prices.map((price) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: PriceCard(
+                                              description: price.description!,
+                                              value: price.value.toString(),
+                                              rate: price.rate ?? '',
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
                                     Text('Photos: '),
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Wrap(
-                                      spacing: 15,
-                                      runSpacing: 10,
-                                      children: service.pictures.map(
-                                        (picture) {
-                                          return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(
-                                              picture.link!,
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          );
-                                        },
-                                      ).toList(),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Wrap(
+                                        spacing: 15,
+                                        runSpacing: 10,
+                                        children: service.pictures.map(
+                                          (picture) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
+                                                picture.link!,
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          },
+                                        ).toList(),
+                                      ),
                                     ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: FilledAppButton(
+                                            icon: Icons.close,
+                                            text: 'Cancel',
+                                            onPressed: () => {
+                                              Navigator.of(context).pop(),
+                                            },
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: FilledAppButton(
+                                            icon: Icons.save,
+                                            text: 'Update',
+                                            onPressed: () async {
+                                              try {
+                                                ServiceUpdateRequest req =
+                                                    ServiceUpdateRequest(
+                                                  title: titleController.text,
+                                                  description:
+                                                      contentController.text,
+                                                );
+
+                                                final ProfessionalService
+                                                    _service =
+                                                    ProfessionalService();
+
+                                                await _service.updateService(
+                                                  req,
+                                                  service.serviceId,
+                                                );
+                                                setState(() {
+                                                  _loadServices();
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content:
+                                                        Text('Service updated'),
+                                                    duration:
+                                                        Duration(seconds: 2),
+                                                  ),
+                                                );
+                                              } catch (e) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'An error has occured, try again',
+                                                    ),
+                                                    duration:
+                                                        Duration(seconds: 2),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
-                              actions: <Widget>[
-                                FilledAppButton(
-                                  icon: Icons.close,
-                                  text: 'Cancel',
-                                  onPressed: () => {
-                                    Navigator.of(context).pop(),
-                                  },
-                                ),
-                                FilledAppButton(
-                                  icon: Icons.save,
-                                  text: 'Update',
-                                  onPressed: () => {
-                                    Navigator.of(context).pop(),
-                                  },
-                                ),
-                              ],
                             );
                           },
                         );
