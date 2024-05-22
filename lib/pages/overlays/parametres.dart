@@ -82,7 +82,10 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
 
       havePermission =
           request.values.every((status) => status == PermissionStatus.granted);
-    } else {}
+    } else {
+      final status = await Permission.storage.request();
+      havePermission = status.isGranted;
+    }
 
     if (!havePermission) {
       await openAppSettings();

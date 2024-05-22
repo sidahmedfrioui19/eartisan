@@ -65,12 +65,36 @@ class _MyPostsState extends State<MyPosts> {
                   ),
                 );
               } else {
-                final posts = snapshot.data!;
-                return Column(
-                  children: posts.map((post) {
-                    return _buildPostCard(post);
-                  }).toList(),
-                );
+                if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                  final posts = snapshot.data!;
+                  return Column(
+                    children: posts.map((post) {
+                      return _buildPostCard(post);
+                    }).toList(),
+                  );
+                } else {
+                  return Center(
+                    child: Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 250,
+                          ),
+                          Icon(
+                            Icons.post_add,
+                            size: 64,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("Requests list empty")
+                        ],
+                      ),
+                    ),
+                  );
+                }
               }
             },
           ),

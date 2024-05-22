@@ -263,6 +263,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                               );
                             },
+                            trailing: Icon(Icons.chevron_right),
                           ),
                         ),
                         if (userRole != 'customer')
@@ -290,6 +291,7 @@ class _UserPageState extends State<UserPage> {
                                   ),
                                 );
                               },
+                              trailing: Icon(Icons.chevron_right),
                             ),
                           ),
                         Container(
@@ -316,6 +318,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                               );
                             },
+                            trailing: Icon(Icons.chevron_right),
                           ),
                         ),
                         Container(
@@ -342,6 +345,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                               );
                             },
+                            trailing: Icon(Icons.chevron_right),
                           ),
                         ),
                       ],

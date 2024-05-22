@@ -106,7 +106,7 @@ class _FavoritesState extends State<Favorites> {
                       Text("Favorite list empty")
                     ],
                   ),
-                ); // Return an empty widget if there are no favorites
+                );
               }
             }
           },

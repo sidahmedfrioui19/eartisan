@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/price_creation_request.dart';
 import 'package:profinder/models/post/service_update_request.dart';
@@ -84,13 +85,37 @@ class _MyServicesState extends State<MyServices> {
                       ),
                     );
                   } else {
-                    final services = snapshot.data!;
+                    if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                      final services = snapshot.data!;
 
-                    return Column(
-                      children: services.map((service) {
-                        return _buildServiceCard(service);
-                      }).toList(),
-                    );
+                      return Column(
+                        children: services.map((service) {
+                          return _buildServiceCard(service);
+                        }).toList(),
+                      );
+                    } else {
+                      return Center(
+                        child: Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 250,
+                              ),
+                              Icon(
+                                FluentIcons.backpack_12_filled,
+                                size: 64,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("Services list empty")
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                   }
                 },
               ),
