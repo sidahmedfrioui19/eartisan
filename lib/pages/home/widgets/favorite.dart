@@ -35,10 +35,10 @@ class FavoriteWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 2),
+              blurRadius: 1,
+              offset: Offset(0, 1),
             ),
           ],
         ),

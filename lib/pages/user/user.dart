@@ -249,19 +249,29 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ],
                           ),
-                          child: ListTile(
-                            leading: Icon(Icons.post_add),
-                            title: Text('Requests'),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyPosts(),
-                                ),
-                              );
-                            },
-                            trailing: Icon(Icons.chevron_right),
-                          ),
+                          child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 0.6),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: ListTile(
+                                leading: Icon(Icons.post_add),
+                                title: Text('Requests'),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyPosts(),
+                                    ),
+                                  );
+                                },
+                                trailing: Icon(Icons.chevron_right),
+                              )),
                         ),
                         if (userRole != 'customer')
                           Container(
@@ -277,18 +287,29 @@ class _UserPageState extends State<UserPage> {
                                 ),
                               ],
                             ),
-                            child: ListTile(
-                              leading: Icon(FluentIcons.backpack_12_filled),
-                              title: Text('Services'),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyServices(),
-                                  ),
-                                );
-                              },
-                              trailing: Icon(Icons.chevron_right),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 0.6),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: ListTile(
+                                leading: Icon(FluentIcons.backpack_12_filled),
+                                title: Text('Services'),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyServices(),
+                                    ),
+                                  );
+                                },
+                                trailing: Icon(Icons.chevron_right),
+                              ),
                             ),
                           ),
                         Container(
@@ -304,18 +325,29 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ],
                           ),
-                          child: ListTile(
-                            leading: Icon(FluentIcons.heart_12_filled),
-                            title: Text('Favorites'),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Favorites(),
-                                ),
-                              );
-                            },
-                            trailing: Icon(Icons.chevron_right),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 0.6),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: ListTile(
+                              leading: Icon(FluentIcons.heart_12_filled),
+                              title: Text('Favorites'),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Favorites(),
+                                  ),
+                                );
+                              },
+                              trailing: Icon(Icons.chevron_right),
+                            ),
                           ),
                         ),
                         Container(
@@ -331,18 +363,29 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ],
                           ),
-                          child: ListTile(
-                            leading: Icon(FluentIcons.settings_16_filled),
-                            title: Text('Settings'),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SettingsOverlay(),
-                                ),
-                              );
-                            },
-                            trailing: Icon(Icons.chevron_right),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 0.6),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: ListTile(
+                              leading: Icon(FluentIcons.settings_16_filled),
+                              title: Text('Settings'),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SettingsOverlay(),
+                                  ),
+                                );
+                              },
+                              trailing: Icon(Icons.chevron_right),
+                            ),
                           ),
                         ),
                       ],

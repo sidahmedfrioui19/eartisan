@@ -18,9 +18,8 @@ class PriceCard extends StatelessWidget {
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(
-            15), // Adjust the circular border radius as needed
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

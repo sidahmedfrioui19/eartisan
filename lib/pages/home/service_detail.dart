@@ -172,44 +172,51 @@ class _ServiceDetailState extends State<ServiceDetail> {
           }
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        surfaceTintColor: Colors.white,
-        padding: EdgeInsets.all(0),
-        elevation: 4,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          height: kBottomNavigationBarHeight +
-              16, // Adjust height to accommodate button
-          child: Row(
-            children: [
-              Expanded(
-                child: FilledAppButton(
-                  icon: FluentIcons.calendar_12_filled,
-                  text: "Take an appointement",
-                  onPressed: () {
-                    if (widget.loggedIn == true) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateAppointmentPage(
-                            serviceId: service_id,
-                            professionalId: professional_id,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.grey, width: 0.2),
+          ),
+        ),
+        child: BottomAppBar(
+          color: Colors.white,
+          surfaceTintColor: Colors.white,
+          padding: EdgeInsets.all(0),
+          elevation: 4,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            height: kBottomNavigationBarHeight +
+                16, // Adjust height to accommodate button
+            child: Row(
+              children: [
+                Expanded(
+                  child: FilledAppButton(
+                    icon: FluentIcons.calendar_12_filled,
+                    text: "Take an appointement",
+                    onPressed: () {
+                      if (widget.loggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateAppointmentPage(
+                              serviceId: service_id,
+                              professionalId: professional_id,
+                            ),
                           ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
-                    }
-                  },
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

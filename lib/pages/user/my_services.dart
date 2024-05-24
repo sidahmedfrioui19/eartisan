@@ -127,163 +127,172 @@ class _MyServicesState extends State<MyServices> {
   }
 
   Widget _buildServiceCard(ServiceDataEntity service) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      elevation: 0.8,
-      surfaceTintColor: Colors.white,
-      color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  service.title!,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: AppTheme.primaryColor,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit),
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300, width: 0.6),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Card(
+        surfaceTintColor: Colors.white,
+        color: Colors.white,
+        elevation: 0,
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    service.title!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                       color: AppTheme.primaryColor,
-                      onPressed: () {
-                        titleController.text = service.title!;
-                        contentController.text = service.description!;
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              surfaceTintColor: Colors.white,
-                              title: Text('Edit'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RoundedTextField(
-                                      controller: titleController,
-                                      hintText: 'Title',
-                                    ),
-                                    RoundedTextArea(
-                                      controller: contentController,
-                                      hintText: 'Description',
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          child: FilledAppButton(
-                                            icon: Icons.close,
-                                            text: 'Cancel',
-                                            onPressed: () => {
-                                              Navigator.of(context).pop(),
-                                            },
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        color: AppTheme.primaryColor,
+                        onPressed: () {
+                          titleController.text = service.title!;
+                          contentController.text = service.description!;
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.white,
+                                surfaceTintColor: Colors.white,
+                                title: Text('Edit'),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RoundedTextField(
+                                        controller: titleController,
+                                        hintText: 'Title',
+                                      ),
+                                      RoundedTextArea(
+                                        controller: contentController,
+                                        hintText: 'Description',
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Flexible(
+                                            child: FilledAppButton(
+                                              icon: Icons.close,
+                                              text: 'Cancel',
+                                              onPressed: () => {
+                                                Navigator.of(context).pop(),
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                        Flexible(
-                                          child: FilledAppButton(
-                                            icon: Icons.save,
-                                            text: 'Update',
-                                            onPressed: () async {
-                                              try {
-                                                ServiceUpdateRequest req =
-                                                    ServiceUpdateRequest(
-                                                  title: titleController.text,
-                                                  description:
-                                                      contentController.text,
-                                                );
+                                          Flexible(
+                                            child: FilledAppButton(
+                                              icon: Icons.save,
+                                              text: 'Update',
+                                              onPressed: () async {
+                                                try {
+                                                  ServiceUpdateRequest req =
+                                                      ServiceUpdateRequest(
+                                                    title: titleController.text,
+                                                    description:
+                                                        contentController.text,
+                                                  );
 
-                                                final ProfessionalService
-                                                    _service =
-                                                    ProfessionalService();
+                                                  final ProfessionalService
+                                                      _service =
+                                                      ProfessionalService();
 
-                                                await _service.updateService(
-                                                  req,
-                                                  service.serviceId,
-                                                );
-                                                setState(() {
-                                                  _loadServices();
-                                                });
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content:
-                                                        Text('Service updated'),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                              } catch (e) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'An error has occured, try again',
+                                                  await _service.updateService(
+                                                    req,
+                                                    service.serviceId,
+                                                  );
+                                                  setState(() {
+                                                    _loadServices();
+                                                  });
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          'Service updated'),
+                                                      duration:
+                                                          Duration(seconds: 2),
                                                     ),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                            },
+                                                  );
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'An error has occured, try again',
+                                                      ),
+                                                      duration:
+                                                          Duration(seconds: 2),
+                                                    ),
+                                                  );
+                                                }
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        color: Colors.red,
+                        onPressed: () async {
+                          final ProfessionalService _service =
+                              ProfessionalService();
+                          try {
+                            await _service.delete(service.serviceId);
+                            setState(() {
+                              _loadServices();
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Service deleted'),
+                                duration: Duration(seconds: 2),
                               ),
                             );
-                          },
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      color: Colors.red,
-                      onPressed: () async {
-                        final ProfessionalService _service =
-                            ProfessionalService();
-                        try {
-                          await _service.delete(service.serviceId);
-                          setState(() {
-                            _loadServices();
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Service deleted'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'An error has occured, try again',
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'An error has occured, try again',
+                                ),
+                                duration: Duration(seconds: 2),
                               ),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 8),
-          ],
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );

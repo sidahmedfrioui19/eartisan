@@ -59,32 +59,39 @@ class _FavoritesState extends State<Favorites> {
                         itemCount: favorites.length,
                         itemBuilder: (context, index) {
                           final favorite = favorites[index];
-                          return FavoriteWidget(
-                            favorite: favorite,
-                            onPress: () async {
-                              try {
-                                await favoriteService
-                                    .deleteById(favorite.favoriteId);
-                                setState(() {
-                                  _loadFavorites();
-                                });
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Deleted from favorites'), // Confirmation message
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'An error has occured try again'), // Error message
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              }
-                            },
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(color: Colors.grey, width: 0.3),
+                              ),
+                            ),
+                            child: FavoriteWidget(
+                              favorite: favorite,
+                              onPress: () async {
+                                try {
+                                  await favoriteService
+                                      .deleteById(favorite.favoriteId);
+                                  setState(() {
+                                    _loadFavorites();
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Deleted from favorites'), // Confirmation message
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'An error has occured try again'), // Error message
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                           );
                         },
                       ),

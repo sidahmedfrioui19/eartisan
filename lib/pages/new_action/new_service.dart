@@ -8,8 +8,10 @@ import 'package:profinder/models/post/picture.dart';
 import 'package:profinder/models/post/price_creation_request.dart';
 import 'package:profinder/models/post/service_creation_request.dart';
 import 'package:profinder/models/subcategory/subcategory.dart';
+import 'package:profinder/models/user/user.dart';
 import 'package:profinder/services/category/category.dart';
 import 'package:profinder/services/post/professional.dart';
+import 'package:profinder/services/user/authentication.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/snapshot_error.dart';
@@ -29,6 +31,7 @@ class _NewServiceState extends State<NewService> {
   late Future<List<SubCategoryEntity>> _subcategoriesFuture;
   final CategoryService category = CategoryService();
   final ProfessionalService service = ProfessionalService();
+  late UserEntity userData;
 
   String? _selectedCategoryId;
   List<PriceCreationRequest> prices = [];
@@ -138,11 +141,21 @@ class _NewServiceState extends State<NewService> {
   @override
   void initState() {
     super.initState();
-    _loadCategories();
+    _subcategoriesFuture = Future.value([]); // Initialize with an empty list
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    AuthenticationService auth = AuthenticationService();
+    userData = await auth.fetchUserData();
+    await _loadCategories();
   }
 
   Future<void> _loadCategories() async {
-    _subcategoriesFuture = category.fetchSubcategories(1);
+    print(userData.categoryId);
+    _subcategoriesFuture =
+        category.fetchSubcategories(userData.categoryId ?? 1);
+    setState(() {}); // Refresh the widget to rebuild with the new future
   }
 
   @override

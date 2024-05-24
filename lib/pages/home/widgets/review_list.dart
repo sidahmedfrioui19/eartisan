@@ -39,7 +39,7 @@ class ReviewList extends StatelessWidget {
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
+                  color: Colors.grey.shade100,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -104,116 +104,124 @@ class _MyPostsState extends State<MyPosts> {
   }
 
   Widget _buildPostCard(OwnPostEntity post) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      elevation: 0.8, // Reduced shadow
-      color: Colors.white, // Used primary color
-      surfaceTintColor: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    post.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: AppTheme.primaryColor,
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300, width: 0.6),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Card(
+        surfaceTintColor: Colors.white,
+        color: Colors.white,
+        elevation: 0,
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      post.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: AppTheme.primaryColor,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 5),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: statusColor(post.status),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  statusBuilder(post.status),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              SizedBox(width: 8),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.check_circle_outline),
+                    color: Colors.green,
+                    onPressed: () async {
+                      try {
+                        await postService.setToComplete(
+                            {"_status": "inactive"}, post.postId);
+                        setState(() {
+                          _loadPosts();
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Request marked as complete',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'An error has occured, try again',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.hourglass_top),
+                    color: Colors.red,
+                    onPressed: () async {
+                      try {
+                        await postService
+                            .setToComplete({"_status": "active"}, post.postId);
+                        setState(() {
+                          _loadPosts();
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Request marked as incomplete',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'An error has occured, try again',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    color: AppTheme.primaryColor,
+                    onPressed: () {
+                      _editPost(context, post);
+                    },
                   ),
                 ],
               ),
-            ),
-            SizedBox(width: 5),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: statusColor(post.status),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                statusBuilder(post.status),
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            SizedBox(width: 8),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.check_circle_outline),
-                  color: Colors.green,
-                  onPressed: () async {
-                    try {
-                      await postService
-                          .setToComplete({"_status": "inactive"}, post.postId);
-                      setState(() {
-                        _loadPosts();
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Request marked as complete',
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'An error has occured, try again',
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.hourglass_top),
-                  color: Colors.red,
-                  onPressed: () async {
-                    try {
-                      await postService
-                          .setToComplete({"_status": "active"}, post.postId);
-                      setState(() {
-                        _loadPosts();
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Request marked as incomplete',
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'An error has occured, try again',
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  color: AppTheme.primaryColor,
-                  onPressed: () {
-                    _editPost(context, post);
-                  },
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
