@@ -15,7 +15,7 @@ class ChatRoom extends StatefulWidget {
   final String user_id;
   final String firstname;
   final String lastname;
-  final String pictureUrl;
+  final String? pictureUrl;
   final bool available;
   final VoidCallback? onMessageSentOrReceived;
 

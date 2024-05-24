@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:profinder/models/review/review.dart';
 import 'package:profinder/models/review/review_creation_request.dart';
 import 'package:profinder/services/data.dart';
+import 'package:profinder/services/notification/notification.dart';
 import 'package:profinder/utils/constants.dart';
 
 class ReviewService {
@@ -44,8 +45,12 @@ class ReviewService {
     }
   }
 
-  Future<Map<String, bool>> post(ReviewCreationRequest entity) async {
+  Future<Map<String, bool>> post(
+      ReviewCreationRequest entity, String userId) async {
     final String body = jsonEncode(entity.toJson());
+    final NotificationService notification = NotificationService();
+
+    await notification.notifyUser(userId, 'New review posted on your service.');
     return _genericService.post(body);
   }
 }

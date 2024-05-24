@@ -17,7 +17,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   final NotificationService notificationService = NotificationService();
 
-  List<NotificationEntity> notifications = []; // List to hold notifications
+  List<NotificationEntity> notifications = [];
 
   @override
   void initState() {
@@ -37,6 +37,10 @@ class _NotificationsState extends State<Notifications> {
     }
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,17 +49,31 @@ class _NotificationsState extends State<Notifications> {
         title: 'Notifications',
         dismissIcon: FluentIcons.chevron_left_12_filled,
       ),
-      body: ListView.builder(
-        itemCount: notifications.length,
-        itemBuilder: (context, index) {
-          return NotificationTile(
-            username: 'Appointement',
-            onlineStatus: true,
-            latestMessage: notifications[index].content ?? '',
-            onPressed: () => {},
-          );
-        },
-      ),
+      body: notifications.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    FluentIcons.alert_12_filled,
+                    size: 64,
+                  ),
+                  SizedBox(height: 10),
+                  Text("Notifications list empty"),
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                return NotificationTile(
+                  username: 'Appointment',
+                  onlineStatus: true,
+                  latestMessage: notifications[index].content ?? '',
+                  onPressed: () => {},
+                );
+              },
+            ),
     );
   }
 }

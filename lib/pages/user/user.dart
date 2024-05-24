@@ -41,9 +41,6 @@ class _UserPageState extends State<UserPage> {
     final String? role = await secureStorage.read(key: 'role');
 
     userRole = role;
-    setState(() {
-      print(role);
-    });
   }
 
   @override

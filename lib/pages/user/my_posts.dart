@@ -175,6 +175,36 @@ class _MyPostsState extends State<MyPosts> {
                   },
                 ),
                 IconButton(
+                  icon: Icon(Icons.hourglass_top),
+                  color: Colors.red,
+                  onPressed: () async {
+                    try {
+                      await postService
+                          .setToComplete({"_status": "active"}, post.postId);
+                      setState(() {
+                        _loadPosts();
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Request marked as incomplete',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'An error has occured, try again',
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                IconButton(
                   icon: Icon(Icons.edit),
                   color: AppTheme.primaryColor,
                   onPressed: () {

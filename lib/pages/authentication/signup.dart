@@ -46,8 +46,32 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-
     print(_role);
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please type your email address';
+    }
+    const pattern = r'^[^@\s]+@[^@\s]+\.[^@\s]+$';
+    final regExp = RegExp(pattern);
+    if (!regExp.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please type your password';
+    }
+    // At least one uppercase letter, one lowercase letter, one digit, one special character, and at least 8 characters long
+    const pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$';
+    final regExp = RegExp(pattern);
+    if (!regExp.hasMatch(value)) {
+      return 'Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character';
+    }
+    return null;
   }
 
   @override
@@ -72,9 +96,7 @@ class _SignUpPageState extends State<SignUpPage> {
             margin: EdgeInsets.all(10),
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 Image.asset(
                   'assets/icon/icon.png',
                   height: 130,
@@ -110,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintText: "First name",
                   icon: FluentIcons.person_12_filled,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Please type your first name';
                     }
                     return null;
@@ -121,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintText: "Last name",
                   icon: FluentIcons.person_12_filled,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Please type your last name';
                     }
                     return null;
@@ -132,7 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintText: "Username",
                   icon: FluentIcons.number_symbol_16_filled,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Please type your username';
                     }
                     return null;
@@ -144,8 +166,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscured: false,
                   icon: FluentIcons.location_12_filled,
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please type your adress';
+                    if (value == null || value.isEmpty) {
+                      return 'Please type your address';
                     }
                     return null;
                   },
@@ -154,33 +176,22 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: _emailController,
                   hintText: "Email address",
                   icon: FluentIcons.mail_12_filled,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please type your email address';
-                    }
-                    return null;
-                  },
+                  validator: validateEmail,
                 ),
                 RoundedTextField(
                   controller: _passwordController,
                   hintText: "Password",
                   obscured: true,
                   icon: FluentIcons.lock_closed_12_filled,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please type your password';
-                    }
-                    return null;
-                  },
+                  validator: validatePassword,
                 ),
                 RoundedTextField(
-                  controller:
-                      _confirmpasswordController, // Use a separate controller
+                  controller: _confirmpasswordController,
                   hintText: "Confirm password",
                   obscured: true,
                   icon: FluentIcons.lock_closed_12_filled,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Please confirm your password';
                     } else if (value != _passwordController.text) {
                       return 'The password does not match';
@@ -215,7 +226,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Please verifiy your credentials',
+                                      'Please verify your credentials',
                                     ),
                                     duration: Duration(seconds: 2),
                                   ),
@@ -238,7 +249,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()),
+                              builder: (context) => LoginPage(),
+                            ),
                           );
                         },
                         text: "Sign in",

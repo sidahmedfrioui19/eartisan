@@ -246,8 +246,11 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                             .service.serviceId,
                                                       );
 
-                                                      await reviewService
-                                                          .post(req);
+                                                      await reviewService.post(
+                                                        req,
+                                                        appointment.professional
+                                                            .userId,
+                                                      );
                                                       ScaffoldMessenger.of(
                                                               context)
                                                           .showSnackBar(
@@ -387,7 +390,11 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
     AppointementUpdateRequest req = AppointementUpdateRequest(
       state: 'cancelled',
     );
-    await appointementService.update(req, appointment.appointmentId);
+    await appointementService.update(
+      req,
+      appointment.appointmentId,
+      appointment.professional.userId,
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Appointement cancelled'),

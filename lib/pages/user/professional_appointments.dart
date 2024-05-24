@@ -42,7 +42,12 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
   }
 
   void showEditAppointmentDialog(
-      String? initialDate, String? initialTime, String? initialState, int? id) {
+    String? initialDate,
+    String? initialTime,
+    String? initialState,
+    int? id,
+    ProfessionalAppointment appointment,
+  ) {
     TextEditingController dateController = TextEditingController(
       text: initialDate != null ? Helpers.reverseDateFormat(initialDate) : null,
     );
@@ -142,7 +147,8 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                               state: selectedState!,
                             );
                             try {
-                              await appointementService.update(req, id);
+                              await appointementService.update(
+                                  req, id, appointment.customer.userId);
                               _updateAppointments();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -264,6 +270,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                                     appointment.time,
                                     appointment.status,
                                     appointment.appointmentId,
+                                    appointment,
                                   );
                                 }
                                 break;
@@ -379,7 +386,11 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
     AppointementUpdateRequest req = AppointementUpdateRequest(
       state: 'cancelled',
     );
-    await appointementService.update(req, appointment.appointmentId);
+    await appointementService.update(
+      req,
+      appointment.appointmentId,
+      appointment.customer.userId,
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Appointement cancelled'),

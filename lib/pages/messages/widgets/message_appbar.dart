@@ -4,7 +4,7 @@ import 'package:profinder/utils/constants.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
   final String userName;
-  final String profilePicUrl;
+  final String? profilePicUrl;
   final bool userStatus;
 
   const CustomAppBar({
@@ -27,7 +27,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(Constants.defaultAvatar),
+            backgroundImage:
+                NetworkImage(profilePicUrl ?? Constants.defaultAvatar),
           ),
           SizedBox(width: 8),
           Column(
