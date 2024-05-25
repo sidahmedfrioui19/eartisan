@@ -1,4 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:profinder/models/post/picture.dart';
 import 'package:profinder/utils/theme_data.dart';
@@ -83,7 +84,30 @@ class PostService extends StatelessWidget {
               SizedBox(height: 12),
               Text(title, style: TextStyle(fontWeight: FontWeight.w500)),
               SizedBox(height: 10),
-              Text(description),
+              Row(
+                children: [
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '${description.substring(0, 200)} ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: 'View more',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap = onPress,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 10),
               Text("Previous projects",
                   style: TextStyle(fontWeight: FontWeight.w700)),
