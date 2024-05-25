@@ -4,6 +4,7 @@ import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/theme_data.dart';
 import 'package:profinder/pages/home/widgets/post/post_statusbar.dart';
 import 'package:profinder/pages/home/widgets/post/post_toolbar.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/user_card.dart';
 
 class Post extends StatelessWidget {
@@ -57,10 +58,13 @@ class Post extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                UserCard(
-                  pictureUrl: pictureUrl ?? Constants.defaultAvatar,
-                  username: '$firstname $lastname',
-                  content: '@${username}',
+                GestureDetector(
+                  onTap: () => _showProfileBottomSheet(context),
+                  child: UserCard(
+                    pictureUrl: pictureUrl ?? Constants.defaultAvatar,
+                    username: '$firstname $lastname',
+                    content: '@${username}',
+                  ),
                 ),
                 if (this.currentUserId != userId &&
                     jwtToken != null &&
@@ -87,6 +91,80 @@ class Post extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showProfileBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      NetworkImage(pictureUrl ?? Constants.defaultAvatar),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  '$firstname $lastname',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  '@$username',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  location ?? 'No location provided',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  phoneNumber ?? 'No phone number provided',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  available == true ? 'Available' : 'Not available',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 16),
+                FilledAppButton(
+                  icon: Icons.close,
+                  text: "Close",
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
