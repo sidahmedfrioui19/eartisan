@@ -111,6 +111,10 @@ class _UserPageState extends State<UserPage> {
             UserUpdateEntity(profilePicture: downloadURL);
         await UserService().patch(updatedData);
 
+        setState(() {
+          _userFuture = _loadUser();
+        });
+
         Navigator.of(context).pop();
       } catch (error) {
         Navigator.of(context).pop();
