@@ -54,7 +54,7 @@ class Artisan {
   String instagramLink;
   String facebookLink;
   String tiktokLink;
-  String profilePicture;
+  String? profilePicture;
 
   Artisan({
     required this.userId,
@@ -68,7 +68,7 @@ class Artisan {
     required this.instagramLink,
     required this.facebookLink,
     required this.tiktokLink,
-    required this.profilePicture,
+    this.profilePicture,
   });
 
   factory Artisan.fromJson(Map<String, dynamic> json) {
@@ -118,7 +118,7 @@ class Client {
   String instagramLink;
   String facebookLink;
   String tiktokLink;
-  String profilePicture;
+  String? profilePicture;
   int disponible;
 
   Client({
@@ -133,7 +133,7 @@ class Client {
     required this.instagramLink,
     required this.facebookLink,
     required this.tiktokLink,
-    required this.profilePicture,
+    this.profilePicture,
     required this.disponible,
   });
 

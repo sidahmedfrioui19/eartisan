@@ -8,6 +8,8 @@ import 'package:profinder/pages/home/service_detail.dart';
 import 'package:profinder/pages/home/widgets/post/book_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/generic_search/generic_search.dart';
+import 'package:profinder/utils/constants.dart';
+import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/stated_avatar.dart';
 import '../../utils/theme_data.dart';
 import '../../widgets/inputs/search_bar.dart';
@@ -340,64 +342,121 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            artisan.profilePicture,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${artisan.firstname} ${artisan.lastname}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return SingleChildScrollView(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(
+                                      artisan.profilePicture ??
+                                          Constants.defaultAvatar),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  '${artisan.firstname} ${artisan.lastname}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  '@${artisan.username}',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                FilledAppButton(
+                                  icon: Icons.close,
+                                  text: "Close",
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
                             ),
-                            SizedBox(height: 8),
-                            if (artisan.phoneNumber != '')
-                              Row(
-                                children: [
-                                  Icon(
-                                    FluentIcons.phone_12_filled,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    '${artisan.phoneNumber}',
-                                  ),
-                                ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              artisan.profilePicture ?? Constants.defaultAvatar,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${artisan.firstname} ${artisan.lastname}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            SizedBox(height: 4),
-                            if (artisan.address != null ||
-                                artisan.address != '')
-                              Row(
-                                children: [
-                                  Icon(
-                                    FluentIcons.location_12_filled,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    '${artisan.address}',
-                                  ),
-                                ],
-                              ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
+                              SizedBox(height: 8),
+                              if (artisan.phoneNumber != '')
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FluentIcons.phone_12_filled,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${artisan.phoneNumber}',
+                                    ),
+                                  ],
+                                ),
+                              SizedBox(height: 4),
+                              if (artisan.address != null &&
+                                  artisan.address != '')
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FluentIcons.location_12_filled,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${artisan.address}',
+                                    ),
+                                  ],
+                                ),
+                              if (artisan.address == null ||
+                                  artisan.address == '')
+                                Text(
+                                  'No Location Provided',
+                                ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   children: [
@@ -451,63 +510,121 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            client.profilePicture,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${client.firstname} ${client.lastname}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return SingleChildScrollView(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(
+                                      client.profilePicture ??
+                                          Constants.defaultAvatar),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  '${client.firstname} ${client.lastname}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  '@${client.username}',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                FilledAppButton(
+                                  icon: Icons.close,
+                                  text: "Close",
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
                             ),
-                            SizedBox(height: 8),
-                            if (client.phoneNumber != '')
-                              Row(
-                                children: [
-                                  Icon(
-                                    FluentIcons.phone_12_filled,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    '${client.phoneNumber}',
-                                  ),
-                                ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              client.profilePicture ?? Constants.defaultAvatar,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${client.firstname} ${client.lastname}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            SizedBox(height: 4),
-                            if (client.address != null || client.address != '')
-                              Row(
-                                children: [
-                                  Icon(
-                                    FluentIcons.location_12_filled,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    '${client.address}',
-                                  ),
-                                ],
-                              ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
+                              SizedBox(height: 8),
+                              if (client.phoneNumber != '')
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FluentIcons.phone_12_filled,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${client.phoneNumber}',
+                                    ),
+                                  ],
+                                ),
+                              SizedBox(height: 4),
+                              if (client.address != null &&
+                                  client.address != '')
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FluentIcons.location_12_filled,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${client.address}',
+                                    ),
+                                  ],
+                                ),
+                              if (client.address == null ||
+                                  client.address == '')
+                                Text(
+                                  'No Location Provided',
+                                ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   children: [

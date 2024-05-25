@@ -68,7 +68,7 @@ class _AppointementsPageState extends State<AppointementsPage>
       backgroundColor: AppTheme.backgroundColor,
       drawer: BurgerMenu(),
       appBar: TopBar(
-        title: "My Appointements",
+        title: "Appointements",
       ),
       body: FutureBuilder<UserEntity>(
         future: _userFuture,
@@ -94,7 +94,7 @@ class _AppointementsPageState extends State<AppointementsPage>
                             text: 'Customers',
                           ),
                         Tab(
-                          text: 'Professional',
+                          text: 'Professionals',
                         ),
                       ],
                       labelPadding: EdgeInsets.symmetric(horizontal: 0),

@@ -5,6 +5,7 @@ import 'package:profinder/models/appointement/professional_appointment.dart';
 import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/services/appointement/professional_appointement.dart';
+import 'package:profinder/utils/constants.dart';
 import 'package:profinder/utils/helpers.dart';
 import 'package:profinder/widgets/buttons/filled_button.dart';
 import 'package:profinder/widgets/cards/stated_avatar.dart';
@@ -337,7 +338,67 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                             color: Color(0xFFF5f6fa),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.white,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return SingleChildScrollView(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: EdgeInsets.all(16),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(
+                                                appointment.customer
+                                                        .profilePicture ??
+                                                    Constants.defaultAvatar),
+                                          ),
+                                          SizedBox(height: 16),
+                                          Text(
+                                            '${appointment.customer.firstname} ${appointment.customer.lastname}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            '@${appointment.customer.username}',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            appointment.service.status == true
+                                                ? 'Available'
+                                                : 'Not available',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(height: 16),
+                                          FilledAppButton(
+                                            icon: Icons.close,
+                                            text: "Close",
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                             child: Row(
                               children: [
                                 StatedAvatar(
