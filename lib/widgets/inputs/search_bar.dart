@@ -22,6 +22,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
       title: TextField(
         controller: _searchController,
         cursorColor: Colors.white, // Set the cursor color

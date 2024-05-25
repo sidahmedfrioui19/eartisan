@@ -424,7 +424,7 @@ class _NewServiceState extends State<NewService> {
                           ),
                           duration: Duration(seconds: 2),
                         ),
-                      ); // Assuming postService is an instance of your PostService class
+                      );
                       service.fetch(); // Refresh data // Trigger data refresh
                       Navigator.pop(context);
                     } catch (e) {

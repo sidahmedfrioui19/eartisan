@@ -77,9 +77,9 @@ class _MainNavBarState extends State<MainNavBar> {
               IconButton(
                 onPressed: () => _onItemTapped(0),
                 icon: _selectedIndex == 0
-                    ? Icon(FluentIcons.home_12_filled,
+                    ? Icon(FluentIcons.compass_northwest_16_filled,
                         color: AppTheme.primaryColor)
-                    : Icon(FluentIcons.home_12_regular,
+                    : Icon(FluentIcons.compass_northwest_16_regular,
                         color: AppTheme.secondaryColor),
               ),
               IconButton(
