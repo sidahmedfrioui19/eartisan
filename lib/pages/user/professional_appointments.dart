@@ -257,7 +257,8 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                                         firstname:
                                             appointment.customer.firstname,
                                         lastname: appointment.customer.lastname,
-                                        pictureUrl: '',
+                                        pictureUrl:
+                                            appointment.customer.profilePicture,
                                         user_id: appointment.customer.userId,
                                       ),
                                     ),

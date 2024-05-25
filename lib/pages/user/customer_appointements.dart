@@ -5,6 +5,7 @@ import 'package:profinder/models/appointement/appointment_update_request.dart';
 import 'package:profinder/models/appointement/customer_appointment.dart';
 import 'package:profinder/models/report/report.dart';
 import 'package:profinder/models/review/review_creation_request.dart';
+import 'package:profinder/pages/messages/chat_room.dart';
 import 'package:profinder/services/appointement/appointement.dart';
 import 'package:profinder/services/appointement/customer_appointement.dart';
 import 'package:profinder/services/report/report.dart';
@@ -295,6 +296,24 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                   case 2:
                                     _cancelAppointment(appointment);
                                     break;
+                                  case 3:
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChatRoom(
+                                          available: false,
+                                          firstname: appointment
+                                              .professional.firstname,
+                                          lastname:
+                                              appointment.professional.lastname,
+                                          pictureUrl: appointment
+                                              .professional.profilePicture,
+                                          user_id:
+                                              appointment.professional.userId,
+                                        ),
+                                      ),
+                                    );
+                                    break;
                                 }
                               },
                               itemBuilder: (context) => [
@@ -338,6 +357,18 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                       ],
                                     ),
                                   ),
+                                PopupMenuItem<int>(
+                                  value: 3,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.message),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text('Send Message'),
+                                    ],
+                                  ),
+                                ),
                               ],
                             )
                         ],
