@@ -97,9 +97,9 @@ class PostService extends StatelessWidget {
                           TextSpan(
                             text: 'View more',
                             style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
-                            ),
+                                decoration: TextDecoration.underline,
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()..onTap = onPress,
                           ),
                         ],
@@ -109,7 +109,8 @@ class PostService extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10),
-              Text("Previous projects",
+              Text(
+                  "Previous projects (${pictures != null ? pictures!.length : 0})",
                   style: TextStyle(fontWeight: FontWeight.w700)),
               SizedBox(height: 10),
               Wrap(

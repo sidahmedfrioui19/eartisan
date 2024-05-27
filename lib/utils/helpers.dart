@@ -64,16 +64,16 @@ class Helpers {
     String status;
     switch (state) {
       case 'pending':
-        status = 'En attente';
+        status = 'Pending';
         break;
       case 'processing':
-        status = 'Confirmé';
+        status = 'Confirmed';
         break;
       case 'confirmed':
-        status = 'Terminé';
+        status = 'Completed';
         break;
       case 'cancelled':
-        status = 'Annulé';
+        status = 'Cancelled';
         break;
       default:
         status = '';

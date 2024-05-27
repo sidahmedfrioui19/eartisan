@@ -153,9 +153,11 @@ class _NewServiceState extends State<NewService> {
 
   Future<void> _loadCategories() async {
     print(userData.categoryId);
-    _subcategoriesFuture =
-        category.fetchSubcategories(userData.categoryId ?? 1);
-    setState(() {}); // Refresh the widget to rebuild with the new future
+
+    setState(() {
+      _subcategoriesFuture =
+          category.fetchSubcategories(userData.categoryId ?? 1);
+    });
   }
 
   @override

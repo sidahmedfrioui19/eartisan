@@ -151,7 +151,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                                     reportService =
                                                     ReportService();
                                                 final String reportContent =
-                                                    'Sujet: ${titleController.text}, Contenu: ${reportMessageController.text}';
+                                                    'Subject: ${titleController.text}, Content: ${reportMessageController.text}';
                                                 ReportEntity report =
                                                     new ReportEntity(
                                                   description: reportContent,
@@ -466,7 +466,7 @@ class _CustomerAppointmentsState extends State<CustomerAppointments> {
                                       ),
                                     ),
                                     Text(
-                                      'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
+                                      'State: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
                                     ),
                                   ],
                                 ),

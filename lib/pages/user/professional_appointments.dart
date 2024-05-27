@@ -419,7 +419,7 @@ class _ProfessionalAppointmentsState extends State<ProfessionalAppointments> {
                                       ),
                                     ),
                                     Text(
-                                      'Etat: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
+                                      'State: ${appointment.status != null ? Helpers.getAppointementStatus(appointment.status) : 'N/A'}',
                                     ),
                                   ],
                                 ),
